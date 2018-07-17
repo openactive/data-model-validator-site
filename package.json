@@ -1,0 +1,64 @@
+{
+  "name": "data-model-validator-site",
+  "version": "0.1.0",
+  "description": "User interface for the OpenActive data model validator",
+  "homepage": "http://openactive.io",
+  "author": "Pete Walker <pete@imin.co> (https://github.com/petewalker)",
+  "keywords": [
+    "openactive",
+    "odi",
+    "validator",
+    "json"
+  ],
+  "main": "src/server/index.js",
+  "engines": {
+    "node": "8.11.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/openactive/data-model-validator-site.git"
+  },
+  "bugs": {
+    "url": "https://github.com/openactive/data-model-validator-site/issues"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "bootstrap": "^4.1.2",
+    "express": "^4.16.3",
+    "json-beautify": "^1.0.1",
+    "openactive-data-model-validator": "openactive/data-model-validator#feature/traverse-unknown-models",
+    "react": "^16.4.1",
+    "react-ace": "^6.1.4",
+    "react-dom": "^16.4.1",
+    "react-svg-loader": "^2.1.0"
+  },
+  "scripts": {
+    "start": "node src/server/index.js",
+    "build": "webpack --mode production",
+    "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
+    "server": "nodemon src/server/index.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.5",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "concurrently": "^3.6.0",
+    "css-loader": "^1.0.0",
+    "file-loader": "^1.1.11",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.9.2",
+    "nodemon": "^1.18.2",
+    "sass-loader": "^7.0.3",
+    "style-loader": "^0.21.0",
+    "url-loader": "^1.0.1",
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.0.8",
+    "webpack-dev-server": "^3.1.4"
+  }
+}

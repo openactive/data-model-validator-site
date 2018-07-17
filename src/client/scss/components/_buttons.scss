@@ -1,0 +1,66 @@
+a {
+    transition: color .4s;
+    color: $link-color;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+a:link,
+a:visited {
+    color: darken($link-color, 10%);
+}
+
+a:hover {
+    color: lighten($link-color, 30%)
+}
+
+a:active {
+    transition: color .3s;
+    color: lighten($link-color, 40%)
+}
+
+.link {
+    text-decoration: none;
+}
+
+input[type=submit],
+button[type=submit],
+button.btn.btn-primary,
+a.btn.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: top;
+    padding: 10px 30px;
+    margin: 1rem 0 0 0;
+    background-color: $brand-five;
+    color: $white;
+    line-height: 1;
+    font-weight: 600;
+    font-family: $font-family;
+    font-size: $base-font-size / 1.2;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    transition-property: background-color;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in-out;
+
+    &:hover {
+        background-color: rgba($brand-six, 0.5);
+        color: $white;
+    }
+    &:active {
+        background-color: $brand-six;
+        color: $white;
+    }
+    &.disabled, &[disabled] {
+        background-color: $gray;
+        cursor: default;
+    }
+    @media only screen and (max-width: 768px) {
+        padding: 15px 25px;
+    }
+}
