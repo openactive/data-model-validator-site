@@ -35,6 +35,7 @@
   },
   "scripts": {
     "start": "node src/server/index.js",
+    "postinstall": "npm run build",
     "build": "webpack --mode production",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "nodemon src/server/index.js",

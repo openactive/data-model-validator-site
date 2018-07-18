@@ -2,6 +2,10 @@ const express = require('express');
 const validator = require('openactive-data-model-validator');
 const bodyParser = require('body-parser');
 
+// set the port of our application
+// process.env.PORT lets the port be set by Heroku
+const port = process.env.PORT || 8080;
+
 const app = express();
 
 // for parsing application/json
@@ -32,4 +36,4 @@ app.post('/api/validate', (req, res) => {
 });
 
 // List on port 8080
-app.listen(8080, () => console.log('Listening on port 8080!'));
+app.listen(port, () => console.log('Listening on port ' + port + '!'));
