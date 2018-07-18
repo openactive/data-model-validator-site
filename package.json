@@ -27,7 +27,7 @@
     "bootstrap": "^4.1.2",
     "express": "^4.16.3",
     "json-beautify": "^1.0.1",
-    "openactive-data-model-validator": "openactive/data-model-validator#feature/traverse-unknown-models",
+    "openactive-data-model-validator": "openactive/data-model-validator",
     "react": "^16.4.1",
     "react-ace": "^6.1.4",
     "react-dom": "^16.4.1",
