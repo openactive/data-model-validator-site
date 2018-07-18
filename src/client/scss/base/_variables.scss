@@ -1,0 +1,67 @@
+// Colours
+$logo-one: #74cbf3;
+$logo-two: #009ee3;
+$logo-three: #0067b1;
+$logo-four: #433d90;
+$logo-five: #931e80;
+$logo-six: #e11482;
+$logo-seven: #e63b2e;
+$logo-eight: #f6a635;
+
+$white: #ffffff;
+$gray: #ccc;
+$darkgray: #777f88;
+$black: #2b2b2b;
+$brand-red: #B20037;
+$brand-blue: #253882;
+$brand-darkblue: #0b193e;
+$brand-orange: $logo-eight;
+
+$brand-one: #3B3089;
+$brand-two: #146ebb;
+$brand-three: #2da6dd;
+$brand-four: #64d4f5;
+$brand-five: #832b94;
+$brand-six: #f2389b;
+$brand-seven: #ff4731;
+$brand-eight: #ffa244;
+
+$global: $brand-one;
+$globalTwo: $brand-two;
+$globalThree: $brand-three;
+$globalFour: $brand-four;
+$globalFive: $brand-five;
+$globalSix: $brand-six;
+$globalSeven: $brand-seven;
+$globalEight: $brand-eight;
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:700,400|Source+Sans+Pro:300,400,700&subset=latin-ext');
+
+// Font Family
+$font-family: 'Source+Sans+Pro', sans-serif;
+$heading-font-family: 'Montserrat', sans-serif;
+$editor-font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+
+// Base Font for HTML
+$base-font-size: 16px;
+$mobile-base-font-size: 13px;
+
+// Paragraph Styles
+$paragraph-color: #5A5A5A;
+$paragraph-size: rem(17px);
+$paragraph-line-height: 1.5;
+$paragraph-margin: 1.3rem;
+
+// Header Styles
+$header-color: #253882;
+$header-size: rem(45px);
+$header-line-height: 1;
+$header-margin: $paragraph-margin * 1.2;
+
+//DECORATIVE OR COMPATABLE LAYOUT STYLES FOR SCREENS OVER 1000px
+
+$header-border-color: $brand-one;
+$header-border-thickness: 2px;
+$header-border-padding: 1rem;
+$header-top-margin: 2rem;
+$header-padding-bottom: 2rem;
