@@ -16,24 +16,29 @@ app.use(express.static('dist'));
 
 // API route to validator
 app.post('/api/validate', (req, res) => {
-    let json = req.body;
-    if (typeof json !== 'object') {
-        try {
-            parsedJson = JSON.parse(json);
-        } catch (e) {
-            res.status(400).json([{message: "Invalid JSON"}]);
-            return;
-        }
-    } else {
-        parsedJson = json;
+  const json = req.body;
+  let parsedJson;
+  if (typeof json !== 'object') {
+    try {
+      parsedJson = JSON.parse(json);
+    } catch (e) {
+      res.status(400).json([
+        {
+          message: 'Invalid JSON',
+        },
+      ]);
+      return;
     }
-    let response = validator.validate(parsedJson);
-    if (response.length) {
-        res.status(400).json(response);
-    } else {
-        res.status(200).json(response);
-    }
+  } else {
+    parsedJson = json;
+  }
+  const response = validator.validate(parsedJson);
+  if (response.length) {
+    res.status(400).json(response);
+  } else {
+    res.status(200).json(response);
+  }
 });
 
 // List on port 8080
-app.listen(port, () => console.log('Listening on port ' + port + '!'));
+app.listen(port, () => console.log(`Listening on port ${port}!`)); // eslint-disable-line no-console
