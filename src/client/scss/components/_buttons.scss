@@ -52,15 +52,172 @@ a.btn.btn-primary {
         background-color: rgba($brand-six, 0.5);
         color: $white;
     }
-    &:active {
+    &:active, &.active {
         background-color: $brand-six;
         color: $white;
     }
-    &.disabled, &[disabled] {
+    &.disabled, &[disabled],
+    &.disabled:hover, &[disabled]:hover {
         background-color: $gray;
         cursor: default;
     }
     @media only screen and (max-width: 768px) {
         padding: 15px 25px;
     }
+}
+
+// Primary Alt Button
+//
+// Primary Alternative Button
+//
+// Weight: 3
+//
+// :hover       - Hover state.
+// :active      - Active state.
+// .disabled    - Disabled button. If you use `<button>` element, that is acceptable to add `disabled` attribute instead.
+//
+// Markup:
+// <a class="button-primary--alt {{modifier_class}}">Button</a>
+//
+// Styleguide buttons.primary-alt
+a.button-primary--alt,
+button.button-primary--alt {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: top;
+  padding: 10px 30px;
+  margin: 1rem 0 0 0;
+  background-color: $brand-seven;
+  color: $white;
+  line-height: 1;
+  font-weight: 600;
+  font-family: $font-family;
+  font-size: $base-font-size / 1.2;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 1px;
+  border-radius: 5px;
+  border: 1px solid transparent;
+  transition-property: background-color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+
+  &:hover {
+    background-color: rgba($brand-eight,0.5);
+    color: $white;
+  }
+  &:active, &.active {
+    background-color: $brand-eight;
+    color: $white;
+  }
+  &.disabled, &[disabled],
+  &.disabled:hover, &[disabled]:hover {
+    background-color: $gray;
+    cursor: default;
+  }
+  @media only screen and (max-width: 768px) {
+    padding: 15px 25px;
+  }
+}
+
+p > a {
+  &.button-primary {
+    margin: 0;
+    &--alt{
+      margin: 0;
+    }
+    &--ghost{
+      margin: 0;
+      @media only screen and (max-width: 400px) {
+        margin: 1rem 0 0 0;
+      }
+    }
+  }
+  & + .button-primary{
+    margin: 0;
+    &--alt{
+      margin: 0;
+    }
+    &--ghost{
+      margin: 0;
+      @media only screen and (max-width: 400px) {
+        margin: 1rem 0 0 0;
+      }
+    }
+  }
+}
+
+
+.btn-group {
+  a.button-primary--alt,
+  button.button-primary--alt {
+    margin-right: 2px;
+
+    &:last-child {
+      border-right: none;
+    }
+
+    &:active, &.active {
+      box-shadow: 0 0 5px 5px darken($brand-eight, 10%) inset;
+    }
+  }
+}
+
+
+// Primary Ghost Button
+//
+// Primary Ghost Button
+//
+// Weight: 4
+//
+// :hover       - Hover state.
+// :active      - Active state.
+// .disabled    - Disabled button. If you use `<button>` element, that is acceptable to add `disabled` attribute instead.
+//
+// Markup:
+// <a class="button-primary--ghost {{modifier_class}}">Button</a>
+//
+// Styleguide buttons.primary-ghost
+a.button-primary--ghost,
+button.button-primary--ghost{
+  display: inline-flex;
+  align-items: center;
+  vertical-align: top;
+  padding: 10px 30px;
+  margin: 1rem 0 0 0;
+  line-height: 1;
+  font-weight: 600;
+  font-family: $font-family;
+  font-size: $base-font-size / 1.2;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 1px;
+  border-radius: 5px;
+  transition-property: background-color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+  background-color: transparent;
+  border: 1px solid $brand-five;
+  color: $brand-five;
+  &:hover {
+    background-color: rgba($brand-five,0.5);
+    color: $white;
+  }
+  &:active, &.active {
+    background-color: $brand-five;
+    color: $white;
+  }
+  &.disabled, &[disabled],
+  &.disabled:hover, &[disabled]:hover {
+    background-color: transparent;
+    border: 1px solid $gray;
+    color: $gray;
+    cursor: default;
+  }
+
+  @media only screen and (max-width: 768px) {
+    padding: 15px 25px;
+  }
 }

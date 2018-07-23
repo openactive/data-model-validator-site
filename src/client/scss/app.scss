@@ -33,58 +33,62 @@ nav.fixed-top {
     border-left: 1px solid $gray;
     padding: 0 15px !important;
     overflow: scroll;
-}
 
-.result-list {
-    margin: 60px 0 0 0;
-    padding: 0;
+    .results {
+        //margin-top: 1rem;
+    }
 
-    li {
-        list-style: none;
-        display: block;
-        margin: 0 0 10px 0;
+    .result-list {
+        margin: 2rem 0 0 0;
         padding: 0;
-        border-left: 5px solid $darkgray;
-        border-radius: 5px;
 
-        .result-title {
+        li {
+            list-style: none;
             display: block;
-            color: $white;
-            line-height: 1;
-            font-weight: 600;
-            font-family: $font-family;
-            font-size: $base-font-size / 1.2;
-            text-transform: uppercase;
-            padding: 5px;
-            background: $darkgray;
-        }
+            margin: 0 0 10px 0;
+            padding: 0;
+            border-left: 5px solid $darkgray;
+            border-radius: 5px;
 
-        .result-field {
-            display: block;
-            padding: 1rem;
-            color: $darkgray;
-            font-family: $editor-font-family;
-            font-weight: 600;
-        }
-
-        .result-message {
-            display: block;
-            padding: 1rem;
-        }
-
-        &.failure {
-            border-color: $brand-red;
-            color: $brand-red;
             .result-title {
-                background: $brand-red;
+                display: block;
+                color: $white;
+                line-height: 1;
+                font-weight: 600;
+                font-family: $font-family;
+                font-size: $base-font-size / 1.2;
+                text-transform: uppercase;
+                padding: 5px;
+                background: $darkgray;
             }
-        }
 
-        &.warning {
-            border-color: $brand-orange;
-            color: $brand-orange;
-            .result-title {
-                background: $brand-orange;
+            .result-field {
+                display: block;
+                padding: 1rem;
+                color: $darkgray;
+                font-family: $editor-font-family;
+                font-weight: 600;
+            }
+
+            .result-message {
+                display: block;
+                padding: 1rem;
+            }
+
+            &.failure {
+                border-color: $brand-red;
+                color: $brand-red;
+                .result-title {
+                    background: $brand-red;
+                }
+            }
+
+            &.warning {
+                border-color: $brand-orange;
+                color: $brand-orange;
+                .result-title {
+                    background: $brand-orange;
+                }
             }
         }
     }

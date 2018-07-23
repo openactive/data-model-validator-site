@@ -1,11 +1,33 @@
 import React, { Component } from 'react';
 import AceEditor from 'react-ace';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import 'brace/mode/json';
 import 'brace/theme/github';
 import beautify from 'json-beautify';
 
 import Results from './Results.jsx';
+
+import { library } from '@fortawesome/fontawesome-svg-core'
+import {
+  faTimes,
+  faTimesCircle,
+  faExclamation,
+  faExclamationCircle,
+  faCheck,
+  faCheckCircle,
+} from '@fortawesome/free-solid-svg-icons'
+
+// times / times-circle
+// exclamation / exclamation-circle
+// check / check-circle
+
+library.add(faTimes);
+library.add(faTimesCircle);
+library.add(faExclamation);
+library.add(faExclamationCircle);
+library.add(faCheck);
+library.add(faCheckCircle);
 
 import '../scss/app.scss';
 
