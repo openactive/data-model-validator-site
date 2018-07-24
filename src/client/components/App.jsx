@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import AceEditor from 'react-ace';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import 'brace/mode/json';
 import 'brace/theme/github';
 import beautify from 'json-beautify';
 
-import Results from './Results.jsx';
-
-import { library } from '@fortawesome/fontawesome-svg-core'
+import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faTimes,
   faTimesCircle,
@@ -16,7 +13,12 @@ import {
   faExclamationCircle,
   faCheck,
   faCheckCircle,
-} from '@fortawesome/free-solid-svg-icons'
+} from '@fortawesome/free-solid-svg-icons';
+
+import Results from './Results.jsx';
+
+// This has to be a require for our unit tests to work
+import '../scss/app.scss';
 
 // times / times-circle
 // exclamation / exclamation-circle
@@ -28,8 +30,6 @@ library.add(faExclamation);
 library.add(faExclamationCircle);
 library.add(faCheck);
 library.add(faCheckCircle);
-
-import '../scss/app.scss';
 
 export default class App extends Component {
   constructor(props) {
