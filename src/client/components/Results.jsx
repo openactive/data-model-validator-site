@@ -67,7 +67,7 @@ export default class Results extends Component {
               counts[severity] += 1;
               return (
                 <li key={index} className={result.severity} onClick={() => this.handleClick(result.path)}>
-                  <span className="result-title">{result.severity}</span>
+                  <span className="result-title">{this.severities[severity].name}</span>
                   <div className="row">
                     <div className="col-4">
                       <span title={result.path} className="result-field">{fieldName}</span>
