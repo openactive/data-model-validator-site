@@ -1,5 +1,21 @@
 {
   "presets": ["env", "react"],
   "plugins": ["transform-class-properties"],
-  "ignore": []
+  "ignore": [],
+  "env": {
+    "test": {
+      "plugins": [
+        [
+          "import-redirect",
+          {
+            "root": "./spec/mocks",
+            "redirect": {
+              "\\.(scss|css|png|gif|jpg|jpeg)$": false,
+              "\\.svg$": "./Component.mock.js"
+            }
+          }
+        ]
+      ]
+    }
+  }
 }
