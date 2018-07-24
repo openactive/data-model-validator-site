@@ -161,6 +161,10 @@ p > a {
     &:active, &.active {
       box-shadow: 0 0 5px 5px darken($brand-eight, 10%) inset;
     }
+
+    &.disabled, &[disabled] {
+      box-shadow: none;
+    }
   }
 }
 
