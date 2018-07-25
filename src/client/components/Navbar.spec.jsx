@@ -16,6 +16,6 @@ describe('Navbar', () => {
     }).not.toThrow();
 
     expect(component.type).toBe('nav');
-    expect(component.props.children.length).toBe(2);
+    expect(component.props.children.length).toBe(3);
   });
 });

@@ -74,8 +74,48 @@ $blockquote-margin: $paragraph-margin * 1.5;
 
 // Links
 $link-color: #4eaff6;
+
+// Buttons
+$button-padding-x: rem(30px);
+$button-padding-y: rem(10px);
+$button-md-padding-y: rem(15px);
+$button-md-padding-x: rem(25px);
+$button-margin: 1rem 0 0 0;
+$button-line-height: 1;
+$button-border-width: 1px;
+$button-font-weight: 600;
+$button-font-family: $font-family;
+$button-font-size: $base-font-size / 1.2;
+
 //Nav Links
 $nav-color: $brand-blue;
+$nav-font-weight: 400;
+$nav-bottom-border-width: 2px;
+$logo-height: 62px;
+
+$nav-offset-height: $navbar-padding-y * 2
+  + rem($logo-height)
+  + rem($nav-bottom-border-width);
+
+$nav-sm-offset-height: $nav-offset-height
+  - rem($logo-height)
+  + rem($logo-height, $mobile-base-font-size);
+
+$control-bar-background: $gray-200;
+$control-bar-padding-y: $navbar-padding-y;
+$control-bar-size: $paragraph-size;
+$control-bar-line-height: $header-line-height;
+$control-bar-border-width: rem(2px);
+$control-bar-border-color: $gray-300;
+$control-bar-height: $button-line-height * rem($button-font-size)
+  + $button-padding-y * 2
+  + $control-bar-padding-y * 2
+  + rem($button-border-width) * 2
+  + $control-bar-border-width;
+
+$control-bar-md-height: $control-bar-height
+  - $button-padding-y * 2
+  + $button-md-padding-y * 2;
 
 // hr
 $hr-margin: 30px;

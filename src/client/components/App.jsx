@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import AceEditor from 'react-ace';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import 'brace/mode/json';
 import 'brace/theme/github';
@@ -13,6 +14,7 @@ import {
   faExclamationCircle,
   faCheck,
   faCheckCircle,
+  faExternalLinkAlt,
 } from '@fortawesome/free-solid-svg-icons';
 
 import Results from './Results.jsx';
@@ -30,6 +32,7 @@ library.add(faExclamation);
 library.add(faExclamationCircle);
 library.add(faCheck);
 library.add(faCheckCircle);
+library.add(faExternalLinkAlt);
 
 export default class App extends Component {
   constructor(props) {
@@ -37,6 +40,7 @@ export default class App extends Component {
     const savedJson = sessionStorage.getItem('json');
     this.state = { results: null, json: savedJson || '', validJSON: false };
     this.tokenMap = {};
+    this.hasSubmitted = false;
   }
 
   getEditorSession() {
@@ -119,6 +123,12 @@ export default class App extends Component {
       }
       pathArr.pop();
     }
+  }
+
+  onResetClick() {
+    this.setState({ results: null, json: '', validJSON: false });
+    this.hasSubmitted = false;
+    sessionStorage.removeItem('json');
   }
 
   getTokenMap() {
@@ -218,7 +228,13 @@ export default class App extends Component {
     const isValid = this.constructor.isJSONValid(jsonString);
 
     if (!isValid) {
-      const state = Object.assign({}, this.state, { validJSON: isValid, json: jsonString });
+      const results = [{
+        severity: 'failure',
+        path: '$',
+        message: 'The JSON you\'ve entered isn\'t valid.',
+      }];
+      const state = Object.assign({}, this.state, { results, validJSON: isValid, json: jsonString });
+      this.hasSubmitted = true;
       this.setState(state);
       sessionStorage.setItem('json', jsonString);
       return;
@@ -239,6 +255,7 @@ export default class App extends Component {
       res => res.json(),
     ).then(
       (results) => {
+        this.hasSubmitted = true;
         this.getTokenMap();
         sessionStorage.setItem('json', jsonString);
         this.setState({ results, json: jsonString, validJSON: isValid });
@@ -247,8 +264,31 @@ export default class App extends Component {
   }
 
   render() {
+    let helpText;
+    if (!this.hasSubmitted) {
+      helpText = (
+        <div className="information-row text-center hero-sub">
+          <p>
+            This tool allows you to validate your data models against the <a href="https://www.openactive.io/modelling-opportunity-data/EditorsDraft/" target="_blank">Modelling Opportunity Data Specification v2.0 <FontAwesomeIcon icon="external-link-alt" /></a>.
+          </p>
+          <p>
+            Enter some JSON into the editor on the left and hit <button className="btn btn-primary button-inline" onClick={() => this.validate()}>Validate</button> to get started!
+          </p>
+        </div>
+      );
+    }
     return (
       <div className="h-100">
+        <div id="control-bar" className="fixed-top">
+          <div className="row">
+            <div className="col-6">
+              <button className="btn btn-secondary" onClick={() => this.onResetClick()}>Reset Editor</button>
+            </div>
+            <div className="col-6">
+              <button className="btn btn-primary float-right" onClick={() => this.validate()}>Validate</button>
+            </div>
+          </div>
+        </div>
         <div className="top-level-row row h-100 no-gutters">
           <div className="col-6 editor-col">
             <AceEditor
@@ -268,7 +308,7 @@ export default class App extends Component {
             />
           </div>
           <div className="col-6 results-col">
-            <button className="btn btn-primary float-right" onClick={() => this.validate()}>Validate</button>
+            {helpText}
             <Results results={this.state.results} onResultClick={path => this.onResultClick(path)}/>
           </div>
         </div>

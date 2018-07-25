@@ -1,0 +1,20 @@
+nav.fixed-top {
+  border-bottom: $nav-bottom-border-width solid $global;
+  background: $white;
+  z-index: $zindex-fixed + 1;
+
+  .navbar-brand {
+    height: $logo-height;
+  }
+
+  .nav-link, .nav-item {
+    color: $nav-color !important;
+    text-decoration: none;
+    font-family: $heading-font-family;
+    font-weight: $nav-font-weight;
+
+    a {
+      @include transition(initial);
+    }
+  }
+}
