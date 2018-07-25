@@ -1,69 +1,88 @@
 a {
-    transition: color .4s;
-    color: $link-color;
-    cursor: pointer;
-    text-decoration: underline;
+  transition: color .4s;
+  color: $link-color;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 a:link,
 a:visited {
-    color: darken($link-color, 10%);
+  color: darken($link-color, 10%);
 }
 
 a:hover {
-    color: lighten($link-color, 30%)
+  color: lighten($link-color, 30%)
 }
 
 a:active {
-    transition: color .3s;
-    color: lighten($link-color, 40%)
+  transition: color .3s;
+  color: lighten($link-color, 40%)
 }
 
 .link {
-    text-decoration: none;
+  text-decoration: none;
+}
+
+input[type=submit],
+button[type=submit],
+button.btn.btn-primary,
+a.btn.btn-primary,
+a.button-primary--alt,
+button.button-primary--alt,
+button.btn.btn-secondary,
+a.btn.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: top;
+  padding: $button-padding-y $button-padding-x;
+  margin: $button-margin;
+  line-height: $button-line-height;
+  font-weight:$button-font-weight;
+  font-family: $button-font-family;
+  font-size: $button-font-size;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 1px;
+  border-radius: 5px;
+  transition-property: background-color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in-out;
+
+  &.button-inline {
+    margin: 0;
+  }
+
+  &.disabled, &[disabled],
+  &.disabled:hover, &[disabled]:hover {
+    cursor: default;
+  }
+
+  @media only screen and (max-width: map-get($grid-breakpoints, "md")) {
+    padding: $button-md-padding-y $button-md-padding-x;
+  }
 }
 
 input[type=submit],
 button[type=submit],
 button.btn.btn-primary,
 a.btn.btn-primary {
-    display: inline-flex;
-    align-items: center;
-    vertical-align: top;
-    padding: 10px 30px;
-    margin: 1rem 0 0 0;
-    background-color: $brand-five;
-    color: $white;
-    line-height: 1;
-    font-weight: 600;
-    font-family: $font-family;
-    font-size: $base-font-size / 1.2;
-    text-transform: uppercase;
-    cursor: pointer;
-    text-decoration: none;
-    letter-spacing: 1px;
-    border-radius: 5px;
-    border: 1px solid transparent;
-    transition-property: background-color;
-    transition-duration: 0.2s;
-    transition-timing-function: ease-in-out;
+  border: $button-border-width solid transparent;
+  background-color: $brand-five;
+  color: $white;
 
-    &:hover {
-        background-color: rgba($brand-six, 0.5);
-        color: $white;
-    }
-    &:active, &.active {
-        background-color: $brand-six;
-        color: $white;
-    }
-    &.disabled, &[disabled],
-    &.disabled:hover, &[disabled]:hover {
-        background-color: $gray;
-        cursor: default;
-    }
-    @media only screen and (max-width: 768px) {
-        padding: 15px 25px;
-    }
+  &:hover {
+    background-color: rgba($brand-six, 0.5);
+    color: $white;
+  }
+  &:active, &.active {
+    background-color: $brand-six;
+    color: $white;
+  }
+  &.disabled, &[disabled],
+  &.disabled:hover, &[disabled]:hover {
+    background-color: $gray;
+  }
 }
 
 // Primary Alt Button
@@ -81,27 +100,12 @@ a.btn.btn-primary {
 //
 // Styleguide buttons.primary-alt
 a.button-primary--alt,
-button.button-primary--alt {
-  display: inline-flex;
-  align-items: center;
-  vertical-align: top;
-  padding: 10px 30px;
-  margin: 1rem 0 0 0;
+button.button-primary--alt,
+button.btn.btn-secondary,
+a.btn.btn-secondary {
+  border: $button-border-width solid transparent;
   background-color: $brand-seven;
   color: $white;
-  line-height: 1;
-  font-weight: 600;
-  font-family: $font-family;
-  font-size: $base-font-size / 1.2;
-  text-transform: uppercase;
-  cursor: pointer;
-  text-decoration: none;
-  letter-spacing: 1px;
-  border-radius: 5px;
-  border: 1px solid transparent;
-  transition-property: background-color;
-  transition-duration: 0.2s;
-  transition-timing-function: ease-in-out;
 
   &:hover {
     background-color: rgba($brand-eight,0.5);
@@ -114,10 +118,6 @@ button.button-primary--alt {
   &.disabled, &[disabled],
   &.disabled:hover, &[disabled]:hover {
     background-color: $gray;
-    cursor: default;
-  }
-  @media only screen and (max-width: 768px) {
-    padding: 15px 25px;
   }
 }
 
@@ -151,7 +151,9 @@ p > a {
 
 .btn-group {
   a.button-primary--alt,
-  button.button-primary--alt {
+  button.button-primary--alt,
+  a.btn.btn-secondary,
+  button.btn.btn-secondary {
     margin-right: 2px;
 
     &:last-child {
@@ -185,26 +187,10 @@ p > a {
 // Styleguide buttons.primary-ghost
 a.button-primary--ghost,
 button.button-primary--ghost{
-  display: inline-flex;
-  align-items: center;
-  vertical-align: top;
-  padding: 10px 30px;
-  margin: 1rem 0 0 0;
-  line-height: 1;
-  font-weight: 600;
-  font-family: $font-family;
-  font-size: $base-font-size / 1.2;
-  text-transform: uppercase;
-  cursor: pointer;
-  text-decoration: none;
-  letter-spacing: 1px;
-  border-radius: 5px;
-  transition-property: background-color;
-  transition-duration: 0.2s;
-  transition-timing-function: ease-in-out;
   background-color: transparent;
-  border: 1px solid $brand-five;
+  border: $button-border-width solid $brand-five;
   color: $brand-five;
+
   &:hover {
     background-color: rgba($brand-five,0.5);
     color: $white;
@@ -218,10 +204,5 @@ button.button-primary--ghost{
     background-color: transparent;
     border: 1px solid $gray;
     color: $gray;
-    cursor: default;
-  }
-
-  @media only screen and (max-width: 768px) {
-    padding: 15px 25px;
   }
 }

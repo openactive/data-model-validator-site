@@ -4,92 +4,127 @@
 @import "base/variables";
 @import "base/typography";
 
+@import "components/nav";
 @import "components/logo";
 @import "components/buttons";
 
 html, body {
-    height: 100vh;
+  height: 100vh;
 }
 
-nav.fixed-top {
-    border-bottom: 2px solid $global;
+#control-bar {
+  background: $gray-200;
+  padding: $control-bar-padding-y;
+  font-size: $control-bar-size;
+  line-height: $control-bar-line-height;
+  height: $control-bar-height;
+  margin-top: $nav-offset-height;
+  border-bottom: $control-bar-border-width solid $control-bar-border-color;
+  button {
+    margin: 0;
+  }
 }
 
 .top-level-row {
-    padding-top: 78px;
+  padding-top: $nav-offset-height + $control-bar-height;
+}
+
+@media only screen and (max-width: map-get($grid-breakpoints, "md")) {
+  #control-bar {
+    height: $control-bar-md-height;
+  }
+  .top-level-row {
+    padding-top: $nav-offset-height + $control-bar-md-height;
+  }
+}
+
+@media only screen and (max-width: map-get($grid-breakpoints, "sm")) {
+  #control-bar {
+    margin-top: $nav-sm-offset-height;
+  }
+  .top-level-row {
+    padding-top: $nav-sm-offset-height + $control-bar-md-height;
+  }
 }
 
 .information-row {
-    display: block;
-    width: 100%;
-    height: 30px;
+  margin: 2rem 5rem;
+  p {
+    margin-top: 4rem;
+    color: $gray-500;
+    font-size: 1.5rem;
+
+    a {
+      text-decoration: none;
+    }
+  }
+  @media only screen and (max-width: map-get($grid-breakpoints, "md")) {
+    margin: 2rem 1rem;
+  }
+
 }
 
 .editor-col {
-    border-right: 1px solid $gray;
+  border-right: 1px solid $gray;
 }
 
 .results-col {
-    border-left: 1px solid $gray;
-    padding: 0 15px !important;
-    overflow: scroll;
+  border-left: 1px solid $gray;
+  padding: 0 15px !important;
+  overflow: scroll;
 
-    .results {
-        //margin-top: 1rem;
-    }
+  .result-list {
+    margin: 2rem 0 0 0;
+    padding: 0;
 
-    .result-list {
-        margin: 2rem 0 0 0;
-        padding: 0;
+    li {
+      list-style: none;
+      display: block;
+      margin: 0 0 10px 0;
+      padding: 0;
+      border-left: 5px solid $darkgray;
+      border-radius: 5px;
 
-        li {
-            list-style: none;
-            display: block;
-            margin: 0 0 10px 0;
-            padding: 0;
-            border-left: 5px solid $darkgray;
-            border-radius: 5px;
+      .result-title {
+        display: block;
+        color: $white;
+        line-height: 1;
+        font-weight: 600;
+        font-family: $font-family;
+        font-size: $base-font-size / 1.2;
+        text-transform: uppercase;
+        padding: 5px;
+        background: $darkgray;
+      }
 
-            .result-title {
-                display: block;
-                color: $white;
-                line-height: 1;
-                font-weight: 600;
-                font-family: $font-family;
-                font-size: $base-font-size / 1.2;
-                text-transform: uppercase;
-                padding: 5px;
-                background: $darkgray;
-            }
+      .result-field {
+        display: block;
+        padding: 1rem;
+        color: $darkgray;
+        font-family: $editor-font-family;
+        font-weight: 600;
+      }
 
-            .result-field {
-                display: block;
-                padding: 1rem;
-                color: $darkgray;
-                font-family: $editor-font-family;
-                font-weight: 600;
-            }
+      .result-message {
+        display: block;
+        padding: 1rem;
+      }
 
-            .result-message {
-                display: block;
-                padding: 1rem;
-            }
-
-            &.failure {
-                border-color: $brand-red;
-                color: $brand-red;
-                .result-title {
-                    background: $brand-red;
-                }
-            }
-
-            &.warning {
-                border-color: $brand-orange;
-                color: $brand-orange;
-                .result-title {
-                    background: $brand-orange;
-                }
-            }
+      &.failure {
+        border-color: $brand-red;
+        color: $brand-red;
+        .result-title {
+          background: $brand-red;
         }
+      }
+
+      &.warning {
+        border-color: $brand-orange;
+        color: $brand-orange;
+        .result-title {
+          background: $brand-orange;
+        }
+      }
     }
+  }
 }
