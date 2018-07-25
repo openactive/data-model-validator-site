@@ -11,11 +11,11 @@ const server = {
     // for parsing application/json
     app.use(bodyParser.json());
 
-    // React static files build to here
-    app.use(express.static('dist'));
-
     // GZip
     app.use(compression());
+
+    // React static files build to here
+    app.use(express.static('dist'));
 
     // API route to validator
     app.post('/api/validate', (req, res) => {
