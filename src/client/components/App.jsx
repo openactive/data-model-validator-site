@@ -7,13 +7,13 @@ import 'brace/theme/github';
 import beautify from 'json-beautify';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faTimes }  from '@fortawesome/free-solid-svg-icons/faTimes';
-import { faTimesCircle }  from '@fortawesome/free-solid-svg-icons/faTimesCircle';
-import { faExclamation }  from '@fortawesome/free-solid-svg-icons/faExclamation';
-import { faExclamationCircle }  from '@fortawesome/free-solid-svg-icons/faExclamationCircle';
-import { faCheck }  from '@fortawesome/free-solid-svg-icons/faCheck';
-import { faCheckCircle }  from '@fortawesome/free-solid-svg-icons/faCheckCircle';
-import { faExternalLinkAlt }  from '@fortawesome/free-solid-svg-icons/faExternalLinkAlt';
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle';
+import { faExclamation } from '@fortawesome/free-solid-svg-icons/faExclamation';
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle';
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons/faCheckCircle';
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons/faExternalLinkAlt';
 
 import Results from './Results.jsx';
 
