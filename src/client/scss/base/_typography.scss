@@ -31,10 +31,38 @@ h1 {
     margin: $header-margin * 1.5 0 $header-margin/1.1 0;
 }
 
+h1 + p,
+h1 + ul li,
+h1 + ol li,
+h1 + ol + p,
+.h1-copy {
+  //font-size: $header-size/  1.9;
+  font-family: $font-family;
+  font-size: 1.5rem;
+  line-height: 1.3;
+}
+
+.hero-sub {
+  font-size: $header-size/  1.7;
+}
+h1 + h2 {
+  margin-bottom: 1rem;
+}
+
 h2 {
     font-size: $header-size / 1.4;
     font-weight: 800;
     margin: $header-margin * 1.2 0 1rem 0;
+}
+
+h2 + p,
+h2 + ul li,
+h2 + ol li,
+h2 + ol + p,
+.h2-copy {
+  font-size: 1.25rem;
+  font-family: $font-family;
+  margin-top: 0;
 }
 
 h3 {
@@ -45,6 +73,16 @@ h3 {
 
 h4 {
     font-size: $header-size / 1.7;
+}
+
+h4 + p,
+h4 + ul li,
+h4 + ol li,
+h4 + ol + p,
+.h4-copy {
+  font-size: $header-size/  2.3;
+  font-family: $font-family;
+  margin: $header-margin * 1.5 0 $header-margin / 1.5 0;
 }
 
 h5 {
@@ -61,4 +99,190 @@ h6 {
     letter-spacing: 0;
     font-weight: 800;
     line-height: $paragraph-line-height;
+}
+
+// Paragraph Text
+p, li, .para-style {
+  margin-top: $paragraph-margin;
+  //font-size: $paragraph-size;
+  line-height: $paragraph-line-height;
+  color: $paragraph-color;
+  font-size: 1rem;
+
+  &:first-of-type {
+    margin-top: 0;
+  }
+}
+p + h6 {
+  margin-top: 1rem;
+}
+
+// Links
+a {
+  color: $link-color;
+  text-decoration: none;
+  @include transition(all .2s ease);
+
+  &:hover {
+    color: darken($link-color, 10%);
+  }
+  &:focus {
+    //outline: 3px dotted #811d15!important;
+  }
+  &.link {
+    text-transform: uppercase;
+    text-decoration: underline;
+    font-weight: 600;
+  }
+}
+
+// Lists
+ul, ol {
+  margin: $paragraph-margin 0 10px 20px;
+  li {
+    margin-top: 0;
+    line-height: $paragraph-line-height;
+    color: $paragraph-color;
+    ol, ul {
+
+    }
+  }
+
+  ul, ol {
+    margin-top: 0;
+  }
+}
+
+
+ul {
+
+  li {
+    list-style: disc;
+  }
+
+  ul {
+
+    li {
+      list-style: circle;
+    }
+  }
+}
+
+ol {
+
+  li {
+    list-style: decimal;
+  }
+}
+
+legend {
+  margin-top: $paragraph-margin;
+  font-size: $paragraph-size * 1.5;
+  line-height: $paragraph-line-height;
+  color: $white;
+
+}
+
+// hr
+hr {
+  height: 1px;
+  margin: $hr-margin 0;
+  border: none;
+  background-color: $border-color;
+}
+
+// Blockquote
+blockquote {
+  grid-column-start: 2;
+  grid-column-end: 14;
+  margin-top: 1rem;
+  border-left: 1px solid;
+  p {
+    margin: $blockquote-margin 0;
+    color: $blockquote-color;
+    padding-left: 2rem;
+    font-style: italic;
+    font-size: $blockquote-size;
+    font-family: $font-family;
+    margin-bottom:0.5rem
+  }
+  h6{
+    padding-left: 2rem;
+    margin-bottom:0;
+    color: $black!important;
+    font-family: $font-family;
+  }
+  &.featured {
+    border-left: 1px solid white;
+    padding: 2rem;
+    background-color: $brand-blue;
+    .quote {
+      width: 100px;
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
+      border-color: $brand-seven;
+      display: inline-block;
+      margin-bottom: 1rem;
+    }
+    svg {
+      width: 30px;
+      height: 30px;
+      margin-bottom: 1rem;
+    }
+    .quote-svg {
+      fill: $white;
+    }
+    p {
+      padding: 0;
+      margin: 0;
+      grid-column-start: 2;
+      grid-column-end: 14;
+      border-left: none;
+      color: $white;
+    }
+    h6 {
+      margin: 0;
+      color: $white;
+      padding-left: 0;
+      &:nth-of-type(1) {
+        margin: 1rem 0 0 0;
+      }
+      &:nth-of-type(2) {
+        font-weight: 100;
+      }
+    }
+    a {
+      color: $white;
+    }
+  }
+}
+
+// Code
+pre {
+  display: block;
+  padding: 0;
+  margin: 0;
+
+  code {
+    position: relative;
+    padding: 3px;
+    font-family: Courier New, Courier, monospace;
+    font-size: $paragraph-size / 1.3;
+    color: darken($border-color, 40%);
+    line-height: 1.5em;
+    pointer-events: none;
+    border: 1px solid $border-color;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+  }
+}
+
+// Misc Styles
+em, i, .italic {
+  font-style: italic;
+}
+
+strong, b, .bold {
+  font-weight: $font-weight-bold;
 }

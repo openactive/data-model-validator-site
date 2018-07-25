@@ -263,6 +263,7 @@ export default class App extends Component {
               showPrintMargin={true}
               showGutter={true}
               highlightActiveLine={true}
+              fontSize="14px"
               editorProps={{ $blockScrolling: true }}
             />
           </div>

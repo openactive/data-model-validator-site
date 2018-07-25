@@ -1,8 +1,8 @@
 @import "~bootstrap/scss/bootstrap";
 
+@import "base/mixins";
 @import "base/variables";
 @import "base/typography";
-@import "base/mixins";
 
 @import "components/logo";
 @import "components/buttons";
