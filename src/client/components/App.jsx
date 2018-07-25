@@ -7,15 +7,13 @@ import 'brace/theme/github';
 import beautify from 'json-beautify';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import {
-  faTimes,
-  faTimesCircle,
-  faExclamation,
-  faExclamationCircle,
-  faCheck,
-  faCheckCircle,
-  faExternalLinkAlt,
-} from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons/faTimes';
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons/faTimesCircle';
+import { faExclamation } from '@fortawesome/free-solid-svg-icons/faExclamation';
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons/faExclamationCircle';
+import { faCheck } from '@fortawesome/free-solid-svg-icons/faCheck';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons/faCheckCircle';
+import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons/faExternalLinkAlt';
 
 import Results from './Results.jsx';
 
@@ -269,7 +267,7 @@ export default class App extends Component {
       helpText = (
         <div className="information-row text-center hero-sub">
           <p>
-            This tool allows you to validate your data models against the <a href="https://www.openactive.io/modelling-opportunity-data/EditorsDraft/" target="_blank">Modelling Opportunity Data Specification v2.0 <FontAwesomeIcon icon="external-link-alt" /></a>.
+            This tool allows you to validate your data models against the <a href="https://www.openactive.io/modelling-opportunity-data/EditorsDraft/" target="_blank" rel="noopener">Modelling Opportunity Data Specification v2.0 <FontAwesomeIcon icon="external-link-alt" /></a>.
           </p>
           <p>
             Enter some JSON into the editor on the left and hit <button className="btn btn-primary button-inline" onClick={() => this.validate()}>Validate</button> to get started!

@@ -1,6 +1,7 @@
 const express = require('express');
 const validator = require('openactive-data-model-validator');
 const bodyParser = require('body-parser');
+const compression = require('compression');
 
 // List on port 8080
 const server = {
@@ -12,6 +13,9 @@ const server = {
 
     // React static files build to here
     app.use(express.static('dist'));
+
+    // GZip
+    app.use(compression());
 
     // API route to validator
     app.post('/api/validate', (req, res) => {
