@@ -65,3 +65,21 @@ $header-border-thickness: 2px;
 $header-border-padding: 1rem;
 $header-top-margin: 2rem;
 $header-padding-bottom: 2rem;
+
+// Blockquote Styles
+$blockquote-color: #5A5A5A;
+$blockquote-size: rem(18px);
+$blockquote-line-height: 1.6;
+$blockquote-margin: $paragraph-margin * 1.5;
+
+// Links
+$link-color: #4eaff6;
+//Nav Links
+$nav-color: $brand-blue;
+
+// hr
+$hr-margin: 30px;
+
+// Type Misc
+$font-weight-bold: 800;
+$border-color: #DADADA;
