@@ -8,7 +8,7 @@
 @import "components/logo";
 @import "components/buttons";
 
-html, body {
+html, body, #app-container {
   height: 100vh;
 }
 
@@ -44,6 +44,30 @@ html, body {
   }
   .top-level-row {
     padding-top: $nav-sm-offset-height + $control-bar-md-height;
+  }
+}
+
+.loading-overlay {
+  position: fixed;
+  display: flex;
+  svg {
+    margin: auto;
+    path {
+      fill: $brand-blue;
+    }
+  }
+  background: rgba($gray-200, 0.3);
+  top: $nav-offset-height + $control-bar-height;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  z-index: $zindex-modal-backdrop;
+  @media only screen and (max-width: map-get($grid-breakpoints, "md")) {
+    top: $nav-offset-height + $control-bar-md-height;
+  }
+
+  @media only screen and (max-width: map-get($grid-breakpoints, "sm")) {
+    top: $nav-sm-offset-height + $control-bar-md-height;
   }
 }
 
