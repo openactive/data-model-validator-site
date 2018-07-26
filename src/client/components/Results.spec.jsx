@@ -18,6 +18,6 @@ describe('Results', () => {
     expect(component.type).toBe('div');
     expect(component.props.children.length).toBe(2);
     // The buttons
-    expect(component.props.children[1].length).toBe(3);
+    expect(component.props.children[1].length).toBe(4);
   });
 });
