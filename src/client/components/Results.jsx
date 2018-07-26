@@ -15,6 +15,10 @@ export default class Results extends Component {
         icon: 'exclamation',
       },
       notice: {
+        name: 'Notice',
+        icon: 'info',
+      },
+      suggestion: {
         name: 'Tip',
         icon: 'check',
       },
