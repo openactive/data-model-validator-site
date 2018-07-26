@@ -83,6 +83,7 @@ const server = class {
   static getValidateOptions() {
     const options = {
       activityLists: [],
+      schemaOrgSpecifications: [],
     };
     const cacheDir = path.join(__dirname, '../../cache');
 
@@ -98,6 +99,21 @@ const server = class {
       }
       if (typeof activityList === 'object' && activityList !== null) {
         options.activityLists.push(activityList);
+      }
+    }
+
+    const schemaOrgSpecFile = path.join(cacheDir, 'schemaOrgSpec.json');
+    if (fs.existsSync(schemaOrgSpecFile)) {
+      let schemaOrgSpec;
+      try {
+        schemaOrgSpec = JSON.parse(
+          fs.readFileSync(schemaOrgSpecFile),
+        );
+      } catch (e) {
+        schemaOrgSpec = null;
+      }
+      if (typeof schemaOrgSpec === 'object' && schemaOrgSpec !== null) {
+        options.schemaOrgSpecifications.push(schemaOrgSpec);
       }
     }
 
