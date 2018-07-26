@@ -67,7 +67,7 @@ export default class Results extends Component {
       }
       pathArr.pop();
     }
-    return null;
+    return [0, 0];
   }
 
   render() {
