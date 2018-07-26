@@ -12,6 +12,7 @@ import JsonHelper from '../helpers/json-helper';
 import HelpText from './HelpText.jsx';
 import LoadingOverlay from './LoadingOverlay.jsx';
 import Results from './Results.jsx';
+import ResultFilters from './ResultFilters.jsx';
 
 import '../scss/app.scss';
 
@@ -19,6 +20,39 @@ export default class Editor extends Component {
   constructor(props) {
     super(props);
     const savedJson = sessionStorage.getItem('json');
+    this.severities = {
+      failure: {
+        name: 'Error',
+        icon: 'times',
+        iconCircle: 'times-circle',
+      },
+      warning: {
+        name: 'Warning',
+        icon: 'exclamation',
+        iconCircle: 'exclamation-circle',
+      },
+      notice: {
+        name: 'Notice',
+        icon: 'info',
+        iconCircle: 'info-circle',
+      },
+      suggestion: {
+        name: 'Tip',
+        icon: 'check',
+        iconCircle: 'check-circle',
+      },
+    };
+    this.categories = {
+      conformance: {
+        name: 'Conformance',
+      },
+      'data-quality': {
+        name: 'Data Quality',
+      },
+      // internal: {
+      //   name: 'General',
+      // },
+    };
     this.state = {
       results: null,
       json: savedJson || '',
@@ -26,6 +60,7 @@ export default class Editor extends Component {
       hasSubmitted: false,
       isLoading: false,
       tokenMap: {},
+      filter: this.buildFilter(),
     };
     this.params = queryString.parse(this.props.location.search);
     this.processUrl();
@@ -58,6 +93,36 @@ export default class Editor extends Component {
     }
   }
 
+  buildFilter() {
+    const severityFilter = {};
+    const categoryFilter = {};
+    for (const severity in this.severities) {
+      if (Object.prototype.hasOwnProperty.call(this.severities, severity)) {
+        severityFilter[severity] = true;
+      }
+    }
+    for (const category in this.categories) {
+      if (Object.prototype.hasOwnProperty.call(this.categories, category)) {
+        categoryFilter[category] = true;
+      }
+    }
+
+    return {
+      severity: severityFilter,
+      category: categoryFilter,
+    };
+  }
+
+  resetFilter() {
+    this.setState({ filter: this.buildFilter() });
+  }
+
+  toggleFilter(type, value) {
+    const { filter } = this.state;
+    filter[type][value] = !filter[type][value];
+    this.setState({ filter });
+  }
+
   getEditorSession() {
     return this.refs.jsonInput.editor.getSession();
   }
@@ -73,11 +138,12 @@ export default class Editor extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (
       this.state.json === nextState.json
-      && this.state.resulse === nextState.results
+      && JSON.stringify(this.state.results) === JSON.stringify(nextState.results)
       && this.state.isLoading === nextState.isLoading
       && this.state.hasSubmitted === nextState.hasSubmitted
       && this.state.validJSON === nextState.validJSON
-      && JSON.serialize(this.state.tokenMap) !== JSON.serialize(nextState.tokenMap)
+      && JSON.stringify(this.state.tokenMap) !== JSON.stringify(nextState.tokenMap)
+      && JSON.stringify(this.state.filter) !== JSON.stringify(nextState.filter)
     ) {
       return false;
     }
@@ -143,6 +209,7 @@ export default class Editor extends Component {
 
     if (!isValid) {
       const results = [{
+        category: 'data-quality',
         severity: 'failure',
         path: '$',
         message: 'The JSON you\'ve entered isn\'t valid.',
@@ -201,7 +268,10 @@ export default class Editor extends Component {
             <div className="col-6">
               <button className="btn btn-secondary" onClick={() => this.onResetClick()}>Reset Editor</button>
             </div>
-            <div className="col-6">
+            <div className="col-4">
+              <ResultFilters filter={this.state.filter} onFilterChange={(type, value) => this.toggleFilter(type, value)} results={this.state.results} categories={this.categories} severities={this.severities} />
+            </div>
+            <div className="col-2">
               <button className="btn btn-primary float-right" onClick={() => this.validate()}>Validate</button>
             </div>
           </div>
@@ -226,7 +296,7 @@ export default class Editor extends Component {
           </div>
           <div className="col-6 results-col">
             {helpText}
-            <Results results={this.state.results} tokenMap={this.state.tokenMap} onResultClick={path => this.onResultClick(path)}/>
+            <Results results={this.state.results} filter={this.state.filter} severities={this.severities} tokenMap={this.state.tokenMap} onResultClick={path => this.onResultClick(path)} onResetFilters={() => this.resetFilter()}/>
           </div>
         </div>
       </div>
