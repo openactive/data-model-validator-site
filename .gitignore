@@ -8,6 +8,9 @@ yarn-error.log*
 # Dist folder
 dist
 
+# Cache folder
+cache
+
 # Runtime data
 pids
 *.pid
