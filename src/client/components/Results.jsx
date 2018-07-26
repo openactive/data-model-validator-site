@@ -9,18 +9,22 @@ export default class Results extends Component {
       failure: {
         name: 'Error',
         icon: 'times',
+        iconCircle: 'times-circle',
       },
       warning: {
         name: 'Warning',
         icon: 'exclamation',
+        iconCircle: 'exclamation-circle',
       },
       notice: {
         name: 'Notice',
         icon: 'info',
+        iconCircle: 'info-circle',
       },
       suggestion: {
         name: 'Tip',
         icon: 'check',
+        iconCircle: 'check-circle',
       },
     };
     const show = {};
@@ -54,6 +58,18 @@ export default class Results extends Component {
     this.setState({ show: stateShow });
   }
 
+  getRowCol(path) {
+    const pathArr = path.split('.');
+    while (pathArr.length) {
+      const rowCol = this.props.tokenMap[pathArr.join('.')];
+      if (rowCol) {
+        return rowCol;
+      }
+      pathArr.pop();
+    }
+    return null;
+  }
+
   render() {
     if (this.props.results) {
       const resultList = {};
@@ -66,17 +82,23 @@ export default class Results extends Component {
           counts[severity] = 0;
           resultList[severity] = this.props.results.map(
             (result, index) => {
-              const fieldName = this.constructor.fieldName(result.path);
               if (result.severity === severity) {
                 counts[severity] += 1;
+                const fieldName = this.constructor.fieldName(result.path);
+                const rowCol = this.getRowCol(result.path);
                 return (
-                  <li key={index} className={result.severity} onClick={() => this.handleClick(result.path)}>
-                    <span className="result-title">{this.severities[severity].name}</span>
+                  <li key={index} className={result.severity}>
                     <div className="row">
-                      <div className="col-4">
-                        <span title={result.path} className="result-field">{fieldName}</span>
+                      <div className="d-none d-sm-none d-md-block col-1 col-sm-2 col-md-1 col-lg-1 col-xl-1 result-icon-circle">
+                        <FontAwesomeIcon icon={this.severities[severity].iconCircle} size="2x" />
                       </div>
-                      <div className="col-8">
+                      <div className="col-xs-4 col-sm-3 col-md-4 col-lg-4 col-xl-4">
+                        <span className="result-title">{this.severities[severity].name}</span>
+                        <span title={result.path} className="result-field">{fieldName}</span>
+                        <span onClick={() => this.handleClick(result.path)} title={`${rowCol[0] + 1}:${rowCol[1]}`} className="result-line-col">Line {rowCol[0] + 1}, col {rowCol[1]}</span>
+                      </div>
+                      <div className="col-7">
+                        <span className="result-message-title">Message</span>
                         <span className="result-message">{result.message}</span>
                       </div>
                     </div>
