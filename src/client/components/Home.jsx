@@ -98,6 +98,7 @@ export default class Editor extends Component {
     if (JsonHelper.isJSONValid(jsonString)) {
       this.setState({
         json: JsonHelper.beautifyString(jsonString),
+        tokenMap: this.getTokenMap(),
       });
     } else {
       this.setState({ json: jsonString, validJSON: false });
@@ -112,6 +113,7 @@ export default class Editor extends Component {
         this.refs.jsonInput.editor.selection.toSingleRange();
         this.refs.jsonInput.editor.selection.clearSelection();
         this.refs.jsonInput.editor.moveCursorTo(rowCol[0], rowCol[1]);
+        this.refs.jsonInput.editor.scrollToRow(rowCol[0]);
         return;
       }
       pathArr.pop();
@@ -224,7 +226,7 @@ export default class Editor extends Component {
           </div>
           <div className="col-6 results-col">
             {helpText}
-            <Results results={this.state.results} onResultClick={path => this.onResultClick(path)}/>
+            <Results results={this.state.results} tokenMap={this.state.tokenMap} onResultClick={path => this.onResultClick(path)}/>
           </div>
         </div>
       </div>
