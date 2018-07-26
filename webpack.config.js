@@ -89,7 +89,7 @@ module.exports = (env, argv) => ({
       splitChunks: {
         cacheGroups: {
           react: {
-            test: /react/,
+            test: /(react|react-ace|react-dom|react-is|react-pluralize)[\\/]/,
             name: 'react',
             ...groupsOptions,
           },

@@ -1,21 +1,22 @@
 import React from 'react';
 import ShallowRenderer from 'react-test-renderer/shallow';
 
-import Navbar from './Navbar.jsx';
+import Header from './Header.jsx';
 
-describe('Navbar', () => {
+describe('Header', () => {
   it('can render without error', () => {
     let component;
 
     const renderer = new ShallowRenderer();
-    renderer.render(<Navbar />);
+    renderer.render(<Header />);
 
     // Render into a document fragment and return the full component instance.
     expect(() => {
       component = renderer.getRenderOutput();
     }).not.toThrow();
 
-    expect(component.type).toBe('nav');
-    expect(component.props.children.length).toBe(3);
+    expect(component.type).toBe('header');
+    expect(component.props.children.type).toBe('nav');
+    expect(component.props.children.props.children.length).toBe(3);
   });
 });

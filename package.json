@@ -38,10 +38,12 @@
     "npm": "^6.2.0",
     "openactive-data-model-validator": "github:openactive/data-model-validator",
     "popper.js": "^1.14.3",
+    "query-string": "^6.1.0",
     "react": "^16.4.1",
     "react-ace": "^6.1.4",
     "react-dom": "^16.4.1",
     "react-pluralize": "^1.4.1",
+    "react-router-dom": "^4.3.1",
     "react-svg-loader": "^2.1.0",
     "react-test-renderer": "^16.4.1",
     "request": "^2.87.0"
