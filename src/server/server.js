@@ -3,10 +3,12 @@ const validator = require('openactive-data-model-validator');
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const request = require('request');
+const fs = require('fs');
+const path = require('path');
 
 // List on port 8080
-const server = {
-  createServer: (port, callback) => {
+const server = class {
+  static createServer(port, callback) {
     const app = express();
 
     // for parsing application/json
@@ -36,7 +38,7 @@ const server = {
       } else {
         parsedJson = json;
       }
-      const response = validator.validate(parsedJson);
+      const response = validator.validate(parsedJson, this.getValidateOptions());
       res.status(200).json(response);
     });
 
@@ -53,7 +55,7 @@ const server = {
           }
         }
         if (typeof json === 'object' && json !== null) {
-          const validation = validator.validate(json);
+          const validation = validator.validate(json, this.getValidateOptions());
           res.status(200).json(
             {
               json,
@@ -76,7 +78,31 @@ const server = {
     });
 
     return app.listen(port, callback);
-  },
+  }
+
+  static getValidateOptions() {
+    const options = {
+      activityLists: [],
+    };
+    const cacheDir = path.join(__dirname, '../../cache');
+
+    const activityListFile = path.join(cacheDir, 'activityList.json');
+    if (fs.existsSync(activityListFile)) {
+      let activityList;
+      try {
+        activityList = JSON.parse(
+          fs.readFileSync(activityListFile),
+        );
+      } catch (e) {
+        activityList = null;
+      }
+      if (typeof activityList === 'object' && activityList !== null) {
+        options.activityLists.push(activityList);
+      }
+    }
+
+    return options;
+  }
 };
 
 module.exports = server;

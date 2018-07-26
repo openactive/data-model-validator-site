@@ -52,13 +52,14 @@
     "lint": "eslint --ext .jsx --ext .js \"src/\"",
     "start": "node src/server/index.js",
     "postinstall": "npm run build",
-    "build": "webpack --mode production",
+    "build": "webpack --mode production && npm run fetch-assets",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "nodemon src/server/index.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "pretest": "npm run lint",
     "test": "npm run test-no-lint",
-    "test-no-lint": "BABEL_ENV=test babel-node spec/run.js"
+    "test-no-lint": "BABEL_ENV=test babel-node spec/run.js",
+    "fetch-assets": "node build/fetchAssets.js"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
@@ -83,7 +84,6 @@
     "jasmine": "^3.1.0",
     "jasmine-enzyme": "^6.0.2",
     "jsdom": "^11.11.0",
-    "napa": "^3.0.0",
     "node-sass": "^4.9.2",
     "nodemon": "^1.18.2",
     "sass-loader": "^7.0.3",
