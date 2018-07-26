@@ -88,6 +88,27 @@ html, body, #app-container {
 
 }
 
+.result-filters {
+  h6 {
+    padding-left: 0.25rem;
+    padding-top: 0.5rem;
+    margin-top: 0;
+    color: $gray-600;
+  }
+  .form-check {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    .form-check-input {
+      margin-top: 0;
+    }
+    .form-check-label {
+      cursor: pointer;
+      color: $gray-600;
+      padding-left: 0.35rem;
+    }
+  }
+}
+
 .editor-col {
   border-right: 1px solid $gray;
 }
@@ -97,8 +118,21 @@ html, body, #app-container {
   padding: 0 15px !important;
   overflow: scroll;
 
+  .result-summary, .remove-filters {
+    font-weight: 600;
+    margin: 1rem 0 0 0;
+    color: $gray-700;
+    svg {
+      margin-right: 0.5rem;
+    }
+  }
+
+  .remove-filters {
+    cursor: pointer;
+  }
+
   .result-list {
-    margin: 2rem 0 0 0;
+    margin: 1rem 0 0 0;
     padding: 0;
 
     li {

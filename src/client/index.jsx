@@ -5,6 +5,7 @@ import App from './components/App.jsx';
 
 import 'bootstrap/js/dist/util';
 import 'bootstrap/js/dist/collapse';
+import 'bootstrap/js/dist/dropdown';
 
 ReactDOM.render(
   (
