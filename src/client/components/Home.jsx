@@ -49,9 +49,9 @@ export default class Editor extends Component {
       'data-quality': {
         name: 'Data Quality',
       },
-      // internal: {
-      //   name: 'General',
-      // },
+      internal: {
+        name: 'General',
+      },
     };
     this.state = {
       results: null,
