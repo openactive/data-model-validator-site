@@ -1,21 +1,17 @@
 import React from 'react';
-import ShallowRenderer from 'react-test-renderer/shallow';
+import { shallow } from 'enzyme';
 
 import LoadingOverlay from './LoadingOverlay.jsx';
 
-describe('LoadingOverlay', () => {
+describe('<LoadingOverlay />', () => {
   it('can render without error', () => {
-    let component;
-
-    const renderer = new ShallowRenderer();
-    renderer.render(<LoadingOverlay />);
+    let wrapper;
 
     // Render into a document fragment and return the full component instance.
     expect(() => {
-      component = renderer.getRenderOutput();
+      wrapper = shallow(<LoadingOverlay />);
     }).not.toThrow();
 
-    expect(component.type).toBe('div');
-    expect(component.props.children.type.displayName).toBe('FontAwesomeIcon');
+    expect(wrapper.type()).toBe('div');
   });
 });

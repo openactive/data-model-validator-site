@@ -1,0 +1,52 @@
+[
+  [
+    {
+      "type": "paren.lparen",
+      "value": "{"
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "  "
+    },
+    {
+      "type": "variable",
+      "value": "\"activity\""
+    },
+    {
+      "type": "text",
+      "value": ": "
+    },
+    {
+      "type": "paren.lparen",
+      "value": "["
+    },
+    {
+      "type": "text",
+      "value": " "
+    },
+    {
+      "type": "string",
+      "value": "\"Tai Chi\""
+    },
+    {
+      "type": "text",
+      "value": ", "
+    },
+    {
+      "type": "string",
+      "value": "\"Activity 2\""
+    },
+    {
+      "type": "paren.rparen",
+      "value": "]"
+    }
+  ],
+  [
+    {
+      "type": "paren.rparen",
+      "value": "}"
+    }
+  ]
+]

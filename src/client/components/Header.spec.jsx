@@ -1,22 +1,17 @@
 import React from 'react';
-import ShallowRenderer from 'react-test-renderer/shallow';
+import { shallow } from 'enzyme';
 
 import Header from './Header.jsx';
 
-describe('Header', () => {
+describe('<Header />', () => {
   it('can render without error', () => {
-    let component;
-
-    const renderer = new ShallowRenderer();
-    renderer.render(<Header />);
+    let wrapper;
 
     // Render into a document fragment and return the full component instance.
     expect(() => {
-      component = renderer.getRenderOutput();
+      wrapper = shallow(<Header />);
     }).not.toThrow();
 
-    expect(component.type).toBe('header');
-    expect(component.props.children.type).toBe('nav');
-    expect(component.props.children.props.children.length).toBe(3);
+    expect(wrapper.type()).toBe('header');
   });
 });

@@ -1,0 +1,32 @@
+[
+  [
+    {
+      "type": "paren.lparen",
+      "value": "{"
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "  "
+    },
+    {
+      "type": "variable",
+      "value": "\"type\""
+    },
+    {
+      "type": "text",
+      "value": ": "
+    },
+    {
+      "type": "string",
+      "value": "\"Event\""
+    }
+  ],
+  [
+    {
+      "type": "paren.rparen",
+      "value": "}"
+    }
+  ]
+]

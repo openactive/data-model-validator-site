@@ -112,6 +112,9 @@ module.exports = (env, argv) => ({
         }
       }
     },
+    node: {
+      fs: 'empty'
+    },
     plugins: [
       new webpack.DefinePlugin({ // <-- key to reducing React's size
         'process.env': {

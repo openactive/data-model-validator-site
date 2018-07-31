@@ -35,6 +35,7 @@
     "i": "^0.3.6",
     "jquery": "^3.3.1",
     "json-beautify": "^1.0.1",
+    "jsonpath": "^1.0.0",
     "npm": "^6.2.0",
     "openactive-data-model-validator": "github:openactive/data-model-validator",
     "popper.js": "^1.14.3",
@@ -56,7 +57,7 @@
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "nodemon src/server/index.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "pretest": "npm run lint",
+    "pretest": "npm run lint && npm run build",
     "test": "npm run test-no-lint",
     "test-no-lint": "BABEL_ENV=test babel-node spec/run.js",
     "fetch-assets": "node build/fetchAssets.js"
