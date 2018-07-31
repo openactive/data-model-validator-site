@@ -5,10 +5,10 @@
     "**/*[sS]pec.jsx"
   ],
   "helpers": [
-    "helpers/babel.js",
-    "helpers/enzyme.js",
-    "helpers/jsdom.js",
-    "helpers/**/*.js"
+    "../spec/helpers/babel.js",
+    "../spec/helpers/enzyme.js",
+    "../spec/helpers/jsdom.js",
+    "../spec/helpers/**/*.js"
   ],
   "stopSpecOnExpectationFailure": false,
   "random": true

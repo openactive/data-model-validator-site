@@ -1,0 +1,68 @@
+[
+  [
+    {
+      "type": "paren.lparen",
+      "value": "{"
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "  "
+    },
+    {
+      "type": "variable",
+      "value": "\"organiser\""
+    },
+    {
+      "type": "text",
+      "value": ": "
+    },
+    {
+      "type": "paren.lparen",
+      "value": "["
+    },
+    {
+      "type": "paren.lparen",
+      "value": "{"
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "    "
+    },
+    {
+      "type": "variable",
+      "value": "\"type\""
+    },
+    {
+      "type": "text",
+      "value": ": "
+    },
+    {
+      "type": "string",
+      "value": "\"Organisation\""
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "  "
+    },
+    {
+      "type": "paren.rparen",
+      "value": "}"
+    },
+    {
+      "type": "paren.rparen",
+      "value": "]"
+    }
+  ],
+  [
+    {
+      "type": "paren.rparen",
+      "value": "}"
+    }
+  ]
+]

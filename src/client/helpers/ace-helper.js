@@ -1,30 +1,21 @@
-export default class AceHelper {
-  static buildJsonPath(currentPath, param, arrayPointers) {
-    const stepThrough = currentPath.concat(param ? [param] : []);
-    let firstPath = this.arrayToJsonPath(stepThrough);
-    while (stepThrough.length > 0) {
-      if (typeof (arrayPointers[this.arrayToJsonPath(stepThrough)]) !== 'undefined') {
-        firstPath = firstPath.replace(
-          this.arrayToJsonPath(stepThrough),
-          `${this.arrayToJsonPath(stepThrough)}[${arrayPointers[this.arrayToJsonPath(stepThrough)]}]`,
-        );
-      }
-      stepThrough.pop();
-    }
-    return firstPath;
-  }
+const jp = require('jsonpath');
 
-  static arrayToJsonPath(array) {
-    return array.join('.').replace(/\.[.]+/g, '.').replace(/^\./, '');
+export default class AceHelper {
+  static buildJsonPath(currentPath, param) {
+    const stepThrough = currentPath.concat(param ? [param] : []);
+    if (!stepThrough.length) {
+      return '';
+    }
+    return jp.stringify(stepThrough);
   }
 
   static getTokenMap(session) {
     const rowLength = session.getDocument().getLength();
     const currentPath = [];
     const typePath = [];
-    let lastParam = '$';
-    const arrayPointers = {};
     const tokenMap = {};
+    let lastIndex;
+    let lastParam = '$';
     for (let row = 0; row < rowLength; row += 1) {
       const tokens = session.getTokens(row);
       let col = 0;
@@ -35,45 +26,43 @@ export default class AceHelper {
               if (Object.values(tokenMap).length === 0
                 || typePath[typePath.length - 1] === 'array'
               ) {
-                tokenMap[this.buildJsonPath(currentPath, lastParam, arrayPointers)] = [row, col];
+                tokenMap[this.buildJsonPath(currentPath, lastParam)] = [row, col];
               }
               typePath.push('object');
-              currentPath.push(lastParam);
-              lastParam = null;
+              if (lastParam !== null) {
+                currentPath.push(lastParam);
+                lastParam = null;
+              }
             } else if (token.value === '[') {
               if (Object.values(tokenMap).length === 0) {
-                tokenMap[this.buildJsonPath(currentPath, lastParam, arrayPointers)] = [row, col];
-                currentPath.push(null);
+                tokenMap[this.buildJsonPath(currentPath, lastParam)] = [row, col];
               }
               typePath.push('array');
-              currentPath.push(lastParam);
-              lastParam = null;
-              arrayPointers[this.arrayToJsonPath(currentPath)] = 0;
+              if (lastParam !== null) {
+                currentPath.push(lastParam);
+                lastParam = null;
+              }
+              currentPath.push(0);
             }
             break;
           case 'variable':
             lastParam = token.value.replace(/^["']/, '').replace(/["']$/, '');
-            tokenMap[this.buildJsonPath(currentPath, lastParam, arrayPointers)] = [row, col];
+            tokenMap[this.buildJsonPath(currentPath, lastParam)] = [row, col];
             break;
           case 'string':
           case 'constant.numeric':
             if (typePath[typePath.length - 1] === 'array') {
-              tokenMap[this.buildJsonPath(currentPath, lastParam, arrayPointers)] = [row, col];
+              tokenMap[this.buildJsonPath(currentPath, lastParam)] = [row, col];
+              lastIndex = currentPath[currentPath.length - 1];
+              currentPath.pop();
+            } else {
+              lastIndex = null;
             }
-            typePath.push(token.type);
             break;
           case 'text':
             if (token.value.trim() === ',') {
-              switch (typePath[typePath.length - 1]) {
-                case 'string':
-                case 'constant.numeric':
-                  typePath.pop();
-                  if (typePath[typePath.length - 1] === 'array') {
-                    arrayPointers[this.arrayToJsonPath(currentPath)] += 1;
-                  }
-                  break;
-                default:
-                  break;
+              if (typePath[typePath.length - 1] === 'array') {
+                currentPath.push(lastIndex + 1);
               }
             }
             break;
@@ -81,23 +70,14 @@ export default class AceHelper {
             if (token.value === '}'
                 || token.value === ']'
             ) {
-              switch (typePath[typePath.length - 1]) {
-                case 'string':
-                case 'constant.numeric':
-                  typePath.pop();
-                  break;
-                default:
-                  break;
-              }
-              if (token.value === ']' && typePath[typePath.length - 1] === 'array') {
-                delete arrayPointers[this.arrayToJsonPath(currentPath)];
-              }
               typePath.pop();
+              if (typePath[typePath.length - 1] === 'array') {
+                lastIndex = currentPath[currentPath.length - 1];
+              } else {
+                lastIndex = null;
+              }
               currentPath.pop();
               lastParam = null;
-              if (token.value === '}' && typePath[typePath.length - 1] === 'array') {
-                arrayPointers[this.arrayToJsonPath(currentPath)] += 1;
-              }
             }
             break;
           default:

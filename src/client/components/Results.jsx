@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Pluralize from 'react-pluralize';
+import jp from 'jsonpath';
 
 export default class Results extends Component {
   static fieldName(path) {
@@ -21,13 +22,16 @@ export default class Results extends Component {
   }
 
   getRowCol(path) {
-    const pathArr = path.split('.');
-    while (pathArr.length) {
-      const rowCol = this.props.tokenMap[pathArr.join('.')];
-      if (rowCol) {
-        return rowCol;
+    if (typeof this.props.tokenMap !== 'undefined') {
+      const pathArr = jp.parse(path);
+      const mappedArr = pathArr.map(x => x.expression.value);
+      while (mappedArr.length) {
+        const rowCol = this.props.tokenMap[jp.stringify(mappedArr)];
+        if (rowCol) {
+          return rowCol;
+        }
+        mappedArr.pop();
       }
-      pathArr.pop();
     }
     return [0, 0];
   }
@@ -37,17 +41,34 @@ export default class Results extends Component {
       const listList = [];
       let topMessage;
       let filtered = false;
+      const localFilter = this.props.filter || {};
 
-      for (const filter in this.props.filter) {
-        if (Object.prototype.hasOwnProperty.call(this.props.filter, filter)) {
-          for (const setting in this.props.filter[filter]) {
-            if (Object.prototype.hasOwnProperty.call(this.props.filter[filter], setting)) {
-              if (!this.props.filter[filter][setting]) {
+      for (const filter in localFilter) {
+        if (Object.prototype.hasOwnProperty.call(localFilter, filter)) {
+          for (const setting in localFilter[filter]) {
+            if (Object.prototype.hasOwnProperty.call(localFilter[filter], setting)) {
+              if (!localFilter[filter][setting]) {
                 filtered = true;
                 break;
               }
             }
           }
+        }
+      }
+
+      if (typeof localFilter.severity === 'undefined') {
+        localFilter.severity = {};
+      }
+      if (typeof localFilter.category === 'undefined') {
+        localFilter.category = {};
+      }
+
+      for (const result of this.props.results) {
+        if (typeof localFilter.severity[result.severity] === 'undefined') {
+          localFilter.severity[result.severity] = true;
+        }
+        if (typeof localFilter.category[result.category] === 'undefined') {
+          localFilter.category[result.category] = true;
         }
       }
 
@@ -60,14 +81,14 @@ export default class Results extends Component {
         );
       } else if (filtered) {
         topMessage = (
-          <div class="remove-filters" onClick={() => this.handleResetFilters()}>
+          <div className="remove-filters" onClick={() => this.handleResetFilters()}>
             <FontAwesomeIcon icon="times" />
             Clear current filters
           </div>
         );
       } else {
         topMessage = (
-          <div class="result-summary">
+          <div className="result-summary">
             <Pluralize singular="message" count={this.props.results.length} /> returned from the validator
           </div>
         );
@@ -76,11 +97,14 @@ export default class Results extends Component {
       for (const severity in this.props.severities) {
         if (
           Object.prototype.hasOwnProperty.call(this.props.severities, severity)
-          && this.props.filter.severity[severity]
+          && localFilter.severity[severity]
         ) {
           const resultList = this.props.results.map(
             (result, index) => {
-              if (this.props.filter.category[result.category] && result.severity === severity) {
+              if (
+                localFilter.category[result.category]
+                && result.severity === severity
+              ) {
                 const fieldName = this.constructor.fieldName(result.path);
                 const rowCol = this.getRowCol(result.path);
                 return (
@@ -122,7 +146,7 @@ export default class Results extends Component {
       if (!listList.length && this.props.results.length) {
         listList.push(
           (
-            <div className="information-row text-center hero-sub">
+            <div key="list-empty-information" className="list-empty-information information-row text-center hero-sub">
               <p>You've hidden all of the validator's messages!<br/>Try adjusting your filters to get them back.</p>
             </div>
           ),
