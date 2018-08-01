@@ -15,6 +15,7 @@
 
   .top-level-row {
     padding-top: $nav-offset-height + $control-bar-height;
+    padding-bottom: $footer-height;
   }
 
   @media only screen and (max-width: map-get($grid-breakpoints, "md")) {
