@@ -14,3 +14,17 @@
 html, body, #app-container {
   height: 100vh;
 }
+
+.footer {
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: $footer-height;
+  line-height: $footer-height; /* Vertically center the text there */
+  background: $footer-background;
+  border-top: $footer-border-width solid $footer-border-color;
+  color: $footer-color;
+
+  a, a:hover {
+    color: $footer-link-color;
+  }
+}

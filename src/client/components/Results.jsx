@@ -23,7 +23,12 @@ export default class Results extends Component {
 
   getRowCol(path) {
     if (typeof this.props.tokenMap !== 'undefined') {
-      const pathArr = jp.parse(path);
+      let pathArr;
+      try {
+        pathArr = jp.parse(path);
+      } catch (e) {
+        return [0, 0];
+      }
       const mappedArr = pathArr.map(x => x.expression.value);
       while (mappedArr.length) {
         const rowCol = this.props.tokenMap[jp.stringify(mappedArr)];
