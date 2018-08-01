@@ -14,6 +14,9 @@ import { faInfo } from '@fortawesome/free-solid-svg-icons/faInfo';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
 
 import Home from './Home.jsx';
+import About from './About.jsx';
+
+import '../scss/app.scss';
 
 library.add(faTimes);
 library.add(faTimesCircle);
@@ -31,6 +34,7 @@ const Main = () => (
   <main id="root" className="h-100" role="main">
     <Switch>
       <Route exact path="/" component={Home}/>
+      <Route path="/about" component={About}/>
     </Switch>
   </main>
 );

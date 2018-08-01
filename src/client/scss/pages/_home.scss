@@ -1,0 +1,196 @@
+.home-page {
+
+  #control-bar {
+    background: $gray-200;
+    padding: $control-bar-padding-y;
+    font-size: $control-bar-size;
+    line-height: $control-bar-line-height;
+    height: $control-bar-height;
+    margin-top: $nav-offset-height;
+    border-bottom: $control-bar-border-width solid $control-bar-border-color;
+    button {
+      margin: 0;
+    }
+  }
+
+  .top-level-row {
+    padding-top: $nav-offset-height + $control-bar-height;
+  }
+
+  @media only screen and (max-width: map-get($grid-breakpoints, "md")) {
+    #control-bar {
+      height: $control-bar-md-height;
+    }
+    .top-level-row {
+      padding-top: $nav-offset-height + $control-bar-md-height;
+    }
+  }
+
+  @media only screen and (max-width: map-get($grid-breakpoints, "sm")) {
+    #control-bar {
+      margin-top: $nav-sm-offset-height;
+    }
+    .top-level-row {
+      padding-top: $nav-sm-offset-height + $control-bar-md-height;
+    }
+  }
+
+  .loading-overlay {
+    position: fixed;
+    display: flex;
+    svg {
+      margin: auto;
+      path {
+        fill: $brand-blue;
+      }
+    }
+    background: rgba($gray-200, 0.3);
+    top: $nav-offset-height + $control-bar-height;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    z-index: $zindex-modal-backdrop;
+    @media only screen and (max-width: map-get($grid-breakpoints, "md")) {
+      top: $nav-offset-height + $control-bar-md-height;
+    }
+
+    @media only screen and (max-width: map-get($grid-breakpoints, "sm")) {
+      top: $nav-sm-offset-height + $control-bar-md-height;
+    }
+  }
+
+  .information-row {
+    margin: 2rem 5rem;
+    p {
+      margin-top: 4rem;
+      color: $gray-500;
+      font-size: 1.5rem;
+
+      a {
+        text-decoration: none;
+      }
+    }
+    @media only screen and (max-width: map-get($grid-breakpoints, "md")) {
+      margin: 2rem 1rem;
+    }
+
+  }
+
+  .result-filters {
+    h6 {
+      padding-left: 0.25rem;
+      padding-top: 0.5rem;
+      margin-top: 0;
+      color: $gray-600;
+    }
+    .form-check {
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      .form-check-input {
+        margin-top: 0;
+      }
+      .form-check-label {
+        cursor: pointer;
+        color: $gray-600;
+        padding-left: 0.35rem;
+      }
+    }
+  }
+
+  .editor-col {
+    border-right: 1px solid $gray;
+  }
+
+  .results-col {
+    border-left: 1px solid $gray;
+    padding: 0 15px !important;
+    overflow: scroll;
+
+    .result-summary, .remove-filters {
+      font-weight: 600;
+      margin: 1rem 0 0 0;
+      color: $gray-700;
+      svg {
+        margin-right: 0.5rem;
+      }
+    }
+
+    .remove-filters {
+      cursor: pointer;
+    }
+
+    .result-list {
+      margin: 1rem 0 0 0;
+      padding: 0;
+
+      li {
+        list-style: none;
+        display: block;
+        margin: 0 0 10px 0;
+        padding: 0;
+        border: 3px solid $darkgray;
+        background: $gray-200;
+
+        .result-icon-circle {
+          svg {
+            path {
+              fill: $gray-500;
+            }
+            margin-top: 1.5rem;
+            margin-left: 1rem;
+          }
+        }
+
+        .result-title, .result-message-title {
+          display: block;
+          color: $gray-500;
+          font-family: $font-family;
+          font-size: $base-font-size;
+          padding: 1rem 1rem 0 1rem;
+        }
+
+        .result-field {
+          display: block;
+          padding: 0.5rem 0 0.5rem 1rem;
+          color: $darkgray;
+          font-family: $editor-font-family;
+          font-weight: 600;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+
+        .result-line-col {
+          display: inline-block;
+          padding: 0 1rem 1.5rem 1rem;
+          color: $darkgray;
+          // font-family: $editor-font-family;
+          // font-weight: 600;
+          cursor: pointer;
+          text-decoration: none;
+          font-size: $base-font-size / 1.2;
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+
+        .result-message {
+          display: block;
+          padding: 0.5rem 1rem 1rem 1rem;
+        }
+
+        &.failure {
+          border-color: $brand-red;
+        }
+
+        &.warning {
+          border-color: $brand-orange;
+        }
+
+        &.notice {
+          border-color: $brand-lightblue;
+        }
+      }
+    }
+  }
+}

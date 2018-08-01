@@ -14,9 +14,7 @@ import LoadingOverlay from './LoadingOverlay.jsx';
 import Results from './Results.jsx';
 import ResultFilters from './ResultFilters.jsx';
 
-import '../scss/app.scss';
-
-export default class Editor extends Component {
+export default class Home extends Component {
   constructor(props) {
     super(props);
     const savedJson = sessionStorage.getItem('json');
@@ -261,7 +259,7 @@ export default class Editor extends Component {
       );
     }
     return (
-      <div className="h-100">
+      <div className="home-page h-100">
         {loadingOverlay}
         <div id="control-bar" className="fixed-top">
           <div className="row">

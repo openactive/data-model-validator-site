@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import LogoSVG from '../images/logo.svg';
 
 export default class Header extends Component {
@@ -7,12 +8,15 @@ export default class Header extends Component {
     return (
       <header id="navbar">
         <nav className="navbar navbar-expand-md navbar-light fixed-top">
-          <a title="Open Active Validator" aria-label="Open Active Validator" className="navbar-brand" href="/"><LogoSVG width={80} height={52}/></a>
+          <Link title="Open Active Validator" aria-label="Open Active Validator" className="navbar-brand" to="/"><LogoSVG width={80} height={52}/></Link>
           <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarCollapse">
             <ul className="navbar-nav mr-auto">
+              <li className="nav-item">
+                <Link className="nav-link" to="/about">About</Link>
+              </li>
               <li className="nav-item">
                 <a className="nav-link" href="https://developer.openactive.io/">Developer reference</a>
               </li>
