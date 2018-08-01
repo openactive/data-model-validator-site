@@ -1,0 +1,26 @@
+.about-page {
+  margin-top: $nav-offset-height;
+
+  .rule-definition {
+    table {
+      margin-top: 1rem;
+      td.td-severity {
+        color: $white;
+        background: $darkgray;
+        text-transform: uppercase;
+
+        &.td-severity-failure {
+          background: $brand-red;
+        }
+
+        &.td-severity-warning {
+          background: $brand-orange;
+        }
+
+        &.td-severity-notice {
+          background: $brand-lightblue;
+        }
+      }
+    }
+  }
+}

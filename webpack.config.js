@@ -79,6 +79,8 @@ module.exports = (env, argv) => ({
     devServer: {
         port: 3000,
         open: true,
+        index: 'index.html',
+        historyApiFallback: true,
         proxy: {
             '/api': 'http://localhost:8080'
         }
