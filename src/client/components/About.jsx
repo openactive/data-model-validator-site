@@ -21,8 +21,9 @@ export default class About extends Component {
 
   render() {
     const rulesList = [];
-    for (let index = 0; index < defaultRules.length; index += 1) {
-      const rule = new defaultRules[index]();
+    const defaultRulesConcat = [...defaultRules.raw, ...defaultRules.core];
+    for (let index = 0; index < defaultRulesConcat.length; index += 1) {
+      const rule = new defaultRulesConcat[index]();
       const testList = [];
       for (const testKey in rule.meta.tests) {
         if (Object.prototype.hasOwnProperty.call(rule.meta.tests, testKey)) {
@@ -70,7 +71,7 @@ export default class About extends Component {
         <div className="jumbotron">
           <div className="container">
             <h1 className="display-3">OpenActive Data Validator</h1>
-            <p>This validator allows you to validate a JSON document against the <a href={consts.MODELLING_SPECIFICATION_URL}>Modelling Opportunity Specification v{consts.MODELLING_SPECIFICATION_VERSION}</a>.</p>
+            <p><a href="https://www.openactive.io/">OpenActive</a> is a community-led initiative using open data to help people get active. This validator allows you to validate a JSON document against the <a href={consts.MODELLING_SPECIFICATION_URL}>Modelling Opportunity Specification v{consts.MODELLING_SPECIFICATION_VERSION}</a>.</p>
           </div>
         </div>
         <div className="container">
@@ -79,7 +80,7 @@ export default class About extends Component {
               <h4>Limitations</h4>
               <p>This validator will currently <strong>NOT:</strong></p>
               <ul>
-                <li>Validate RPDE feeds</li>
+                <li>Fully validate RPDE feeds, although it can validate the data models within a valid feed</li>
                 <li>Automatically fix bad data</li>
                 <li>Validate custom properties</li>
                 <li>Validate properties in schema.org that are not in the <a href={consts.MODELLING_SPECIFICATION_URL}>Modelling Opportunity Specification v{consts.MODELLING_SPECIFICATION_VERSION}</a>.</li>

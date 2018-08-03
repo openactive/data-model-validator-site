@@ -1,4 +1,36 @@
 export default class ApiHelper {
+  static handleResponse(res, jsonString) {
+    if (res.ok) {
+      return res.json();
+    }
+    switch (res.status) {
+      case 413:
+        return {
+          json: jsonString,
+          response: [
+            {
+              category: 'data-quality',
+              severity: 'failure',
+              path: '$',
+              message: 'The JSON you\'ve entered is too big to be validated.',
+            },
+          ],
+        };
+      default:
+        return {
+          json: jsonString,
+          response: [
+            {
+              category: 'internal',
+              severity: 'failure',
+              path: '$',
+              message: 'The server encountered an unexpected error whilst processing your request.',
+            },
+          ],
+        };
+    }
+  }
+
   static validate(jsonString) {
     return fetch('/api/validate', {
       method: 'POST',
@@ -8,7 +40,7 @@ export default class ApiHelper {
       },
       body: jsonString,
     }).then(
-      res => res.json(),
+      res => ApiHelper.handleResponse(res, jsonString),
     );
   }
 
@@ -23,7 +55,7 @@ export default class ApiHelper {
         url,
       }),
     }).then(
-      res => res.json(),
+      res => ApiHelper.handleResponse(res),
     );
   }
 }

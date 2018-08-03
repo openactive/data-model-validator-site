@@ -46,7 +46,7 @@ describe('server', () => {
       expect(data.status).toBe(200);
     });
     it('should have errors, warnings and notices', () => {
-      expect(data.body.length).toBeGreaterThan(0);
+      expect(data.body.response.length).toBeGreaterThan(0);
     });
   });
 });

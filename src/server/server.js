@@ -5,6 +5,7 @@ const compression = require('compression');
 const request = require('request');
 const fs = require('fs');
 const path = require('path');
+const consts = require('../client/data/consts');
 
 // List on port 8080
 const server = class {
@@ -40,8 +41,9 @@ const server = class {
       } else {
         parsedJson = json;
       }
-      const response = validator.validate(parsedJson, this.getValidateOptions());
-      res.status(200).json(response);
+      res.status(200).json(
+        this.doValidation(parsedJson),
+      );
     });
 
     // API route to validate url
@@ -57,12 +59,8 @@ const server = class {
           }
         }
         if (typeof json === 'object' && json !== null) {
-          const validation = validator.validate(json, this.getValidateOptions());
           res.status(200).json(
-            {
-              json,
-              response: validation,
-            },
+            this.doValidation(json),
           );
           return;
         }
@@ -87,10 +85,19 @@ const server = class {
     return app.listen(port, callback);
   }
 
+  static doValidation(json) {
+    return {
+      isRpdeFeed: validator.isRpdeFeed(json),
+      json,
+      response: validator.validate(json, this.getValidateOptions()),
+    };
+  }
+
   static getValidateOptions() {
     const options = {
       activityLists: [],
       schemaOrgSpecifications: [],
+      rpdeItemLimit: consts.FEED_ITEM_LIMIT,
     };
     const cacheDir = path.join(__dirname, '../../cache');
 
