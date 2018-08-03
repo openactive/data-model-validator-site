@@ -9,6 +9,26 @@ export default class AceHelper {
     return jp.stringify(stepThrough);
   }
 
+  static getRowCol(path, tokenMap) {
+    if (typeof tokenMap !== 'undefined') {
+      let pathArr;
+      try {
+        pathArr = jp.parse(path);
+      } catch (e) {
+        return [0, 0];
+      }
+      const mappedArr = pathArr.map(x => x.expression.value);
+      while (mappedArr.length) {
+        const rowCol = tokenMap[jp.stringify(mappedArr)];
+        if (rowCol) {
+          return rowCol;
+        }
+        mappedArr.pop();
+      }
+    }
+    return [0, 0];
+  }
+
   static getTokenMap(session) {
     const rowLength = session.getDocument().getLength();
     const currentPath = [];

@@ -170,18 +170,11 @@ export default class Home extends Component {
   }
 
   onResultClick(path) {
-    const pathArr = path.split('.');
-    while (pathArr.length) {
-      const rowCol = this.state.tokenMap[pathArr.join('.')];
-      if (rowCol) {
-        this.refs.jsonInput.editor.selection.toSingleRange();
-        this.refs.jsonInput.editor.selection.clearSelection();
-        this.refs.jsonInput.editor.moveCursorTo(rowCol[0], rowCol[1]);
-        this.refs.jsonInput.editor.scrollToRow(rowCol[0]);
-        return;
-      }
-      pathArr.pop();
-    }
+    const rowCol = AceHelper.getRowCol(path, this.state.tokenMap);
+    this.refs.jsonInput.editor.selection.toSingleRange();
+    this.refs.jsonInput.editor.selection.clearSelection();
+    this.refs.jsonInput.editor.moveCursorTo(rowCol[0], rowCol[1]);
+    this.refs.jsonInput.editor.scrollToRow(rowCol[0]);
   }
 
   onResetClick() {
@@ -226,14 +219,17 @@ export default class Home extends Component {
       isLoading: true,
     }, () => {
       // Beautify it
-      jsonString = JsonHelper.beautifyString(jsonString);
+      if (jsonString.length < 5000) {
+        jsonString = JsonHelper.beautifyString(jsonString);
+      }
 
       // Send JSON to validator
       ApiHelper.validate(jsonString).then(
-        (results) => {
+        (responseRaw) => {
+          const { response } = responseRaw;
           sessionStorage.setItem('json', jsonString);
           this.setState({
-            results,
+            results: response,
             json: jsonString,
             validJSON: isValid,
             hasSubmitted: true,

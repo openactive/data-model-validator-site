@@ -2,11 +2,24 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Pluralize from 'react-pluralize';
 import jp from 'jsonpath';
+import AceHelper from '../helpers/ace-helper';
 
 export default class Results extends Component {
   static fieldName(path) {
-    const elements = path.split('.');
-    return elements[elements.length - 1];
+    let pathArr;
+    try {
+      pathArr = jp.parse(path);
+    } catch (e) {
+      return '$';
+    }
+    let response = pathArr[pathArr.length - 1].expression.value;
+    if (response instanceof Array) {
+      response = response.map(x => x.expression.value).join(', ');
+    }
+    if (typeof response !== 'string') {
+      return '$';
+    }
+    return response;
   }
 
   handleClick(path) {
@@ -22,23 +35,7 @@ export default class Results extends Component {
   }
 
   getRowCol(path) {
-    if (typeof this.props.tokenMap !== 'undefined') {
-      let pathArr;
-      try {
-        pathArr = jp.parse(path);
-      } catch (e) {
-        return [0, 0];
-      }
-      const mappedArr = pathArr.map(x => x.expression.value);
-      while (mappedArr.length) {
-        const rowCol = this.props.tokenMap[jp.stringify(mappedArr)];
-        if (rowCol) {
-          return rowCol;
-        }
-        mappedArr.pop();
-      }
-    }
-    return [0, 0];
+    return AceHelper.getRowCol(path, this.props.tokenMap);
   }
 
   render() {
