@@ -107,6 +107,10 @@ export default class AceHelper {
             if (token.value === '}'
                 || token.value === ']'
             ) {
+              // Check for empty arrays
+              if (typePath[typePath.length - 1] === 'array' && currentPath[currentPath.length - 1] === 0) {
+                currentPath.pop();
+              }
               typePath.pop();
               if (typePath[typePath.length - 1] === 'array') {
                 lastIndex = currentPath[currentPath.length - 1];

@@ -142,5 +142,37 @@ describe('AceHelper', () => {
         },
       );
     });
+    it('should compile a path map for a complex object containing multiple levels of array and object and empty arrays', () => {
+      const session = generateSession('tokens-complex-object-empty-arrays.json');
+
+      const map = AceHelper.getTokenMap(session);
+
+      expect(map).toEqual(
+        {
+          $: [0, 0],
+          '$.leader': [1, 2],
+          '$.leader[0]': [1, 13],
+          '$.leader[0].type': [2, 4],
+          '$.leader[0].image': [3, 4],
+          '$.leader[0].logo': [4, 4],
+          '$.leader[0].logo[0]': [4, 13],
+          '$.leader[0].logo[0].type': [5, 6],
+          '$.leader[0].logo[0].url': [6, 6],
+          '$.leader[0].logo[1]': [8, 4],
+          '$.leader[0].logo[1].type': [9, 6],
+          '$.leader[0].logo[1].url': [10, 6],
+          '$.leader[1]': [13, 2],
+          '$.leader[1].type': [14, 4],
+          '$.leader[1].image': [15, 4],
+          '$.leader[1].logo': [16, 4],
+          '$.leader[1].logo[0]': [16, 13],
+          '$.leader[1].logo[0].type': [17, 6],
+          '$.leader[1].logo[0].url': [18, 6],
+          '$.leader[1].logo[1]': [20, 4],
+          '$.leader[1].logo[1].type': [21, 6],
+          '$.leader[1].logo[1].url': [22, 6],
+        },
+      );
+    });
   });
 });

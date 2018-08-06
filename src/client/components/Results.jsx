@@ -122,7 +122,7 @@ export default class Results extends Component {
 
       let hasShownResult = false;
       const resultList = items.map(
-        (item) => {
+        (item, index) => {
           if (
             localFilter.severity[item.data.severity]
             && localFilter.category[item.data.category]
@@ -136,7 +136,7 @@ export default class Results extends Component {
                 const groupExtraListItems = [];
                 for (const subPath of item.paths) {
                   groupExtraListItems.push(
-                    <li key={`${item.key}-${subIndex}`} onClick={e => this.handleClick(subPath.path, e)} title={`${subPath.rowCol[0] + 1}:${subPath.rowCol[1]}`} className="result-line-col">
+                    <li key={`${index}-${subIndex}`} onClick={e => this.handleClick(subPath.path, e)} title={`${subPath.rowCol[0] + 1}:${subPath.rowCol[1]}`} className="result-line-col">
                       Line {subPath.rowCol[0] + 1}, col {subPath.rowCol[1]}
                     </li>,
                   );
@@ -160,7 +160,7 @@ export default class Results extends Component {
             }
             hasShownResult = true;
             return (
-              <li key={item.key} onClick={() => this.handleClick(item.data.path)} className={`${item.data.severity} result-item item-${item.type}`}>
+              <li key={index} onClick={() => this.handleClick(item.data.path)} className={`${item.data.severity} result-item item-${item.type}`}>
                 <div className="row">
                   <div className="d-none d-sm-none d-md-block col-1 col-sm-2 col-md-1 col-lg-1 col-xl-1 result-icon-circle">
                     <FontAwesomeIcon icon={this.props.severities[item.data.severity].iconCircle} size="2x" />

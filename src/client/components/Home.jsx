@@ -151,8 +151,10 @@ export default class Home extends Component {
       && this.state.isLoading === nextState.isLoading
       && this.state.hasSubmitted === nextState.hasSubmitted
       && this.state.validJSON === nextState.validJSON
-      && JSON.stringify(this.state.tokenMap) !== JSON.stringify(nextState.tokenMap)
-      && JSON.stringify(this.state.filter) !== JSON.stringify(nextState.filter)
+      && JSON.stringify(this.state.tokenMap) === JSON.stringify(nextState.tokenMap)
+      && JSON.stringify(this.state.filter) === JSON.stringify(nextState.filter)
+      && this.state.sort === nextState.sort
+      && this.state.group === nextState.group
     ) {
       return false;
     }
