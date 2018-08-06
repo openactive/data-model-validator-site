@@ -114,6 +114,18 @@
     }
   }
 
+  .editor-col, .results-col {
+    height: calc(100vh - #{$nav-offset-height + $control-bar-height + $footer-height});
+
+    @media only screen and (max-width: map-get($grid-breakpoints, "md")) {
+      height: calc(100vh - #{$nav-offset-height + $control-bar-md-height + $footer-height});
+    }
+
+    @media only screen and (max-width: map-get($grid-breakpoints, "sm")) {
+      height: calc(100vh - #{$nav-sm-offset-height + $control-bar-md-height + $footer-height});
+    }
+  }
+
   .editor-col {
     border-right: 1px solid $gray;
 
@@ -125,7 +137,7 @@
   .results-col {
     border-left: 1px solid $gray;
     padding: 0 15px !important;
-    overflow: scroll;
+    overflow: auto;
 
     .result-summary, .remove-filters {
       font-weight: 600;
