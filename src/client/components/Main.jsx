@@ -35,7 +35,7 @@ library.add(faCheckSquare);
 
 
 const Main = () => (
-  <main id="root" className="h-100" role="main">
+  <main className="h-100" role="main">
     <Switch>
       <Route exact path="/" component={Home}/>
       <Route path="/about" component={About}/>

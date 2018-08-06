@@ -64,7 +64,7 @@
     margin: 2rem 5rem;
     p {
       margin-top: 4rem;
-      color: $gray-500;
+      color: $gray-700;
       font-size: 1.5rem;
 
       a {
@@ -73,6 +73,12 @@
     }
     @media only screen and (max-width: map-get($grid-breakpoints, "md")) {
       margin: 2rem 1rem;
+    }
+
+    &.validated {
+      svg path {
+        fill: $green;
+      }
     }
 
   }
@@ -110,6 +116,10 @@
 
   .editor-col {
     border-right: 1px solid $gray;
+
+    .ace_gutter-cell {
+      color: #4a4a4a;
+    }
   }
 
   .results-col {
@@ -140,11 +150,11 @@
         margin: 0 0 10px 0;
         padding: 0;
         border: 3px solid $darkgray;
-        background: $gray-200;
+        background: $gray-100;
         cursor: pointer;
 
         &:hover {
-          background: $gray-100;
+          background: $white;
         }
 
         .result-icon-circle {
@@ -159,16 +169,17 @@
 
         .result-title, .result-message-title {
           display: block;
-          color: $gray-500;
+          color: $gray-800;
           font-family: $font-family;
           font-size: $base-font-size;
           padding: 1rem 1rem 0 1rem;
+          font-weight: 600;
         }
 
         .result-field {
           display: block;
           padding: 0.5rem 0 0.5rem 1rem;
-          color: $darkgray;
+          color: $gray-900;
           font-family: $editor-font-family;
           font-weight: 600;
           text-overflow: ellipsis;
@@ -179,7 +190,7 @@
         .result-line-col, .more-result-line-col-label {
           display: inline-block;
           padding: 0 1rem;
-          color: $darkgray;
+          color: $gray-800;
           width: 100%;
           // font-family: $editor-font-family;
           // font-weight: 600;
@@ -196,7 +207,7 @@
 
         .more-result-line-col {
           .more-result-line-col-label {
-            color: $link-color;
+            color: darken($link-color, 35%);
             margin-bottom: 1rem;
             &:hover {
               text-decoration: underline;

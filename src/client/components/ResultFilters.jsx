@@ -103,7 +103,7 @@ export default class ResultFilters extends Component {
         return (
           <div className="result-filters float-left">
             <div className="dropdown">
-              <button className="btn btn-secondary dropdown-toggle" type="button" id="filtersMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <button className="btn btn-primary dropdown-toggle" type="button" id="filtersMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Filters
               </button>
               <form className="dropdown-menu p-2" aria-labelledby="filtersMenuButton">
