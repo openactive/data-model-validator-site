@@ -15,3 +15,21 @@ $ cd data-model-validator-site
 $ npm install
 $ npm run dev
 ```
+
+### Testing
+
+#### Local
+
+This project uses [Jasmine](https://jasmine.github.io/) for its tests. All spec files are located alongside the files that they target. The test run will also include a run of [eslint](https://eslint.org/).
+
+To run tests locally, run:
+
+```shell
+$ npm test
+```
+
+#### BrowserStack
+
+We also make use of BrowserStack for cross-platform testing, ensuring a consistent experience across the latest browsers.
+
+[![BrowserStack](./spec/browserstack-logo-600x315.png)](https://www.browserstack.com/)
