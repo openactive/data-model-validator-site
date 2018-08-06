@@ -40,7 +40,7 @@ export default class ResultSort extends Component {
       return (
         <div className="result-sort float-left">
           <div className="dropdown">
-            <button className="btn btn-secondary dropdown-toggle" type="button" id="sortMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button className="btn btn-primary dropdown-toggle" type="button" id="sortMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Sort
             </button>
             <form className="dropdown-menu p-2" aria-labelledby="sortMenuButton">

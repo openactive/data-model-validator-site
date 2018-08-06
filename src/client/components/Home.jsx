@@ -142,6 +142,7 @@ export default class Home extends Component {
 
   componentDidMount() {
     this.refs.jsonInput.editor.renderer.setScrollMargin(10, 10);
+    document.getElementsByClassName('ace_text-input')[0].setAttribute('aria-label', 'Input for ACE code editor');
   }
 
   shouldComponentUpdate(nextProps, nextState) {
@@ -273,7 +274,7 @@ export default class Home extends Component {
         <div id="control-bar" className="fixed-top">
           <div className="row">
             <div className="col-6">
-              <button className="btn btn-secondary" onClick={() => this.onResetClick()}>Reset Editor</button>
+              <button className="btn btn-primary" onClick={() => this.onResetClick()}>Reset Editor</button>
             </div>
             <div className="col-4">
               <ResultFilters filter={this.state.filter} onFilterChange={(type, value) => this.toggleFilter(type, value)} onGroupChange={value => this.toggleGroup(value)} group={this.state.group} results={this.state.results} categories={this.categories} severities={this.severities} />

@@ -94,7 +94,7 @@ export default class Results extends Component {
 
       if (!this.props.results.length) {
         topMessage = (
-          <div className="information-row text-center hero-sub">
+          <div className="information-row text-center hero-sub validated">
             <p><FontAwesomeIcon icon="check-circle" size="4x" /></p>
             <p>Great work, the validator found no issues with your data!</p>
           </div>

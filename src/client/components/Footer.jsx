@@ -6,7 +6,7 @@ const Footer = () => (
     <div className="container-fluid">
       <div className="row">
         <div className="col">
-          <span className="text-muted">
+          <span>
             Stewarded by the <a href="http://theodi.org/">Open Data Institute</a> and <a href="https://www.sportengland.org/">Sport England</a>. See <a href="https://www.openactive.io/privacy-policy.html">Privacy and Cookie Policy</a>
           </span>
         </div>
