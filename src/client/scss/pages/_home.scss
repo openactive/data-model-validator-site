@@ -77,7 +77,8 @@
 
   }
 
-  .result-filters {
+  .result-filters, .result-sort {
+    margin-right: 1rem;
     h6 {
       padding-left: 0.25rem;
       padding-top: 0.5rem;
@@ -87,8 +88,17 @@
     .form-check {
       padding-top: 0.5rem;
       padding-bottom: 0.5rem;
+      padding-left: 0.5rem;
+      cursor: pointer;
+      svg path {
+        fill: $gray-300;
+      }
+      &.checked svg path {
+        fill: $brand-lightblue;
+      }
       .form-check-input {
         margin-top: 0;
+        display: none;
       }
       .form-check-label {
         cursor: pointer;
@@ -131,6 +141,11 @@
         padding: 0;
         border: 3px solid $darkgray;
         background: $gray-200;
+        cursor: pointer;
+
+        &:hover {
+          background: $gray-100;
+        }
 
         .result-icon-circle {
           svg {
@@ -161,17 +176,52 @@
           overflow: hidden;
         }
 
-        .result-line-col {
+        .result-line-col, .more-result-line-col-label {
           display: inline-block;
-          padding: 0 1rem 1.5rem 1rem;
+          padding: 0 1rem;
           color: $darkgray;
           // font-family: $editor-font-family;
           // font-weight: 600;
           cursor: pointer;
           text-decoration: none;
           font-size: $base-font-size / 1.2;
-          &:hover {
-            text-decoration: underline;
+        }
+
+        &.item-item {
+          .result-line-col {
+            margin-bottom: 1rem;
+          }
+        }
+
+        .more-result-line-col {
+          .more-result-line-col-label {
+            color: $link-color;
+            margin-bottom: 1rem;
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+          .more-result-line-list {
+            border: 0.1rem solid $gray-400;
+            margin: 0.5rem 0.6rem;
+            padding: 0.2rem 0;
+            li {
+              border: none;
+              background: transparent;
+              margin: 0;
+              padding: 0.2rem 0.4rem;
+              display: block;
+              width: 100%;
+              &:hover {
+                text-decoration: underline;
+              }
+            }
+          }
+
+          &.expanded {
+            .more-result-line-col-label {
+              margin-bottom: 0;
+            }
           }
         }
 

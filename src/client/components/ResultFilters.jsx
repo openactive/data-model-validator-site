@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Pluralize from 'react-pluralize';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default class ResultFilters extends Component {
   static fieldName(path) {
@@ -7,9 +8,23 @@ export default class ResultFilters extends Component {
     return elements[elements.length - 1];
   }
 
-  handleFilterChange(type, value) {
+  handleFilterChange(e, type, value) {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
     if (typeof (this.props.onFilterChange) === 'function') {
       this.props.onFilterChange(type, value);
+    }
+  }
+
+  handleGroupChange(e) {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+    if (typeof (this.props.onGroupChange) === 'function') {
+      this.props.onGroupChange(!this.props.group);
     }
   }
 
@@ -41,8 +56,9 @@ export default class ResultFilters extends Component {
             }
             severityList.push(
               (
-                <div key={`severity-${severity}-check`} class="form-check dropdown-item">
-                  <input type="checkbox" className="form-check-input" id={`${severity}Check`} checked={filter.severity[severity]} onChange={() => this.handleFilterChange('severity', severity)} />
+                <div key={`severity-${severity}-check`} className={`form-check dropdown-item ${filter.severity[severity] ? 'checked' : ''}`} onClick={e => this.handleFilterChange(e, 'severity', severity)}>
+                  <input type="checkbox" className="form-check-input" id={`${severity}Check`} checked={filter.severity[severity]} />
+                  <FontAwesomeIcon icon={filter.severity[severity] ? 'check-square' : 'square'} fixedWidth />
                   <label className="form-check-label form-check-label-severity" htmlFor={`${severity}Check`}>
                     <Pluralize singular={this.props.severities[severity].name} count={counts[severity]} />
                   </label>
@@ -70,8 +86,9 @@ export default class ResultFilters extends Component {
             }
             categoryList.push(
               (
-                <div key={`category-${category}-check`} class="form-check dropdown-item">
-                  <input type="checkbox" className="form-check-input" id={`${category}Check`} checked={filter.category[category]} onChange={() => this.handleFilterChange('category', category)} />
+                <div key={`category-${category}-check`} className={`form-check dropdown-item ${filter.category[category] ? 'checked' : ''}`} onClick={e => this.handleFilterChange(e, 'category', category)}>
+                  <input type="checkbox" className="form-check-input" id={`${category}Check`} checked={filter.category[category]} />
+                  <FontAwesomeIcon icon={filter.category[category] ? 'check-square' : 'square'} fixedWidth />
                   <label className="form-check-label form-check-label-category" htmlFor={`${category}Check`}>
                     {counts[category]} {this.props.categories[category].name}
                   </label>
@@ -84,16 +101,24 @@ export default class ResultFilters extends Component {
 
       if (severityList.length > 0 || categoryList.length > 0) {
         return (
-          <div className="result-filters">
+          <div className="result-filters float-left">
             <div className="dropdown">
               <button className="btn btn-secondary dropdown-toggle" type="button" id="filtersMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Filters
               </button>
               <form className="dropdown-menu p-2" aria-labelledby="filtersMenuButton">
-                <h6 key="severity-header" class="dropdown-header">Severities</h6>
+                <h6 key="severity-header" className="dropdown-header">Severities</h6>
                 {severityList}
-                <h6 key="category-header" class="dropdown-header">Categories</h6>
+                <h6 key="category-header" className="dropdown-header">Categories</h6>
                 {categoryList}
+                <div className="dropdown-divider"></div>
+                <div className={`form-check dropdown-item ${this.props.group ? 'checked' : ''}`} onClick={e => this.handleGroupChange(e)}>
+                  <input type="checkbox" className="form-check-input" id="groupCheck" checked={this.props.group} />
+                  <FontAwesomeIcon icon={this.props.group ? 'check-square' : 'square'} fixedWidth />
+                  <label className="form-check-label form-check-label-group" htmlFor="groupCheck">
+                    Group messages
+                  </label>
+                </div>
               </form>
             </div>
           </div>

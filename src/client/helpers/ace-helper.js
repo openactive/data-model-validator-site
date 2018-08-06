@@ -9,6 +9,23 @@ export default class AceHelper {
     return jp.stringify(stepThrough);
   }
 
+  static fieldName(path) {
+    let pathArr;
+    try {
+      pathArr = jp.parse(path);
+    } catch (e) {
+      return '$';
+    }
+    let response = pathArr[pathArr.length - 1].expression.value;
+    if (response instanceof Array) {
+      response = response.map(x => x.expression.value).join(', ');
+    }
+    if (typeof response !== 'string') {
+      return '$';
+    }
+    return response;
+  }
+
   static getRowCol(path, tokenMap) {
     if (typeof tokenMap !== 'undefined') {
       let pathArr;

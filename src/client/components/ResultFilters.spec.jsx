@@ -172,7 +172,7 @@ describe('<ResultFilters />', () => {
 
     const wrapper = shallow(<ResultFilters results={errors} severities={severities} onFilterChange={onChange}/>);
 
-    wrapper.find('.form-check-input').at(0).simulate('change');
+    wrapper.find('.form-check').at(0).simulate('click');
 
     expect(onChange).toHaveBeenCalledWith('severity', 'failure');
   });
@@ -197,7 +197,7 @@ describe('<ResultFilters />', () => {
 
     const wrapper = shallow(<ResultFilters results={errors} categories={categories} onFilterChange={onChange}/>);
 
-    wrapper.find('.form-check-input').at(0).simulate('change');
+    wrapper.find('.form-check').at(0).simulate('click');
 
     expect(onChange).toHaveBeenCalledWith('category', 'conformance');
   });
