@@ -12,7 +12,8 @@
   ],
   "main": "src/server/index.js",
   "engines": {
-    "node": "8.11.3"
+    "node": "8.11.3",
+    "npm": "6.3.0"
   },
   "repository": {
     "type": "git",
