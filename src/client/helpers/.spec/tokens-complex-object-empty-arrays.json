@@ -1,0 +1,450 @@
+[
+  [
+    {
+      "type": "paren.lparen",
+      "value": "{"
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "  "
+    },
+    {
+      "type": "variable",
+      "value": "\"leader\""
+    },
+    {
+      "type": "text",
+      "value": ": "
+    },
+    {
+      "type": "paren.lparen",
+      "value": "["
+    },
+    {
+      "type": "paren.lparen",
+      "value": "{"
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "    "
+    },
+    {
+      "type": "variable",
+      "value": "\"type\""
+    },
+    {
+      "type": "text",
+      "value": ": "
+    },
+    {
+      "type": "string",
+      "value": "\"Organisation\""
+    },
+    {
+      "type": "text",
+      "value": ","
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "    "
+    },
+    {
+      "type": "variable",
+      "value": "\"image\""
+    },
+    {
+      "type": "text",
+      "value": ": "
+    },
+    {
+      "type": "paren.lparen",
+      "value": "["
+    },
+    {
+      "type": "paren.rparen",
+      "value": "]"
+    },
+    {
+      "type": "text",
+      "value": ","
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "    "
+    },
+    {
+      "type": "variable",
+      "value": "\"logo\""
+    },
+    {
+      "type": "text",
+      "value": ": "
+    },
+    {
+      "type": "paren.lparen",
+      "value": "["
+    },
+    {
+      "type": "paren.lparen",
+      "value": "{"
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "      "
+    },
+    {
+      "type": "variable",
+      "value": "\"type\""
+    },
+    {
+      "type": "text",
+      "value": ": "
+    },
+    {
+      "type": "string",
+      "value": "\"ImageObject\""
+    },
+    {
+      "type": "text",
+      "value": ","
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "      "
+    },
+    {
+      "type": "variable",
+      "value": "\"url\""
+    },
+    {
+      "type": "text",
+      "value": ": "
+    },
+    {
+      "type": "string",
+      "value": "\"http://example.org/logo.png\""
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "    "
+    },
+    {
+      "type": "paren.rparen",
+      "value": "}"
+    },
+    {
+      "type": "text",
+      "value": ","
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "    "
+    },
+    {
+      "type": "paren.lparen",
+      "value": "{"
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "      "
+    },
+    {
+      "type": "variable",
+      "value": "\"type\""
+    },
+    {
+      "type": "text",
+      "value": ": "
+    },
+    {
+      "type": "string",
+      "value": "\"ImageObject\""
+    },
+    {
+      "type": "text",
+      "value": ","
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "      "
+    },
+    {
+      "type": "variable",
+      "value": "\"url\""
+    },
+    {
+      "type": "text",
+      "value": ": "
+    },
+    {
+      "type": "string",
+      "value": "\"http://example.org/logo.png\""
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "    "
+    },
+    {
+      "type": "paren.rparen",
+      "value": "}"
+    },
+    {
+      "type": "paren.rparen",
+      "value": "]"
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "  "
+    },
+    {
+      "type": "paren.rparen",
+      "value": "}"
+    },
+    {
+      "type": "text",
+      "value": ","
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "  "
+    },
+    {
+      "type": "paren.lparen",
+      "value": "{"
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "    "
+    },
+    {
+      "type": "variable",
+      "value": "\"type\""
+    },
+    {
+      "type": "text",
+      "value": ": "
+    },
+    {
+      "type": "string",
+      "value": "\"Organisation\""
+    },
+    {
+      "type": "text",
+      "value": ","
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "    "
+    },
+    {
+      "type": "variable",
+      "value": "\"image\""
+    },
+    {
+      "type": "text",
+      "value": ": "
+    },
+    {
+      "type": "paren.lparen",
+      "value": "["
+    },
+    {
+      "type": "paren.rparen",
+      "value": "]"
+    },
+    {
+      "type": "text",
+      "value": ","
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "    "
+    },
+    {
+      "type": "variable",
+      "value": "\"logo\""
+    },
+    {
+      "type": "text",
+      "value": ": "
+    },
+    {
+      "type": "paren.lparen",
+      "value": "["
+    },
+    {
+      "type": "paren.lparen",
+      "value": "{"
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "      "
+    },
+    {
+      "type": "variable",
+      "value": "\"type\""
+    },
+    {
+      "type": "text",
+      "value": ": "
+    },
+    {
+      "type": "string",
+      "value": "\"ImageObject\""
+    },
+    {
+      "type": "text",
+      "value": ","
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "      "
+    },
+    {
+      "type": "variable",
+      "value": "\"url\""
+    },
+    {
+      "type": "text",
+      "value": ": "
+    },
+    {
+      "type": "string",
+      "value": "\"http://example.org/logo.png\""
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "    "
+    },
+    {
+      "type": "paren.rparen",
+      "value": "}"
+    },
+    {
+      "type": "text",
+      "value": ","
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "    "
+    },
+    {
+      "type": "paren.lparen",
+      "value": "{"
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "      "
+    },
+    {
+      "type": "variable",
+      "value": "\"type\""
+    },
+    {
+      "type": "text",
+      "value": ": "
+    },
+    {
+      "type": "string",
+      "value": "\"ImageObject\""
+    },
+    {
+      "type": "text",
+      "value": ","
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "      "
+    },
+    {
+      "type": "variable",
+      "value": "\"url\""
+    },
+    {
+      "type": "text",
+      "value": ": "
+    },
+    {
+      "type": "string",
+      "value": "\"http://example.org/logo.png\""
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "    "
+    },
+    {
+      "type": "paren.rparen",
+      "value": "}"
+    },
+    {
+      "type": "paren.rparen",
+      "value": "]"
+    }
+  ],
+  [
+    {
+      "type": "text",
+      "value": "  "
+    },
+    {
+      "type": "paren.rparen",
+      "value": "}"
+    },
+    {
+      "type": "paren.rparen",
+      "value": "]"
+    }
+  ],
+  [
+    {
+      "type": "paren.rparen",
+      "value": "}"
+    }
+  ]
+]
