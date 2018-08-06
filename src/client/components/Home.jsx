@@ -13,12 +13,18 @@ import HelpText from './HelpText.jsx';
 import LoadingOverlay from './LoadingOverlay.jsx';
 import Results from './Results.jsx';
 import ResultFilters from './ResultFilters.jsx';
+import ResultSort from './ResultSort.jsx';
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
     const savedJson = sessionStorage.getItem('json');
     this.severities = {
+      notice: {
+        name: 'Notice',
+        icon: 'info',
+        iconCircle: 'info-circle',
+      },
       failure: {
         name: 'Error',
         icon: 'times',
@@ -28,11 +34,6 @@ export default class Home extends Component {
         name: 'Warning',
         icon: 'exclamation',
         iconCircle: 'exclamation-circle',
-      },
-      notice: {
-        name: 'Notice',
-        icon: 'info',
-        iconCircle: 'info-circle',
       },
       suggestion: {
         name: 'Tip',
@@ -59,6 +60,8 @@ export default class Home extends Component {
       isLoading: false,
       tokenMap: {},
       filter: this.buildFilter(),
+      sort: 'severity',
+      group: true,
     };
     this.params = queryString.parse(this.props.location.search);
     this.processUrl();
@@ -119,6 +122,14 @@ export default class Home extends Component {
     const { filter } = this.state;
     filter[type][value] = !filter[type][value];
     this.setState({ filter });
+  }
+
+  changeSort(sort) {
+    this.setState({ sort });
+  }
+
+  toggleGroup(value) {
+    this.setState({ group: value });
   }
 
   getEditorSession() {
@@ -263,7 +274,8 @@ export default class Home extends Component {
               <button className="btn btn-secondary" onClick={() => this.onResetClick()}>Reset Editor</button>
             </div>
             <div className="col-4">
-              <ResultFilters filter={this.state.filter} onFilterChange={(type, value) => this.toggleFilter(type, value)} results={this.state.results} categories={this.categories} severities={this.severities} />
+              <ResultFilters filter={this.state.filter} onFilterChange={(type, value) => this.toggleFilter(type, value)} onGroupChange={value => this.toggleGroup(value)} group={this.state.group} results={this.state.results} categories={this.categories} severities={this.severities} />
+              <ResultSort sort={this.state.sort} onSortChange={value => this.changeSort(value)} results={this.state.results} />
             </div>
             <div className="col-2">
               <button className="btn btn-primary float-right" onClick={() => this.validate()}>Validate</button>
@@ -290,7 +302,7 @@ export default class Home extends Component {
           </div>
           <div className="col-6 results-col">
             {helpText}
-            <Results results={this.state.results} filter={this.state.filter} severities={this.severities} tokenMap={this.state.tokenMap} onResultClick={path => this.onResultClick(path)} onResetFilters={() => this.resetFilter()}/>
+            <Results results={this.state.results} filter={this.state.filter} sort={this.state.sort} group={this.state.group} severities={this.severities} tokenMap={this.state.tokenMap} onResultClick={path => this.onResultClick(path)} onResetFilters={() => this.resetFilter()}/>
           </div>
         </div>
       </div>

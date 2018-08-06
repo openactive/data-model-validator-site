@@ -12,6 +12,8 @@ import { faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons/faExternalL
 import { faSpinner } from '@fortawesome/free-solid-svg-icons/faSpinner';
 import { faInfo } from '@fortawesome/free-solid-svg-icons/faInfo';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons/faInfoCircle';
+import { faSquare } from '@fortawesome/free-solid-svg-icons/faSquare';
+import { faCheckSquare } from '@fortawesome/free-solid-svg-icons/faCheckSquare';
 
 import Home from './Home.jsx';
 import About from './About.jsx';
@@ -28,6 +30,8 @@ library.add(faInfo);
 library.add(faInfoCircle);
 library.add(faExternalLinkAlt);
 library.add(faSpinner);
+library.add(faSquare);
+library.add(faCheckSquare);
 
 
 const Main = () => (
