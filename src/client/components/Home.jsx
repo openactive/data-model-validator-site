@@ -119,8 +119,10 @@ export default class Home extends Component {
   }
 
   toggleFilter(type, value) {
-    const { filter } = this.state;
-    filter[type][value] = !filter[type][value];
+    const filter = Object.assign({}, this.state.filter);
+    const typeFilter = Object.assign({}, filter[type]);
+    typeFilter[value] = !typeFilter[value];
+    filter[type] = typeFilter;
     this.setState({ filter });
   }
 
