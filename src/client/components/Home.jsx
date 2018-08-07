@@ -14,6 +14,7 @@ import LoadingOverlay from './LoadingOverlay.jsx';
 import Results from './Results.jsx';
 import ResultFilters from './ResultFilters.jsx';
 import ResultSort from './ResultSort.jsx';
+import LoadUrl from './LoadUrl.jsx';
 
 export default class Home extends Component {
   constructor(props) {
@@ -64,33 +65,46 @@ export default class Home extends Component {
       group: true,
     };
     this.params = queryString.parse(this.props.location.search);
-    this.processUrl();
+    this.processUrl(true);
+    this.props.history.listen((location) => {
+      this.params = queryString.parse(location.search);
+      this.processUrl(false);
+    });
   }
 
-  processUrl() {
+  processUrl(isFirstRun) {
     if (typeof this.params.url !== 'undefined') {
-      this.state.isLoading = true;
-      ApiHelper.validateURL(this.params.url).then(
-        (response) => {
-          const validJSON = (typeof response.json === 'object') && response.json !== null;
-          let jsonString = '';
-          if (validJSON) {
-            jsonString = JsonHelper.beautifyString(JSON.stringify(response.json));
-          }
-          sessionStorage.setItem('json', jsonString);
-          this.setState({
-            results: response.response,
-            json: jsonString,
-            isLoading: false,
-            hasSubmitted: true,
-            validJSON,
-          }, () => {
+      const doProcessUrl = () => {
+        ApiHelper.validateURL(this.params.url).then(
+          (response) => {
+            const validJSON = (typeof response.json === 'object') && response.json !== null;
+            let jsonString = '';
+            if (validJSON) {
+              jsonString = JsonHelper.beautifyString(JSON.stringify(response.json));
+            }
+            sessionStorage.setItem('json', jsonString);
             this.setState({
-              tokenMap: this.getTokenMap(),
+              results: response.response,
+              json: jsonString,
+              isLoading: false,
+              hasSubmitted: true,
+              validJSON,
+            }, () => {
+              this.setState({
+                tokenMap: this.getTokenMap(),
+              });
             });
-          });
-        },
-      );
+          },
+        );
+      };
+      if (isFirstRun) {
+        this.state.isLoading = true;
+        doProcessUrl();
+      } else {
+        this.setState({
+          isLoading: true,
+        }, doProcessUrl);
+      }
     }
   }
 
@@ -132,6 +146,13 @@ export default class Home extends Component {
 
   toggleGroup(value) {
     this.setState({ group: value });
+  }
+
+  urlRedirect(url) {
+    this.props.history.push({
+      pathname: '/',
+      search: `?url=${encodeURIComponent(url)}`,
+    });
   }
 
   getEditorSession() {
@@ -276,13 +297,14 @@ export default class Home extends Component {
         <div id="control-bar" className="fixed-top">
           <div className="row">
             <div className="col-6">
-              <button className="btn btn-primary" onClick={() => this.onResetClick()}>Reset Editor</button>
+              <button className="btn btn-primary float-left" onClick={() => this.onResetClick()}>Reset Editor</button>
+              <LoadUrl url={this.params.url} onUrlClick={url => this.urlRedirect(url)} />
             </div>
-            <div className="col-4">
+            <div className="col-4 col-sm-5">
               <ResultFilters filter={this.state.filter} onFilterChange={(type, value) => this.toggleFilter(type, value)} onGroupChange={value => this.toggleGroup(value)} group={this.state.group} results={this.state.results} categories={this.categories} severities={this.severities} />
               <ResultSort sort={this.state.sort} onSortChange={value => this.changeSort(value)} results={this.state.results} />
             </div>
-            <div className="col-2">
+            <div className="col-2 col-sm-1">
               <button className="btn btn-primary float-right" onClick={() => this.validate()}>Validate</button>
             </div>
           </div>
