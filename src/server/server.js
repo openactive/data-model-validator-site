@@ -1,5 +1,6 @@
 const express = require('express');
 const validator = require('openactive-data-model-validator');
+const { versions } = require('openactive-data-models');
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const request = require('request');
@@ -24,8 +25,17 @@ const server = class {
     );
 
     // API route to validator
-    app.post('/api/validate', (req, res) => {
+    app.post('/api/validate/:version', (req, res) => {
       const json = req.body;
+      const { version } = req.params;
+      if (typeof versions[version] === 'undefined') {
+        res.status(400).json([
+          {
+            message: 'Invalid version',
+          },
+        ]);
+        return;
+      }
       let parsedJson;
       if (typeof json !== 'object') {
         try {
@@ -47,7 +57,16 @@ const server = class {
     });
 
     // API route to validate url
-    app.post('/api/validateUrl', (req, res) => {
+    app.post('/api/validateUrl/:version', (req, res) => {
+      const { version } = req.params;
+      if (typeof versions[version] === 'undefined') {
+        res.status(400).json([
+          {
+            message: 'Invalid version',
+          },
+        ]);
+        return;
+      }
       // Is this a valid URL?
       request.get(req.body.url, (error, response, body) => {
         let json = body;
@@ -94,27 +113,14 @@ const server = class {
   }
 
   static getValidateOptions() {
+    const cacheDir = path.join(__dirname, '../../cache');
+
     const options = {
-      activityLists: [],
+      loadRemoteJson: true,
+      remoteJsonCachePath: cacheDir,
       schemaOrgSpecifications: [],
       rpdeItemLimit: consts.FEED_ITEM_LIMIT,
     };
-    const cacheDir = path.join(__dirname, '../../cache');
-
-    const activityListFile = path.join(cacheDir, 'activityList.json');
-    if (fs.existsSync(activityListFile)) {
-      let activityList;
-      try {
-        activityList = JSON.parse(
-          fs.readFileSync(activityListFile),
-        );
-      } catch (e) {
-        activityList = null;
-      }
-      if (typeof activityList === 'object' && activityList !== null) {
-        options.activityLists.push(activityList);
-      }
-    }
 
     const schemaOrgSpecFile = path.join(cacheDir, 'schemaOrgSpec.json');
     if (fs.existsSync(schemaOrgSpecFile)) {
