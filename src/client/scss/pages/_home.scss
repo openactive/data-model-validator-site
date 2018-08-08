@@ -91,7 +91,7 @@
     }
   }
 
-  .result-filters, .result-sort {
+  .result-filters, .result-sort, .version-switcher {
     margin-right: 1rem;
     h6 {
       padding-left: 0.25rem;
@@ -120,6 +120,11 @@
         padding-left: 0.35rem;
       }
     }
+  }
+
+  .version-switcher {
+    margin-right: 0;
+    margin-left: 1rem;
   }
 
   .editor-col, .results-col {

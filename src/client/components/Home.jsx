@@ -8,18 +8,21 @@ import queryString from 'query-string';
 import AceHelper from '../helpers/ace-helper';
 import ApiHelper from '../helpers/api-helper';
 import JsonHelper from '../helpers/json-helper';
+import VersionHelper from '../helpers/version-helper';
 
 import HelpText from './HelpText.jsx';
 import LoadingOverlay from './LoadingOverlay.jsx';
 import Results from './Results.jsx';
 import ResultFilters from './ResultFilters.jsx';
 import ResultSort from './ResultSort.jsx';
+import SpecVersion from './SpecVersion.jsx';
 import LoadUrl from './LoadUrl.jsx';
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
     const savedJson = sessionStorage.getItem('json');
+    const versions = VersionHelper.getVersions();
     this.severities = {
       notice: {
         name: 'Notice',
@@ -63,19 +66,36 @@ export default class Home extends Component {
       filter: this.buildFilter(),
       sort: 'severity',
       group: true,
+      version: versions.latest,
     };
     this.params = queryString.parse(this.props.location.search);
+    this.processVersion(true);
     this.processUrl(true);
     this.props.history.listen((location) => {
       this.params = queryString.parse(location.search);
+      this.processVersion(false);
       this.processUrl(false);
     });
+  }
+
+  processVersion(isFirstRun) {
+    if (typeof this.params.version !== 'undefined') {
+      const versions = VersionHelper.getVersions();
+      const version = versions[this.params.version];
+      if (typeof version !== 'undefined') {
+        if (isFirstRun) {
+          this.state.version = version;
+        } else {
+          this.setState({ version });
+        }
+      }
+    }
   }
 
   processUrl(isFirstRun) {
     if (typeof this.params.url !== 'undefined') {
       const doProcessUrl = () => {
-        ApiHelper.validateURL(this.params.url).then(
+        ApiHelper.validateURL(this.params.url, this.state.version).then(
           (response) => {
             const validJSON = (typeof response.json === 'object') && response.json !== null;
             let jsonString = '';
@@ -148,10 +168,14 @@ export default class Home extends Component {
     this.setState({ group: value });
   }
 
+  changeVersion(version) {
+    this.setState({ version });
+  }
+
   urlRedirect(url) {
     this.props.history.push({
       pathname: '/',
-      search: `?url=${encodeURIComponent(url)}`,
+      search: `?url=${encodeURIComponent(url)}&version=${encodeURIComponent(this.state.version)}`,
     });
   }
 
@@ -179,6 +203,7 @@ export default class Home extends Component {
       && JSON.stringify(this.state.filter) === JSON.stringify(nextState.filter)
       && this.state.sort === nextState.sort
       && this.state.group === nextState.group
+      && this.state.version === nextState.version
     ) {
       return false;
     }
@@ -261,7 +286,7 @@ export default class Home extends Component {
       }
 
       // Send JSON to validator
-      ApiHelper.validate(jsonString).then(
+      ApiHelper.validate(jsonString, this.state.version).then(
         (responseRaw) => {
           const { response } = responseRaw;
           sessionStorage.setItem('json', jsonString);
@@ -283,7 +308,7 @@ export default class Home extends Component {
     let loadingOverlay;
     if (!this.state.hasSubmitted) {
       helpText = (
-        <HelpText onValidateClick={() => this.validate()} />
+        <HelpText version={this.state.version} onValidateClick={() => this.validate()} />
       );
     }
     if (this.state.isLoading) {
@@ -299,6 +324,7 @@ export default class Home extends Component {
             <div className="col-6">
               <button className="btn btn-primary float-left" onClick={() => this.onResetClick()}>Reset Editor</button>
               <LoadUrl url={this.params.url} onUrlClick={url => this.urlRedirect(url)} />
+              <SpecVersion version={this.state.version} onVersionClick={version => this.changeVersion(version)} />
             </div>
             <div className="col-4 col-sm-5">
               <ResultFilters filter={this.state.filter} onFilterChange={(type, value) => this.toggleFilter(type, value)} onGroupChange={value => this.toggleGroup(value)} group={this.state.group} results={this.state.results} categories={this.categories} severities={this.severities} />

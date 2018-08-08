@@ -411,7 +411,6 @@ describe('<Results />', () => {
     expect(items.at(0).find('.more-result-line-col-label').at(0).text()).not.toBe('');
     expect(items.at(1).find('span.result-line-col').at(0).text()).toBe('Line 4, col 7');
     expect(items.at(2).find('span.result-line-col').at(0).text()).toBe('Line 8, col 12');
-    expect(items.at(3).find('span.result-line-col').at(0).text()).toBe('');
   });
 
   it('should sort the items correctly when sorting by severity', () => {
@@ -484,7 +483,6 @@ describe('<Results />', () => {
     expect(items.at(2).find('span.result-line-col').at(0).text()).toBe('Line 3, col 9');
     expect(items.at(2).find('.more-result-line-col-label').at(0).text()).not.toBe(null);
     expect(items.at(2).find('.more-result-line-col-label').at(0).text()).not.toBe('');
-    expect(items.at(3).find('span.result-line-col').at(0).text()).toBe('');
   });
 
   it('should expand the rowCols correctly when grouped', () => {
@@ -557,7 +555,6 @@ describe('<Results />', () => {
     expect(items.at(2).find('span.result-line-col').at(0).text()).toBe('Line 3, col 9');
     expect(items.at(2).find('.more-result-line-col-label').at(0).text()).not.toBe(null);
     expect(items.at(2).find('.more-result-line-col-label').at(0).text()).not.toBe('');
-    expect(items.at(3).find('span.result-line-col').at(0).text()).toBe('');
 
     items.at(2).find('.more-result-line-col-label').simulate('click');
 

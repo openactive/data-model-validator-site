@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { defaultRules } from 'openactive-data-model-validator';
 
+import VersionHelper from '../helpers/version-helper';
 import consts from '../data/consts';
 
 export default class About extends Component {
@@ -20,6 +21,12 @@ export default class About extends Component {
   }
 
   render() {
+    const versions = VersionHelper.getUniqueVersions();
+    let version = '';
+    if (versions.length === 1) {
+      version = ` v${versions[0]}`;
+    }
+
     const rulesList = [];
     const defaultRulesConcat = [...defaultRules.raw, ...defaultRules.core];
     for (let index = 0; index < defaultRulesConcat.length; index += 1) {
@@ -71,7 +78,7 @@ export default class About extends Component {
         <div className="jumbotron">
           <div className="container">
             <h1 className="display-3">OpenActive Data Validator</h1>
-            <p><a href="https://www.openactive.io/">OpenActive</a> is a community-led initiative using open data to help people get active. This validator allows you to validate a JSON document against the <a href={consts.MODELLING_SPECIFICATION_URL}>Modelling Opportunity Specification v{consts.MODELLING_SPECIFICATION_VERSION}</a>.</p>
+            <p><a href="https://www.openactive.io/">OpenActive</a> is a community-led initiative using open data to help people get active. This validator allows you to validate a JSON document against the <a href={consts.MODELLING_SPECIFICATION_URL}>Modelling Opportunity Specification{version}</a>.</p>
           </div>
         </div>
         <div className="container">
@@ -83,7 +90,7 @@ export default class About extends Component {
                 <li>Fully validate RPDE feeds, although it can validate the data models within a valid feed</li>
                 <li>Automatically fix bad data</li>
                 <li>Validate custom properties</li>
-                <li>Validate properties in schema.org that are not in the <a href={consts.MODELLING_SPECIFICATION_URL}>Modelling Opportunity Specification v{consts.MODELLING_SPECIFICATION_VERSION}</a>.</li>
+                <li>Validate properties in schema.org that are not in the <a href={consts.MODELLING_SPECIFICATION_URL}>Modelling Opportunity Specification{version}</a>.</li>
               </ul>
             </div>
           </div>

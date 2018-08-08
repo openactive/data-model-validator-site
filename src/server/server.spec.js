@@ -27,13 +27,13 @@ describe('server', () => {
       expect(data.body).toContain('OpenActive Validator');
     });
   });
-  describe('POST /api/validate', () => {
+  describe('POST /api/validate/latest', () => {
     const data = {};
     const options = {
       method: 'post',
       body: { type: 'Event' },
       json: true,
-      url: `http://localhost:${port}/api/validate`,
+      url: `http://localhost:${port}/api/validate/latest`,
     };
     beforeAll((done) => {
       request(options, (error, response, body) => {

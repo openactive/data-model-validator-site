@@ -31,8 +31,8 @@ export default class ApiHelper {
     }
   }
 
-  static validate(jsonString) {
-    return fetch('/api/validate', {
+  static validate(jsonString, version) {
+    return fetch(`/api/validate/${version}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -44,8 +44,8 @@ export default class ApiHelper {
     );
   }
 
-  static validateURL(url) {
-    return fetch('/api/validateUrl', {
+  static validateURL(url, version) {
+    return fetch(`/api/validateUrl/${version}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
