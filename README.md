@@ -40,6 +40,19 @@ To run the production version, you can then run:
 $ npm start
 ```
 
+### Google Analytics
+
+To build with Google Analytics turned on, make sure you set the `VALIDATOR_GOOGLE_ANALYTICS` environment variable.
+
+e.g.
+
+```shell
+$ export VALIDATOR_GOOGLE_ANALYTICS=UA-XXXX-Y
+$ npm run build
+```
+
+Heroku builds should have this set in their config vars.
+
 ### Deploying
 
 To deploy to heroku, use the git method as described in the [Heroku documentation](https://devcenter.heroku.com/articles/git#for-an-existing-heroku-app)
@@ -69,7 +82,7 @@ To deploy to heroku, use the git method as described in the [Heroku documentatio
   remote:        NPM_CONFIG_LOGLEVEL=error
   remote:        NODE_VERBOSE=false
   remote:        NODE_ENV=production
-  remote:        NODE_MODULES_CACHE=true
+  remote:        NODE_MODULES_CACHE=false
   <SNIP>
   remote: -----> Compressing...
   remote:        Done: 35.7M

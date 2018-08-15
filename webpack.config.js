@@ -125,7 +125,10 @@ module.exports = (env, argv) => ({
       }),
       new CleanWebpackPlugin([outputDirectory]),
       new HtmlWebpackPlugin({
-        template: './public/index.html'
+        template: './public/index.html',
+        custom: {
+          googleAnalytics: process.env.VALIDATOR_GOOGLE_ANALYTICS,
+        },
       }),
       new CopyWebpackPlugin([
         { from: './public/favicon', to: 'favicon' }
