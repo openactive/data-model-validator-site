@@ -5,7 +5,7 @@ const UglifyWebpackPlugin = require('uglifyjs-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 
-const outputDirectory = 'dist';
+const outputDirectory = 'dist/client';
 const groupsOptions = {
   chunks: 'all',
   minSize: 0,
