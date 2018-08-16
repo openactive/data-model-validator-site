@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import queryString from 'query-string';
 
 export default class Rpde extends Component {
   constructor(props) {
@@ -27,8 +28,17 @@ export default class Rpde extends Component {
         iconCircle: 'check-circle',
       },
     };
+    this.params = queryString.parse(this.props.location.search);
+    console.log(this.params);
+    let url = '';
+    try {
+      const urlObj = new URL(this.params.url);
+      url = urlObj.href;
+    } catch (e) {
+      // do nothing
+    }
     this.state = {
-      url: '',
+      url,
       hasValidated: false,
       validating: false,
       isError: false,
@@ -36,57 +46,78 @@ export default class Rpde extends Component {
       results: [],
       statusText: this.defaultStatusText,
     };
-    let protocol = 'ws';
-    if (window.location.hostname !== 'localhost' || window.location.protocol === 'https:') {
-      protocol = 'wss';
+  }
+
+  componentDidMount() {
+    if (this.state.url !== '') {
+      this.validate();
     }
-    this.ws = new WebSocket(`${protocol}://${window.location.host}/ws`);
-    this.ws.onmessage = (message) => {
-      if (
-        typeof message === 'object'
-        && message.type === 'message'
-      ) {
-        try {
-          const data = JSON.parse(message.data);
-          switch (data.type) {
-            case 'error':
-              this.setState({
-                validating: false,
-                isError: true,
-                statusText: data.data,
-              });
-              break;
-            case 'log':
-              this.setState({
-                validating: true,
-                isError: false,
-                percentage: data.data.percentage,
-                statusText: data.data.message,
-              });
-              break;
-            case 'results':
-              this.setState({
-                validating: false,
-                hasValidated: true,
-                isError: false,
-                results: data.data.pages,
-                statusText: 'Validation complete!',
-              });
-              break;
-            default:
-              // do nothing
-              break;
-          }
-        } catch (e) {
-          console.error(e);
-          this.setState({
-            validating: false,
-            isError: true,
-            statusText: 'An error occurred whilst trying to validate your feed',
-          });
-        }
+  }
+
+  initWebSocket(callback) {
+    if (
+      !this.ws
+      || this.ws.readyState === this.ws.CLOSING
+      || this.ws.readyState === this.ws.CLOSED
+    ) {
+      let protocol = 'ws';
+      if (window.location.hostname !== 'localhost' || window.location.protocol === 'https:') {
+        protocol = 'wss';
       }
-    };
+      this.ws = new WebSocket(`${protocol}://${window.location.host}/ws`);
+      this.ws.onmessage = (message) => {
+        if (
+          typeof message === 'object'
+          && message.type === 'message'
+        ) {
+          try {
+            const data = JSON.parse(message.data);
+            switch (data.type) {
+              case 'error':
+                this.setState({
+                  validating: false,
+                  isError: true,
+                  statusText: data.data,
+                });
+                break;
+              case 'log':
+                this.setState({
+                  validating: true,
+                  isError: false,
+                  percentage: data.data.percentage,
+                  statusText: data.data.message,
+                });
+                break;
+              case 'results':
+                this.setState({
+                  validating: false,
+                  hasValidated: true,
+                  isError: false,
+                  results: data.data.pages,
+                  statusText: 'Validation complete!',
+                });
+                break;
+              default:
+                // do nothing
+                break;
+            }
+          } catch (e) {
+            console.error(e);
+            this.setState({
+              validating: false,
+              isError: true,
+              hasValidated: false,
+              statusText: 'An error occurred whilst trying to validate your feed',
+            });
+          }
+        }
+      };
+    }
+    if (this.ws.readyState === this.ws.CONNECTING) {
+      this.ws.onopen = callback;
+    } else {
+      callback();
+    }
   }
 
   handleChange(event) {
@@ -110,12 +141,15 @@ export default class Rpde extends Component {
       results: [],
       statusText: 'Started validation...',
     }, () => {
-      this.ws.send(this.state.url);
+      this.initWebSocket(() => {
+        this.ws.send(this.state.url);
+      });
     });
   }
 
   render() {
     const resultList = [];
+    let { statusText } = this.state;
     if (!this.state.validating) {
       if (this.state.results.length > 0) {
         let resultIndex = 0;
@@ -150,12 +184,13 @@ export default class Rpde extends Component {
             resultIndex += 1;
           }
         }
-      } else if (this.state.hasValidated) {
-        resultList.push(
-          <div key={0} className="information-row text-center hero-sub validated">
+      }
+      if (resultList.length === 0 && this.state.hasValidated) {
+        statusText = (
+          <div className="validated">
             <p><FontAwesomeIcon icon="check-circle" size="4x" /></p>
-            <p>Great work, the validator found no issues with your data!</p>
-          </div>,
+            <p>Great work, the validator found no issues with your feed!</p>
+          </div>
         );
       }
     }
@@ -178,7 +213,7 @@ export default class Rpde extends Component {
                 </div>
               </div>
               <div className={`status-text ${this.state.isError ? 'error' : ''}`}>
-                {this.state.statusText}
+                {statusText}
               </div>
             </form>
           </div>
