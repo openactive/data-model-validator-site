@@ -8,7 +8,7 @@ import request from 'request';
 import fs from 'fs';
 import path from 'path';
 import expressWs from 'express-ws';
-import consts from '../client/data/consts';
+import consts from './data/consts';
 
 // List on port 8080
 const server = class {
@@ -24,7 +24,7 @@ const server = class {
 
     // React static files build to here
     app.use(
-      express.static('dist', { index: 'index.html' }),
+      express.static('dist/client', { index: 'index.html' }),
     );
 
     // API route to validator
