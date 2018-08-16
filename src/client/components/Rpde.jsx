@@ -36,7 +36,11 @@ export default class Rpde extends Component {
       results: [],
       statusText: this.defaultStatusText,
     };
-    this.ws = new WebSocket(`ws://${window.location.host}/ws`);
+    let protocol = 'ws';
+    if (window.location.hostname !== 'localhost' || window.location.protocol === 'https:') {
+      protocol = 'wss';
+    }
+    this.ws = new WebSocket(`${protocol}://${window.location.host}/ws`);
     this.ws.onmessage = (message) => {
       if (
         typeof message === 'object'
@@ -166,7 +170,7 @@ export default class Rpde extends Component {
           <div className="container">
             <h1 className="display-4">RPDE Feed Validator</h1>
             <form className="form-inline" onSubmit={e => this.handleSubmit(e)}>
-              <label className="sr-only" for="urlInput">Feed URL</label>
+              <label className="sr-only" htmlFor="urlInput">Feed URL</label>
               <div className="input-group input-group-lg">
                 <input type="url" className="form-control" id="urlInput" disabled={this.state.validating} placeholder="Feed URL" value={this.state.url} onChange={event => this.handleChange(event)} />
                 <div className="input-group-append">
@@ -179,7 +183,7 @@ export default class Rpde extends Component {
             </form>
           </div>
         </div>
-        <div class="container">
+        <div className="container">
           <div className="row">
             <div className="col">
               {resultList}
