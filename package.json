@@ -29,7 +29,7 @@
     "@fortawesome/react-fontawesome": "0.1.0-11",
     "@openactive/data-model-validator": "github:openactive/data-model-validator",
     "@openactive/data-models": "github:openactive/data-models",
-    "@openactive/rpde-validator": "file:../rpde-validator",
+    "@openactive/rpde-validator": "github:openactive/rpde-validator",
     "babel-cli": "^6.26.0",
     "body-parser": "^1.18.3",
     "bootstrap": "^4.1.3",
