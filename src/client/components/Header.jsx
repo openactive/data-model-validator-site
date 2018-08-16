@@ -18,6 +18,9 @@ export default class Header extends Component {
                 <Link className="nav-link" to="/about">About</Link>
               </li>
               <li className="nav-item">
+                <Link className="nav-link" to="/rpde">RPDE</Link>
+              </li>
+              <li className="nav-item">
                 <a className="nav-link" href="https://developer.openactive.io/">Developer reference</a>
               </li>
               <li className="nav-item">

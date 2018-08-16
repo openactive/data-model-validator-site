@@ -65,6 +65,21 @@ button.btn-primary--ghost {
   }
 }
 
+.input-group {
+  input[type=submit],
+  button[type=submit],
+  button.btn.btn-primary,
+  a.btn.btn-primary,
+  a.btn-primary--alt,
+  button.btn-primary--alt,
+  button.btn.btn-secondary,
+  a.btn.btn-secondary,
+  a.btn-primary--ghost,
+  button.btn-primary--ghost {
+    margin: 0;
+  }
+}
+
 input[type=submit],
 button[type=submit],
 button.btn.btn-primary,

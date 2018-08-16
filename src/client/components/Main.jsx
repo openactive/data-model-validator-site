@@ -17,6 +17,7 @@ import { faCheckSquare } from '@fortawesome/free-solid-svg-icons/faCheckSquare';
 
 import Home from './Home.jsx';
 import About from './About.jsx';
+import Rpde from './Rpde.jsx';
 
 import '../scss/app.scss';
 
@@ -39,6 +40,7 @@ const Main = () => (
     <Switch>
       <Route exact path="/" component={Home}/>
       <Route path="/about" component={About}/>
+      <Route path="/rpde" component={Rpde}/>
     </Switch>
   </main>
 );

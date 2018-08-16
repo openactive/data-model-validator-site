@@ -1,4 +1,4 @@
-const server = require('./server');
+import server from './server';
 
 // set the port of our application
 // process.env.PORT lets the port be set by Heroku

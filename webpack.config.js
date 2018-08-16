@@ -77,13 +77,21 @@ module.exports = (env, argv) => ({
         ]
     },
     devServer: {
-        port: 3000,
-        open: true,
-        index: 'index.html',
-        historyApiFallback: true,
-        proxy: {
-            '/api': 'http://localhost:8080'
+      port: 3000,
+      open: true,
+      index: 'index.html',
+      historyApiFallback: true,
+      proxy: [
+        {
+          path: '/api',
+          target: 'http://localhost:8080'
+        },
+        {
+          path: '/ws',
+          target: 'ws://localhost:8080',
+          ws: true
         }
+      ]
     },
     optimization: {
       minimize: argv.mode === 'production',
