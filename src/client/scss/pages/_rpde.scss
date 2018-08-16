@@ -22,6 +22,14 @@
       &.error {
         color: $brand-red;
       }
+      p {
+        font-size: 1.5rem;
+      }
+      .validated {
+        svg path {
+          fill: $green;
+        }
+      }
     }
 
     .percentage {
