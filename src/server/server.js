@@ -1,17 +1,20 @@
-const express = require('express');
-const validator = require('openactive-data-model-validator');
-const { versions } = require('openactive-data-models');
-const bodyParser = require('body-parser');
-const compression = require('compression');
-const request = require('request');
-const fs = require('fs');
-const path = require('path');
-const consts = require('../client/data/consts');
+import express from 'express';
+import validator from '@openactive/data-model-validator';
+import { RpdeValidator } from '@openactive/rpde-validator';
+import { versions } from '@openactive/data-models';
+import bodyParser from 'body-parser';
+import compression from 'compression';
+import request from 'request';
+import fs from 'fs';
+import path from 'path';
+import expressWs from 'express-ws';
+import consts from '../client/data/consts';
 
 // List on port 8080
 const server = class {
   static createServer(port, callback) {
     const app = express();
+    expressWs(app);
 
     // for parsing application/json
     app.use(bodyParser.json());
@@ -93,6 +96,52 @@ const server = class {
             }],
           },
         );
+      });
+    });
+
+    app.ws('/ws', (ws) => {
+      ws.on('message', (message) => {
+        console.log(message);
+        // Is this a URL?
+        if (!message.match(/^http/)) {
+          ws.send(JSON.stringify({
+            type: 'error',
+            data: 'You must submit a valid URL for validation',
+          }));
+        } else {
+          // Do the validation
+          console.log(`${new Date()} trying validation for ${message}`);
+          RpdeValidator(
+            message,
+            (log) => {
+              if (log.verbosity === 1) {
+                ws.send(JSON.stringify({
+                  type: 'log',
+                  url: message,
+                  data: log,
+                }));
+              }
+            },
+          ).then(
+            (res) => {
+              console.log(`${new Date()} validation completed`);
+              ws.send(JSON.stringify({
+                type: 'results',
+                url: message,
+                data: res,
+              }));
+            },
+          ).catch(
+            (err) => {
+              console.error(`${new Date()} validation errored`);
+              console.error(err);
+              ws.send(JSON.stringify({
+                type: 'error',
+                data: 'The validator encountered an error and could not complete',
+              }));
+            },
+          );
+        }
       });
     });
 

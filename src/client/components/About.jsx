@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { defaultRules } from 'openactive-data-model-validator';
+import { defaultRules } from '@openactive/data-model-validator';
 
 import VersionHelper from '../helpers/version-helper';
 import consts from '../data/consts';

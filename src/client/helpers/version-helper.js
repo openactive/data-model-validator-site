@@ -1,4 +1,4 @@
-import { versions } from 'openactive-data-models';
+import { versions } from '@openactive/data-models';
 
 export default class VersionHelper {
   static getVersions() {

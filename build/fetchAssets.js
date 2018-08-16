@@ -1,6 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const request = require('request');
+import fs from 'fs';
+import path from 'path';
+import request from 'request';
 
 const cacheDir = path.join(__dirname, '../cache');
 
