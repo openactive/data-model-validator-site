@@ -28,8 +28,9 @@ export default class Rpde extends Component {
         iconCircle: 'check-circle',
       },
     };
-    this.params = queryString.parse(this.props.location.search);
-    console.log(this.params);
+    if (typeof this.props.location === 'object') {
+      this.params = queryString.parse(this.props.location.search);
+    }
     let url = '';
     try {
       const urlObj = new URL(this.params.url);
@@ -175,7 +176,7 @@ export default class Rpde extends Component {
             }
             resultList.push(
               <div key={resultIndex} className="error-result">
-                <a className="error-path" href={page.url}>{page.url}</a>
+                <a className="error-path" href={page.url} target="_blank" rel="noopener">{page.url}</a>
                 <ul className="result-list">
                   {errorList}
                 </ul>
