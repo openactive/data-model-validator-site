@@ -8,7 +8,6 @@ import request from 'request';
 import fs from 'fs';
 import path from 'path';
 import expressWs from 'express-ws';
-import consts from './data/consts';
 
 // List on port 8080
 const server = class {
@@ -111,9 +110,8 @@ const server = class {
         } else {
           // Do the validation
           console.log(`${new Date()} trying validation for ${message}`);
-          RpdeValidator(
-            message,
-            (log) => {
+          const options = {
+            logCallback: (log) => {
               if (log.verbosity === 1) {
                 ws.send(JSON.stringify({
                   type: 'log',
@@ -122,6 +120,26 @@ const server = class {
                 }));
               }
             },
+            userAgent: process.env.REACT_APP_RPDE_USER_AGENT,
+            timeoutMs: (
+              process.env.REACT_APP_RPDE_TIMEOUT_MS
+                ? parseInt(process.env.REACT_APP_RPDE_TIMEOUT_MS, 10)
+                : null
+            ),
+            requestDelayMs: (
+              process.env.REACT_APP_RPDE_REQUEST_DELAY_MS
+                ? parseInt(process.env.REACT_APP_RPDE_REQUEST_DELAY_MS, 10)
+                : null
+            ),
+            pageLimit: (
+              process.env.REACT_APP_RPDE_PAGE_LIMIT
+                ? parseInt(process.env.REACT_APP_RPDE_PAGE_LIMIT, 10)
+                : null
+            ),
+          };
+          RpdeValidator(
+            message,
+            options,
           ).then(
             (res) => {
               console.log(`${new Date()} validation completed`);
@@ -168,7 +186,11 @@ const server = class {
       loadRemoteJson: true,
       remoteJsonCachePath: cacheDir,
       schemaOrgSpecifications: [],
-      rpdeItemLimit: consts.FEED_ITEM_LIMIT,
+      rpdeItemLimit: (
+        process.env.REACT_APP_MODEL_RPDE_ITEM_LIMIT
+          ? parseInt(process.env.REACT_APP_MODEL_RPDE_ITEM_LIMIT, 10)
+          : 10
+      ),
     };
 
     const schemaOrgSpecFile = path.join(cacheDir, 'schemaOrgSpec.json');

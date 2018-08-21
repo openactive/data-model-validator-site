@@ -3,6 +3,9 @@
   "plugins": ["transform-class-properties"],
   "ignore": [],
   "env": {
+    "development": {
+      "plugins": ["inline-dotenv"]
+    },
     "test": {
       "plugins": [
         [
