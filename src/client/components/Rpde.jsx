@@ -150,6 +150,7 @@ export default class Rpde extends Component {
 
   render() {
     const resultList = [];
+    let hasPassed = true;
     let { statusText } = this.state;
     if (!this.state.validating) {
       if (this.state.results.length > 0) {
@@ -172,6 +173,9 @@ export default class Rpde extends Component {
                   </div>
                 </li>,
               );
+              if (item.data.severity !== 'suggestion') {
+                hasPassed = false;
+              }
               index += 1;
             }
             resultList.push(
@@ -186,7 +190,7 @@ export default class Rpde extends Component {
           }
         }
       }
-      if (resultList.length === 0 && this.state.hasValidated) {
+      if (hasPassed && this.state.hasValidated) {
         statusText = (
           <div className="validated">
             <p><FontAwesomeIcon icon="check-circle" size="4x" /></p>
