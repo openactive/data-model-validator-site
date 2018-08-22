@@ -106,7 +106,7 @@ export default class Results extends Component {
             Clear current filters
           </div>
         );
-      } else if (this.props.group) {
+      } else if (this.props.group && items.length < this.props.results.length) {
         topMessage = (
           <div className="result-summary">
             <Pluralize singular="message" count={this.props.results.length} /> (grouped into <Pluralize singular="distinct message" count={items.length} />) returned from the validator
