@@ -98,9 +98,10 @@ describe('<ResultFilters />', () => {
 
     const items = wrapper.find('label.form-check-label-severity');
 
-    expect(items.at(0).childAt(0).html()).toBe('<span>1 Error</span>');
-    expect(items.at(1).childAt(0).html()).toBe('<span>2 Warnings</span>');
-    expect(items.at(2).childAt(0).html()).toBe('<span>0 Notices</span>');
+    expect(items.at(0).text()).toBe('Show all');
+    expect(items.at(1).childAt(0).html()).toBe('<span>1 Error</span>');
+    expect(items.at(2).childAt(0).html()).toBe('<span>2 Warnings</span>');
+    expect(items.at(3).childAt(0).html()).toBe('<span>0 Notices</span>');
   });
   it('should display the number of each type of category', () => {
     const categories = {
@@ -145,9 +146,10 @@ describe('<ResultFilters />', () => {
 
     const items = wrapper.find('label.form-check-label-category');
 
-    expect(items.at(0).text()).toBe('1 Conformance');
-    expect(items.at(1).text()).toBe('2 Data Quality');
-    expect(items.at(2).text()).toBe('0 General');
+    expect(items.at(0).text()).toBe('Show all');
+    expect(items.at(1).text()).toBe('1 Conformance');
+    expect(items.at(2).text()).toBe('2 Data Quality');
+    expect(items.at(3).text()).toBe('0 General');
   });
   it('should call an event handler when changing a severity toggle', () => {
     const severities = {
@@ -172,7 +174,7 @@ describe('<ResultFilters />', () => {
 
     const wrapper = shallow(<ResultFilters results={errors} severities={severities} onFilterChange={onChange}/>);
 
-    wrapper.find('.form-check').at(0).simulate('click');
+    wrapper.find('.form-check').at(1).simulate('click');
 
     expect(onChange).toHaveBeenCalledWith('severity', 'failure');
   });
@@ -197,7 +199,7 @@ describe('<ResultFilters />', () => {
 
     const wrapper = shallow(<ResultFilters results={errors} categories={categories} onFilterChange={onChange}/>);
 
-    wrapper.find('.form-check').at(0).simulate('click');
+    wrapper.find('.form-check').at(1).simulate('click');
 
     expect(onChange).toHaveBeenCalledWith('category', 'conformance');
   });

@@ -18,6 +18,16 @@ export default class ResultFilters extends Component {
     }
   }
 
+  handleAllFilterChange(e, type, value) {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
+    if (typeof (this.props.onFilterChange) === 'function') {
+      this.props.onAllFilterChange(type, value);
+    }
+  }
+
   handleGroupChange(e) {
     if (e) {
       e.stopPropagation();
@@ -31,36 +41,75 @@ export default class ResultFilters extends Component {
   render() {
     if (this.props.results && this.props.results.length) {
       const counts = {};
-      const severityList = [];
-      const categoryList = [];
       let { filter } = this.props;
 
       if (typeof filter === 'undefined') {
         filter = {};
       }
 
-      if (typeof this.props.severities !== 'undefined') {
-        if (typeof filter.severity === 'undefined') {
-          filter.severity = {};
-        }
-        for (const severity in this.props.severities) {
-          if (Object.prototype.hasOwnProperty.call(this.props.severities, severity)) {
-            if (typeof filter.severity[severity] === 'undefined') {
-              filter.severity[severity] = true;
-            }
-            counts[severity] = 0;
-            for (const result of this.props.results) {
-              if (result.severity === severity) {
-                counts[severity] += 1;
+      const lists = {};
+      const allChecked = {};
+
+      const filterTypes = [
+        {
+          prop: 'severities',
+          filter: 'severity',
+          pluralize: true,
+        },
+        {
+          prop: 'categories',
+          filter: 'category',
+          pluralize: false,
+        },
+      ];
+
+      for (const type of filterTypes) {
+        lists[type.filter] = [];
+        allChecked[type.filter] = true;
+
+        if (typeof this.props[type.prop] !== 'undefined') {
+          if (typeof filter[type.filter] === 'undefined') {
+            filter[type.filter] = {};
+          }
+          for (const item in this.props[type.prop]) {
+            if (Object.prototype.hasOwnProperty.call(this.props[type.prop], item)) {
+              if (typeof filter[type.filter][item] === 'undefined') {
+                filter[type.filter][item] = true;
               }
+              if (!filter[type.filter][item]) {
+                allChecked[type.filter] = false;
+              }
+              counts[item] = 0;
+              for (const result of this.props.results) {
+                if (result[type.filter] === item) {
+                  counts[item] += 1;
+                }
+              }
+              lists[type.filter].push(
+                (
+                  <div key={`${type.filter}-${item}-check`} className={`form-check dropdown-item ${filter[type.filter][item] ? 'checked' : ''}`} onClick={e => this.handleFilterChange(e, type.filter, item)}>
+                    <input type="checkbox" className="form-check-input" id={`${item}Check`} checked={filter[type.filter][item]} />
+                    <FontAwesomeIcon icon={filter[type.filter][item] ? 'check-square' : 'square'} fixedWidth />
+                    <label className={`form-check-label form-check-label-${type.filter}`} htmlFor={`${item}Check`}>
+                      {
+                        type.pluralize
+                          ? <Pluralize singular={this.props[type.prop][item].name} count={counts[item]} />
+                          : `${counts[item]} ${this.props[type.prop][item].name}`
+                      }
+                    </label>
+                  </div>
+                ),
+              );
             }
-            severityList.push(
+          }
+          if (lists[type.filter].length > 0) {
+            lists[type.filter].unshift(
               (
-                <div key={`severity-${severity}-check`} className={`form-check dropdown-item ${filter.severity[severity] ? 'checked' : ''}`} onClick={e => this.handleFilterChange(e, 'severity', severity)}>
-                  <input type="checkbox" className="form-check-input" id={`${severity}Check`} checked={filter.severity[severity]} />
-                  <FontAwesomeIcon icon={filter.severity[severity] ? 'check-square' : 'square'} fixedWidth />
-                  <label className="form-check-label form-check-label-severity" htmlFor={`${severity}Check`}>
-                    <Pluralize singular={this.props.severities[severity].name} count={counts[severity]} />
+                <div key={`${type.filter}-all-check`} className={`form-check dropdown-item ${allChecked[type.filter] ? 'checked' : ''}`} onClick={e => this.handleAllFilterChange(e, type.filter, !allChecked[type.filter])}>
+                  <input type="checkbox" className="form-check-input" id={`all${type.filter}Check`} checked={allChecked[type.filter]} />
+                  <FontAwesomeIcon icon={allChecked[type.filter] ? 'check-square' : 'square'} fixedWidth />
+                  <label className={`form-check-label form-check-label-${type.filter}`} htmlFor={`all${type.filter}Check`}>
+                    Show all
                   </label>
                 </div>
               ),
@@ -69,37 +118,7 @@ export default class ResultFilters extends Component {
         }
       }
 
-      if (typeof this.props.categories !== 'undefined') {
-        if (typeof filter.category === 'undefined') {
-          filter.category = {};
-        }
-        for (const category in this.props.categories) {
-          if (Object.prototype.hasOwnProperty.call(this.props.categories, category)) {
-            if (typeof filter.category[category] === 'undefined') {
-              filter.category[category] = true;
-            }
-            counts[category] = 0;
-            for (const result of this.props.results) {
-              if (result.category === category) {
-                counts[category] += 1;
-              }
-            }
-            categoryList.push(
-              (
-                <div key={`category-${category}-check`} className={`form-check dropdown-item ${filter.category[category] ? 'checked' : ''}`} onClick={e => this.handleFilterChange(e, 'category', category)}>
-                  <input type="checkbox" className="form-check-input" id={`${category}Check`} checked={filter.category[category]} />
-                  <FontAwesomeIcon icon={filter.category[category] ? 'check-square' : 'square'} fixedWidth />
-                  <label className="form-check-label form-check-label-category" htmlFor={`${category}Check`}>
-                    {counts[category]} {this.props.categories[category].name}
-                  </label>
-                </div>
-              ),
-            );
-          }
-        }
-      }
-
-      if (severityList.length > 0 || categoryList.length > 0) {
+      if (lists.severity.length > 0 || lists.category.length > 0) {
         return (
           <div className="result-filters float-left">
             <div className="dropdown">
@@ -108,9 +127,9 @@ export default class ResultFilters extends Component {
               </button>
               <form className="dropdown-menu p-2" aria-labelledby="filtersMenuButton">
                 <h6 key="severity-header" className="dropdown-header">Severities</h6>
-                {severityList}
+                {lists.severity}
                 <h6 key="category-header" className="dropdown-header">Categories</h6>
-                {categoryList}
+                {lists.category}
                 <div className="dropdown-divider"></div>
                 <div className={`form-check dropdown-item ${this.props.group ? 'checked' : ''}`} onClick={e => this.handleGroupChange(e)}>
                   <input type="checkbox" className="form-check-input" id="groupCheck" checked={this.props.group} />

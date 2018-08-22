@@ -160,6 +160,18 @@ export default class Home extends Component {
     this.setState({ filter });
   }
 
+  toggleAllFilter(type, value) {
+    const filter = Object.assign({}, this.state.filter);
+    const typeFilter = Object.assign({}, filter[type]);
+    for (const prop in typeFilter) {
+      if (Object.prototype.hasOwnProperty.call(typeFilter, prop)) {
+        typeFilter[prop] = value;
+      }
+    }
+    filter[type] = typeFilter;
+    this.setState({ filter });
+  }
+
   changeSort(sort) {
     this.setState({ sort });
   }
@@ -327,7 +339,7 @@ export default class Home extends Component {
               <SpecVersion version={this.state.version} onVersionClick={version => this.changeVersion(version)} />
             </div>
             <div className="col-4 col-sm-5">
-              <ResultFilters filter={this.state.filter} onFilterChange={(type, value) => this.toggleFilter(type, value)} onGroupChange={value => this.toggleGroup(value)} group={this.state.group} results={this.state.results} categories={this.categories} severities={this.severities} />
+              <ResultFilters filter={this.state.filter} onFilterChange={(type, value) => this.toggleFilter(type, value)} onAllFilterChange={(type, value) => this.toggleAllFilter(type, value)} onGroupChange={value => this.toggleGroup(value)} group={this.state.group} results={this.state.results} categories={this.categories} severities={this.severities} />
               <ResultSort sort={this.state.sort} onSortChange={value => this.changeSort(value)} results={this.state.results} />
             </div>
             <div className="col-2 col-sm-1">
