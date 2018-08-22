@@ -24,8 +24,15 @@ html, body, #app-container {
   background: $footer-background;
   border-top: $footer-border-width solid $footer-border-color;
   color: $footer-color;
-
+  .separator {
+    margin: 0 .5rem;
+    display: inline-block;
+  }
   a, a:hover {
     color: $footer-link-color;
+
+    &.feedback-link {
+      text-decoration: none;
+    }
   }
 }

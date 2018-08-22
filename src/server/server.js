@@ -185,6 +185,11 @@ const server = class {
     const options = {
       loadRemoteJson: true,
       remoteJsonCachePath: cacheDir,
+      remoteJsonCacheTimeToLive: (
+        process.env.REACT_APP_MODEL_REMOTE_CACHE_TTL_SECONDS
+          ? parseInt(process.env.REACT_APP_MODEL_REMOTE_CACHE_TTL_SECONDS, 10)
+          : 3600
+      ),
       schemaOrgSpecifications: [],
       rpdeItemLimit: (
         process.env.REACT_APP_MODEL_RPDE_ITEM_LIMIT

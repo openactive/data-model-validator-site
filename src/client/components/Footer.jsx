@@ -1,4 +1,6 @@
 import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import VersionHelper from '../helpers/version-helper';
 import consts from '../data/consts';
 
@@ -21,6 +23,8 @@ const Footer = () => {
           </div>
           <div className="col text-right">
             Validating <a title="Modelling Opportunity Data Specification" aria-label="Modelling Opportunity Data Specification" href={consts.MODELLING_SPECIFICATION_URL}>{version}</a>
+            <span className="separator">&bull;</span>
+            <a className="feedback-link" title="Give feedback in Github Issues" href="https://github.com/openactive/data-model-validator/issues" target="_blank" rel="noopener"><FontAwesomeIcon icon={['fab', 'github']} /> Give feedback</a>
           </div>
         </div>
       </div>
