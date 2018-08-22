@@ -48,6 +48,7 @@
     "react": "^16.4.2",
     "react-ace": "^6.1.4",
     "react-dom": "^16.4.2",
+    "react-linkify": "^0.2.2",
     "react-pluralize": "^1.4.1",
     "react-router-dom": "^4.3.1",
     "react-svg-loader": "^2.1.0",

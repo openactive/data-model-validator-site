@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import queryString from 'query-string';
+import Pluralize from 'react-pluralize';
+import Linkify from 'react-linkify';
 
 export default class Rpde extends Component {
   constructor(props) {
@@ -151,7 +153,43 @@ export default class Rpde extends Component {
   render() {
     const resultList = [];
     let hasPassed = true;
+    let pageCount;
+    let rpdeHint;
+    let rpdeType;
     let { statusText } = this.state;
+    let errorCount = 0;
+    const linkifyOpts = {
+      target: '_blank',
+      rel: 'noopener',
+    };
+
+    const rpdeHintTimestamp = (
+      <div className="rpde-hint">
+        <p>Misreading the query in the specification is the single most common cause of incorrect implementation. Please read it carefully and ensure that brackets and comparators are used correctly. &gt; not &gt;= for example.</p>
+        <p>Please ensure that you have implemented <a href="https://www.openactive.io/realtime-paged-data-exchange/#sql-query-example-for-timestamp-id" target="_blank" rel="noopener">this query</a> correctly:</p>
+        <code>
+          <span className="code-comment">--include WHERE clause only if @afterTimestamp and @afterId provided</span><br/>
+          &nbsp;&nbsp;&nbsp;<span className="code-keyword">WHERE</span> (modified <span className="code-op">=</span> @afterTimestamp<br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="code-keyword">AND</span> id <span className="code-op">&gt;</span> @afterId)<br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="code-keyword">OR</span> (modified <span className="code-op">&gt;</span> @afterTimestamp)<br/>
+          <span className="code-keyword">ORDER BY</span> modified,<br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;id
+        </code>
+      </div>
+    );
+
+    const rpdeHintChangeNumber = (
+      <div className="rpde-hint">
+        <p>Misreading the query in the specification is the single most common cause of incorrect implementation. Please read it carefully and ensure that brackets and comparators are used correctly. &gt; not &gt;= for example.</p>
+        <p>Please ensure that you have implemented <a href="https://www.openactive.io/realtime-paged-data-exchange/#sql-query-example-for-change-number" target="_blank" rel="noopener">this query</a> correctly:</p>
+        <code>
+          <span className="code-comment">--include WHERE clause only if @afterChangeNumber provided</span>
+          &nbsp;&nbsp;&nbsp;<span className="code-keyword">WHERE</span> change_number <span className="code-op">&gt;</span> @afterChangeNumber<br/>
+          <span className="code-keyword">ORDER BY</span> change_number
+        </code>
+      </div>
+    );
+
     if (!this.state.validating) {
       if (this.state.results.length > 0) {
         let resultIndex = 0;
@@ -168,13 +206,14 @@ export default class Rpde extends Component {
                     </div>
                     <div className="col">
                       <span className="result-title">{this.severities[item.data.severity].name}</span>
-                      <span className="result-message">{item.data.message}</span>
+                      <span className="result-message"><Linkify properties={linkifyOpts}>{item.data.message}</Linkify></span>
                     </div>
                   </div>
                 </li>,
               );
               if (item.data.severity !== 'suggestion') {
                 hasPassed = false;
+                errorCount += 1;
               }
               index += 1;
             }
@@ -186,17 +225,44 @@ export default class Rpde extends Component {
                 </ul>
               </div>,
             );
+            if (page.url.match(/afterTimestamp/)) {
+              rpdeType = 'afterTimestamp';
+            } else if (page.url.match(/afterChangeNumber/)) {
+              rpdeType = 'afterChangeNumber';
+            }
             resultIndex += 1;
           }
         }
-      }
-      if (hasPassed && this.state.hasValidated) {
-        statusText = (
-          <div className="validated">
-            <p><FontAwesomeIcon icon="check-circle" size="4x" /></p>
-            <p>Great work, the validator found no issues with your feed!</p>
-          </div>
+        pageCount = (
+          <p className="page-count">Validated <Pluralize singular="page" count={this.state.results.length} />.</p>
         );
+      }
+      if (this.state.hasValidated) {
+        if (hasPassed) {
+          statusText = (
+            <div className="validated">
+              <p><FontAwesomeIcon icon="check-circle" size="4x" /></p>
+              <p>Great work, the validator found no issues with your feed!</p>
+            </div>
+          );
+        } else {
+          statusText = (
+            <div className="errored">
+              <p><FontAwesomeIcon icon="exclamation-circle" size="4x" /></p>
+              <p>The validator found <Pluralize singular="issue" count={errorCount} /> with your feed.</p>
+            </div>
+          );
+          switch (rpdeType) {
+            case 'afterTimestamp':
+              rpdeHint = rpdeHintTimestamp;
+              break;
+            case 'afterChangeNumber':
+              rpdeHint = rpdeHintChangeNumber;
+              break;
+            default:
+              break;
+          }
+        }
       }
     }
     return (
@@ -219,6 +285,7 @@ export default class Rpde extends Component {
               </div>
               <div className={`status-text ${this.state.isError ? 'error' : ''}`}>
                 {statusText}
+                {pageCount}
               </div>
             </form>
           </div>
@@ -226,6 +293,7 @@ export default class Rpde extends Component {
         <div className="container">
           <div className="row">
             <div className="col">
+              {rpdeHint}
               {resultList}
             </div>
           </div>
