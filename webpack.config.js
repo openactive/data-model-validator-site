@@ -6,6 +6,7 @@ const UglifyWebpackPlugin = require('uglifyjs-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 
+const cleanDirectory = 'dist';
 const outputDirectory = 'dist/client';
 const groupsOptions = {
   chunks: 'all',
@@ -16,7 +17,29 @@ const groupsOptions = {
   // reuseExistingChunk: true,
 };
 
-module.exports = (env, argv) => ({
+module.exports = (env, argv) => {
+  const plugins = [
+    new webpack.DefinePlugin({ // <-- key to reducing React's size
+      'process.env': {
+        'NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production')
+      }
+    }),
+    new HtmlWebpackPlugin({
+      template: './public/index.html',
+      custom: {
+        googleAnalytics: process.env.VALIDATOR_GOOGLE_ANALYTICS,
+      },
+    }),
+    new CopyWebpackPlugin([
+      { from: './public/favicon', to: 'favicon' }
+    ]),
+  ];
+
+  if (argv.mode !== 'development') {
+    plugins.unshift(new CleanWebpackPlugin([cleanDirectory]));
+  }
+
+  return {
     entry: {
       app: './src/client/index.jsx',
     },
@@ -126,21 +149,6 @@ module.exports = (env, argv) => ({
     node: {
       fs: 'empty'
     },
-    plugins: [
-      new webpack.DefinePlugin({ // <-- key to reducing React's size
-        'process.env': {
-          'NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production')
-        }
-      }),
-      new CleanWebpackPlugin([outputDirectory]),
-      new HtmlWebpackPlugin({
-        template: './public/index.html',
-        custom: {
-          googleAnalytics: process.env.VALIDATOR_GOOGLE_ANALYTICS,
-        },
-      }),
-      new CopyWebpackPlugin([
-        { from: './public/favicon', to: 'favicon' }
-      ]),
-    ]
-});
+    plugins,
+  };
+};

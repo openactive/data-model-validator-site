@@ -25,6 +25,7 @@
   "license": "MIT",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.2",
+    "@fortawesome/free-brands-svg-icons": "^5.2.0",
     "@fortawesome/free-solid-svg-icons": "^5.2.0",
     "@fortawesome/react-fontawesome": "0.1.0-11",
     "@openactive/data-model-validator": "github:openactive/data-model-validator",
@@ -60,7 +61,7 @@
     "lint": "eslint --ext .jsx --ext .js \"src/\"",
     "start": "node -r dotenv/config dist/server/index.js",
     "postinstall": "npm run build",
-    "build": "webpack --mode production && npm run fetch-assets && babel src/server --out-dir dist/server",
+    "build": "webpack --mode production && npm run fetch-assets && babel src/server --ignore spec.js --out-dir dist/server",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "BABEL_ENV=development nodemon --exec babel-node src/server/index.js",
     "dev": "concurrently \"npm run server\" \"npm run client\"",

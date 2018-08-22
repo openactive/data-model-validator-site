@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Pluralize from 'react-pluralize';
+import Linkify from 'react-linkify';
 import AceHelper from '../helpers/ace-helper';
 import ResultHelper from '../helpers/result-helper';
 
@@ -47,6 +48,10 @@ export default class Results extends Component {
 
   render() {
     if (this.props.results) {
+      const linkifyOpts = {
+        target: '_blank',
+        rel: 'noopener',
+      };
       const items = ResultHelper.groupItems(
         this.props.results,
         this.props.tokenMap,
@@ -173,7 +178,7 @@ export default class Results extends Component {
                   </div>
                   <div className="col-7">
                     <span className="result-message-title">Message</span>
-                    <span className="result-message">{item.data.message}</span>
+                    <span className="result-message"><Linkify properties={linkifyOpts}>{item.data.message}</Linkify></span>
                   </div>
                 </div>
               </li>

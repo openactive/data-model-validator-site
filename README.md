@@ -70,6 +70,11 @@ REACT_APP_RPDE_PAGE_LIMIT=
 # Default: 10
 REACT_APP_MODEL_RPDE_ITEM_LIMIT=
 
+# Sets the number of seconds that the remote JSON loader should
+# cache requests for.
+# Default: 3600
+REACT_APP_MODEL_REMOTE_CACHE_TTL_SECONDS=
+
 # The tracking ID for Google Analytics
 VALIDATOR_GOOGLE_ANALYTICS=
 ```
