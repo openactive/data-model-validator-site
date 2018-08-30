@@ -82,12 +82,12 @@ export default class AceHelper {
               }
               currentPath.push(0);
             }
-            lastTokenWasScalar = false
+            lastTokenWasScalar = false;
             break;
           case 'variable':
             lastParam = token.value.replace(/^["']/, '').replace(/["']$/, '');
             tokenMap[this.buildJsonPath(currentPath, lastParam)] = [row, col];
-            lastTokenWasScalar = false
+            lastTokenWasScalar = false;
             break;
           case 'string':
           case 'constant.numeric':
