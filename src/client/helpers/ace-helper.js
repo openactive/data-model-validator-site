@@ -53,6 +53,7 @@ export default class AceHelper {
     const tokenMap = {};
     let lastIndex;
     let lastParam = '$';
+    let lastTokenWasScalar = false;
     for (let row = 0; row < rowLength; row += 1) {
       const tokens = session.getTokens(row);
       let col = 0;
@@ -81,20 +82,27 @@ export default class AceHelper {
               }
               currentPath.push(0);
             }
+            lastTokenWasScalar = false;
             break;
           case 'variable':
             lastParam = token.value.replace(/^["']/, '').replace(/["']$/, '');
             tokenMap[this.buildJsonPath(currentPath, lastParam)] = [row, col];
+            lastTokenWasScalar = false;
             break;
           case 'string':
           case 'constant.numeric':
-            if (typePath[typePath.length - 1] === 'array') {
-              tokenMap[this.buildJsonPath(currentPath, lastParam)] = [row, col];
-              lastIndex = currentPath[currentPath.length - 1];
-              currentPath.pop();
-            } else {
-              lastIndex = null;
+          case 'constant.language.boolean':
+          case 'constant.language.escape':
+            if (!lastTokenWasScalar) {
+              if (typePath[typePath.length - 1] === 'array') {
+                tokenMap[this.buildJsonPath(currentPath, lastParam)] = [row, col];
+                lastIndex = currentPath[currentPath.length - 1];
+                currentPath.pop();
+              } else {
+                lastIndex = null;
+              }
             }
+            lastTokenWasScalar = true;
             break;
           case 'text':
             if (token.value.trim() === ',') {
@@ -102,6 +110,7 @@ export default class AceHelper {
                 currentPath.push(lastIndex + 1);
               }
             }
+            lastTokenWasScalar = false;
             break;
           case 'paren.rparen':
             if (token.value === '}'
@@ -120,8 +129,10 @@ export default class AceHelper {
               currentPath.pop();
               lastParam = null;
             }
+            lastTokenWasScalar = false;
             break;
           default:
+            lastTokenWasScalar = false;
             break;
         }
         col += token.value.length;
