@@ -7,7 +7,7 @@ export default class LoadUrl extends Component {
     this.state = {
       url: this.props.url,
     };
-    this.handleOpen = this.handleOpen.bind(this)
+    this.handleOpen = this.handleOpen.bind(this);
   }
 
   componentDidMount() {
