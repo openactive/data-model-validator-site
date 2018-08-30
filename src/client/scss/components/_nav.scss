@@ -13,8 +13,17 @@ nav.fixed-top {
     font-family: $heading-font-family;
     font-weight: $nav-font-weight;
 
+    &.right {
+      margin-right: .5rem;
+    }
+
     a {
       @include transition(initial);
+      &.active {
+        color: $brand-five !important;
+        border-bottom: .2rem solid $brand-five;
+        padding-bottom: .3rem;
+      }
     }
   }
 }

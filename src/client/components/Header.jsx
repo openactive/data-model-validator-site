@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 import LogoSVG from '../images/logo.svg';
 
 export default class Header extends Component {
@@ -15,16 +15,21 @@ export default class Header extends Component {
           <div className="collapse navbar-collapse" id="navbarCollapse">
             <ul className="navbar-nav mr-auto">
               <li className="nav-item">
-                <Link className="nav-link" to="/about">About</Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/rpde">RPDE</Link>
+                <NavLink className="nav-link" activeClassName="active" to="/about">About</NavLink>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="https://developer.openactive.io/">Developer reference</a>
               </li>
               <li className="nav-item">
                 <a className="nav-link" href="https://www.openactive.io/">Open your data</a>
+              </li>
+            </ul>
+            <ul className="navbar-nav">
+              <li className="nav-item right">
+                <NavLink className="nav-link" activeClassName="active" to="/" exact={true}>Model</NavLink>
+              </li>
+              <li className="nav-item right">
+                <NavLink className="nav-link" activeClassName="active" to="/rpde">RPDE</NavLink>
               </li>
             </ul>
           </div>
