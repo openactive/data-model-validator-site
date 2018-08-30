@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Pluralize from 'react-pluralize';
 import Linkify from 'react-linkify';
@@ -112,9 +113,38 @@ export default class Results extends Component {
           </div>
         );
       } else if (this.props.group && items.length < this.props.results.length) {
+        const counts = [];
+        for (const severity in this.props.severities) {
+          if (Object.prototype.hasOwnProperty.call(this.props.severities, severity)) {
+            const severityObj = this.props.severities[severity];
+            let count = 0;
+            for (const item of items) {
+              if (item.data.severity === severity) {
+                count += 1;
+              }
+            }
+            if (count > 0) {
+              counts.push({
+                severity: severityObj.name,
+                count,
+              });
+            }
+          }
+        }
+        const ofWhich = [];
+        let key = 0;
+        for (const count of counts) {
+          ofWhich.push(
+            <span key={key}>
+              &nbsp;<Pluralize singular={count.severity} count={count.count} />{key < (counts.length - 1) ? ',' : ''}
+            </span>,
+          );
+          key += 1;
+        }
+
         topMessage = (
           <div className="result-summary">
-            <Pluralize singular="message" count={this.props.results.length} /> (grouped into <Pluralize singular="distinct message" count={items.length} />) returned from the validator
+            <Pluralize singular="distinct message" count={items.length} /> (of which:{ofWhich}) [<Pluralize singular="message" count={this.props.results.length} /> in total returned]
           </div>
         );
       } else {
@@ -164,6 +194,14 @@ export default class Results extends Component {
               );
             }
             hasShownResult = true;
+            let messageExtra = '';
+            if (item.data.type === 'found_rpde_feed') {
+              messageExtra = (
+                <span>
+                  &nbsp;For RPDE feed validation please also use the <Link to="/rpde">RPDE validator</Link>.
+                </span>
+              );
+            }
             return (
               <li key={index} onClick={() => this.handleClick(item.data.path)} className={`${item.data.severity} result-item item-${item.type}`}>
                 <div className="row">
@@ -178,7 +216,10 @@ export default class Results extends Component {
                   </div>
                   <div className="col-7">
                     <span className="result-message-title">Message</span>
-                    <span className="result-message"><Linkify properties={linkifyOpts}>{item.data.message}</Linkify></span>
+                    <span className="result-message">
+                      <Linkify properties={linkifyOpts}>{item.data.message}</Linkify>
+                      {messageExtra}
+                  </span>
                   </div>
                 </div>
               </li>
