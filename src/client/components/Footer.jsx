@@ -7,9 +7,11 @@ import consts from '../data/consts';
 const Footer = () => {
   const versions = VersionHelper.getUniqueVersions();
   let version = 'Modelling Opportunity Data Specification';
-
+  let url = consts.MODELLING_SPECIFICATION_URL;
   if (versions.length === 1) {
     version = `v${versions[0]}`;
+    const meta = VersionHelper.getVersionMetaData(versions[0]);
+    url = meta.specUrl;
   }
 
   return (
@@ -22,7 +24,7 @@ const Footer = () => {
             </span>
           </div>
           <div className="col text-right">
-            Validating <a title="Modelling Opportunity Data Specification" aria-label="Modelling Opportunity Data Specification" href={consts.MODELLING_SPECIFICATION_URL}>{version}</a>
+            Validating <a title="Modelling Opportunity Data Specification" aria-label="Modelling Opportunity Data Specification" href={url}>{version}</a>
             <span className="separator">&bull;</span>
             <a className="feedback-link" title="Give feedback in Github Issues" href="https://github.com/openactive/data-model-validator/issues" target="_blank" rel="noopener"><FontAwesomeIcon icon={['fab', 'github']} /> Give feedback</a>
           </div>

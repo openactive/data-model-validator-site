@@ -1,3 +1,3 @@
 module.exports = {
-  MODELLING_SPECIFICATION_URL: 'https://github.com/openactive/modelling-opportunity-data/pull/122',
+  MODELLING_SPECIFICATION_URL: 'https://www.openactive.io/modelling-opportunity-data/',
 };
