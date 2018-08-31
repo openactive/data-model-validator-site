@@ -1,4 +1,4 @@
-import { versions } from '@openactive/data-models';
+import { versions, getMetaData } from '@openactive/data-models';
 
 export default class VersionHelper {
   static getVersions() {
@@ -7,5 +7,9 @@ export default class VersionHelper {
 
   static getUniqueVersions() {
     return [...new Set(Object.values(versions))];
+  }
+
+  static getVersionMetaData(version) {
+    return getMetaData(version);
   }
 }
