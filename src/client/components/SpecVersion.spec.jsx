@@ -8,11 +8,10 @@ describe('<SpecVersion />', () => {
   it('can render without error', () => {
     let wrapper;
 
-    spyOn(VersionHelper, 'getVersions').and.callFake(() => ({
-      latest: '2.0',
-      '2.0': '2.0',
-      '3.0': '3.0',
-    }));
+    spyOn(VersionHelper, 'getUniqueVersions').and.callFake(() => ([
+      '3.0',
+      '2.0',
+    ]));
 
     // Render into a document fragment and return the full component instance.
     expect(() => {
@@ -22,20 +21,18 @@ describe('<SpecVersion />', () => {
     expect(wrapper.type()).toBe('div');
   });
   it('should render nothing when there are not enough versions', () => {
-    spyOn(VersionHelper, 'getVersions').and.callFake(() => ({
-      latest: '2.0',
-      '2.0': '2.0',
-    }));
+    spyOn(VersionHelper, 'getUniqueVersions').and.callFake(() => ([
+      '2.0',
+    ]));
 
     const wrapper = shallow(<SpecVersion version="latest"/>);
     expect(wrapper.html()).toBe(null);
   });
   it('should call an event handler when changing a version', () => {
-    spyOn(VersionHelper, 'getVersions').and.callFake(() => ({
-      latest: '2.0',
-      '2.0': '2.0',
-      '3.0': '3.0',
-    }));
+    spyOn(VersionHelper, 'getUniqueVersions').and.callFake(() => ([
+      '3.0',
+      '2.0',
+    ]));
 
     const onChange = jasmine.createSpy('onChange');
 

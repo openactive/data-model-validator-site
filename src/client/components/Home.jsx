@@ -16,13 +16,13 @@ import Results from './Results.jsx';
 import ResultFilters from './ResultFilters.jsx';
 import ResultSort from './ResultSort.jsx';
 import SpecVersion from './SpecVersion.jsx';
+import Samples from './Samples.jsx';
 import LoadUrl from './LoadUrl.jsx';
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
     const savedJson = sessionStorage.getItem('json');
-    const versions = VersionHelper.getVersions();
     this.severities = {
       notice: {
         name: 'Notice',
@@ -66,7 +66,7 @@ export default class Home extends Component {
       filter: this.buildFilter(),
       sort: 'severity',
       group: true,
-      version: versions.latest,
+      version: VersionHelper.getLatestVersion(),
     };
     this.params = queryString.parse(this.props.location.search);
     this.processVersion(true);
@@ -84,9 +84,9 @@ export default class Home extends Component {
       const version = versions[this.params.version];
       if (typeof version !== 'undefined') {
         if (isFirstRun) {
-          this.state.version = version;
+          this.state.version = this.params.version;
         } else {
-          this.setState({ version });
+          this.setState({ version: this.params.version });
         }
       }
     }
@@ -334,9 +334,10 @@ export default class Home extends Component {
         <div id="control-bar" className="fixed-top">
           <div className="row">
             <div className="col-6">
-              <button className="btn btn-primary float-left" onClick={() => this.onResetClick()}>Reset Editor</button>
+              <button className="btn btn-primary float-left" onClick={() => this.onResetClick()}>Reset</button>
               <LoadUrl url={this.params.url} onUrlClick={url => this.urlRedirect(url)} />
               <SpecVersion version={this.state.version} onVersionClick={version => this.changeVersion(version)} />
+              <Samples version={this.state.version} />
             </div>
             <div className="col-4 col-sm-5">
               <ResultFilters filter={this.state.filter} onFilterChange={(type, value) => this.toggleFilter(type, value)} onAllFilterChange={(type, value) => this.toggleAllFilter(type, value)} onGroupChange={value => this.toggleGroup(value)} group={this.state.group} results={this.state.results} categories={this.categories} severities={this.severities} />
