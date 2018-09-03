@@ -358,6 +358,7 @@ export default class Home extends Component {
               height="100%"
               onChange={(newValue) => { this.onEditorChange(newValue); }}
               value={this.state.json}
+              tabSize={2}
               showPrintMargin={true}
               showGutter={true}
               highlightActiveLine={true}
