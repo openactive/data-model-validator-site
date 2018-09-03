@@ -17,10 +17,17 @@ if (!fs.existsSync(cacheDir)){
 
 for (const asset of assets) {
   const fileName = path.join(cacheDir, `${asset.name}.json`);
-  const file = fs.createWriteStream(fileName);
-  request(asset.url)
-    .on('error', err => {
+  // const file = fs.createWriteStream(fileName);
+  request(asset.url, (err, res, body) => {
+    if (!err) {
+      const transformedBody = body.replace(/http:\/\/schema\.org/g, 'https://schema.org');
+      fs.writeFile(fileName, transformedBody, 'utf8', err => {
+        if (err) {
+          console.log(err);
+        }
+      });
+    } else {
       console.log(err);
-    })
-    .pipe(file);
+    }
+  });
 }
