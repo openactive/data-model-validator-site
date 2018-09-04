@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Pluralize from 'react-pluralize';
-import Linkify from 'react-linkify';
+import Markdown from 'markdown-to-jsx';
 import AceHelper from '../helpers/ace-helper';
+import MarkdownHelper from '../helpers/markdown-helper';
 import ResultHelper from '../helpers/result-helper';
 
 export default class Results extends Component {
@@ -49,10 +49,7 @@ export default class Results extends Component {
 
   render() {
     if (this.props.results) {
-      const linkifyOpts = {
-        target: '_blank',
-        rel: 'noopener',
-      };
+      const markdownOpts = MarkdownHelper.getOptions();
       const items = ResultHelper.groupItems(
         this.props.results,
         this.props.tokenMap,
@@ -194,14 +191,6 @@ export default class Results extends Component {
               );
             }
             hasShownResult = true;
-            let messageExtra = '';
-            if (item.data.type === 'found_rpde_feed') {
-              messageExtra = (
-                <span>
-                  &nbsp;For RPDE feed validation please also use the <Link to="/rpde">RPDE validator</Link>.
-                </span>
-              );
-            }
             return (
               <li key={index} onClick={() => this.handleClick(item.data.path)} className={`${item.data.severity} result-item item-${item.type}`}>
                 <div className="row">
@@ -217,8 +206,7 @@ export default class Results extends Component {
                   <div className="col-7">
                     <span className="result-message-title">Message</span>
                     <span className="result-message">
-                      <Linkify properties={linkifyOpts}>{item.data.message}</Linkify>
-                      {messageExtra}
+                      <Markdown options={markdownOpts}>{item.data.message}</Markdown>
                   </span>
                   </div>
                 </div>

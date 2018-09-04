@@ -277,7 +277,7 @@ export default class Home extends Component {
         category: 'data-quality',
         severity: 'failure',
         path: '$',
-        message: 'The JSON you\'ve entered isn\'t valid.',
+        message: 'The JSON you\'ve entered isn\'t valid.\n\nJSON validation errors are shown in the left-hand margin of the text editor.',
       }];
       this.setState({
         results,

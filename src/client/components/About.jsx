@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
+import Markdown from 'markdown-to-jsx';
 import { defaultRules as modelRules } from '@openactive/data-model-validator';
 import { defaultRules as rpdeRules } from '@openactive/rpde-validator';
 
 import VersionHelper from '../helpers/version-helper';
+import MarkdownHelper from '../helpers/markdown-helper';
 import consts from '../data/consts';
 
 export default class About extends Component {
@@ -38,53 +40,60 @@ export default class About extends Component {
       model: modelRulesConcat,
       rpde: rpdeRulesConcat,
     };
+    const markdownOpts = MarkdownHelper.getOptions();
     for (const key in ruleObj) {
       if (Object.prototype.hasOwnProperty.call(ruleObj, key)) {
         const rules = ruleObj[key];
         rulesList[key] = [];
+        const alreadyUsed = [];
         for (let index = 0; index < rules.length; index += 1) {
           const rule = new rules[index]();
-          const testList = [];
-          for (const testKey in rule.meta.tests) {
-            if (Object.prototype.hasOwnProperty.call(rule.meta.tests, testKey)) {
-              const test = rule.meta.tests[testKey];
-              let { message } = test;
-              if (typeof test.sampleValues !== 'undefined') {
-                for (const sampleKey in test.sampleValues) {
-                  if (Object.prototype.hasOwnProperty.call(test.sampleValues, sampleKey)) {
-                    message = message.replace(new RegExp(`{{${sampleKey}}}`, 'g'), test.sampleValues[sampleKey]);
+          if (alreadyUsed.indexOf(rule.meta.name) < 0) {
+            alreadyUsed.push(rule.meta.name);
+            const testList = [];
+            for (const testKey in rule.meta.tests) {
+              if (Object.prototype.hasOwnProperty.call(rule.meta.tests, testKey)) {
+                const test = rule.meta.tests[testKey];
+                let { message } = test;
+                if (typeof test.sampleValues !== 'undefined') {
+                  for (const sampleKey in test.sampleValues) {
+                    if (Object.prototype.hasOwnProperty.call(test.sampleValues, sampleKey)) {
+                      message = message.replace(new RegExp(`{{${sampleKey}}}`, 'g'), test.sampleValues[sampleKey]);
+                    }
                   }
                 }
+                testList.push(
+                  <tr key={`tr-${rule.meta.name}-${testKey}`}>
+                    <td width="15%" className="table-primary">
+                      {this.categories[test.category].name}
+                    </td>
+                    <td width="15%" className={`td-severity td-severity-${test.severity}`}>
+                      {test.severity}
+                    </td>
+                    <td>
+                      <p>{test.description || rule.meta.description}</p>
+                      <h6>Example message</h6>
+                      <blockquote>
+                        <Markdown options={markdownOpts}>{message}</Markdown>
+                      </blockquote>
+                    </td>
+                  </tr>,
+                );
               }
-              testList.push(
-                <tr key={`tr-${rule.meta.name}-${testKey}`}>
-                  <td width="15%" className="table-primary">
-                    {this.categories[test.category].name}
-                  </td>
-                  <td width="15%" className={`td-severity td-severity-${test.severity}`}>
-                    {test.severity}
-                  </td>
-                  <td>
-                    <p>{test.description || rule.meta.description}</p>
-                    <h6>Example message</h6>
-                    <blockquote>
-                      <p>{message}</p>
-                    </blockquote>
-                  </td>
-                </tr>,
+            }
+            if (testList.length > 0) {
+              rulesList[key].push(
+                <div key={`rule-${rule.meta.name}`} className="rule-definition">
+                  <h5>{rule.meta.name}</h5>
+                  <table className="table table-bordered" width="100%">
+                    <tbody>
+                      {testList}
+                    </tbody>
+                  </table>
+                </div>,
               );
             }
           }
-          rulesList[key].push(
-            <div key={`rule-${rule.meta.name}`} className="rule-definition">
-              <h5>{rule.meta.name}</h5>
-              <table className="table table-bordered" width="100%">
-                <tbody>
-                  {testList}
-                </tbody>
-              </table>
-            </div>,
-          );
         }
       }
     }

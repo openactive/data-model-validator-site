@@ -23,5 +23,12 @@
         }
       }
     }
+
+    blockquote pre {
+      padding-left: 2rem;
+      &>code {
+        padding: 1rem;
+      }
+    }
   }
 }
