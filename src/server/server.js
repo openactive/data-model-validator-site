@@ -30,7 +30,10 @@ const server = class {
     app.post('/api/validate/:version', (req, res) => {
       const json = req.body;
       const { version } = req.params;
-      if (typeof versions[version] === 'undefined') {
+      if (
+        typeof versions[version] === 'undefined'
+        && Object.values(versions).indexOf(version) < 0
+      ) {
         res.status(400).json([
           {
             message: 'Invalid version',
@@ -54,14 +57,17 @@ const server = class {
         parsedJson = json;
       }
       res.status(200).json(
-        this.doValidation(parsedJson),
+        this.doValidation(parsedJson, version),
       );
     });
 
     // API route to validate url
     app.post('/api/validateUrl/:version', (req, res) => {
       const { version } = req.params;
-      if (typeof versions[version] === 'undefined') {
+      if (
+        typeof versions[version] === 'undefined'
+        && Object.values(versions).indexOf(version) < 0
+      ) {
         res.status(400).json([
           {
             message: 'Invalid version',
@@ -81,7 +87,7 @@ const server = class {
         }
         if (typeof json === 'object' && json !== null) {
           res.status(200).json(
-            this.doValidation(json),
+            this.doValidation(json, version),
           );
           return;
         }
@@ -171,15 +177,15 @@ const server = class {
     return app.listen(port, callback);
   }
 
-  static doValidation(json) {
+  static doValidation(json, version) {
     return {
       isRpdeFeed: validator.isRpdeFeed(json),
       json,
-      response: validator.validate(json, this.getValidateOptions()),
+      response: validator.validate(json, this.getValidateOptions(version)),
     };
   }
 
-  static getValidateOptions() {
+  static getValidateOptions(version) {
     const cacheDir = path.join(__dirname, '../../cache');
 
     const options = {
@@ -196,6 +202,7 @@ const server = class {
           ? parseInt(process.env.REACT_APP_MODEL_RPDE_ITEM_LIMIT, 10)
           : 10
       ),
+      version,
     };
 
     const schemaOrgSpecFile = path.join(cacheDir, 'schemaOrgSpec.json');

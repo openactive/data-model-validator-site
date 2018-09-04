@@ -127,6 +127,23 @@
     margin-left: 1rem;
   }
 
+  .sample-switcher {
+    margin-right: 0;
+    margin-left: 1rem;
+
+    a.dropdown-item {
+      text-decoration: none;
+      text-align: left;
+      padding-top: .5rem;
+      padding-bottom: .5rem;
+      transition: none;
+      color: $gray-600;
+      &:hover {
+        color: $gray-600;
+      }
+    }
+  }
+
   .editor-col, .results-col {
     height: calc(100vh - #{$nav-offset-height + $control-bar-height + $footer-height});
 

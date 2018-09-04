@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import semver from 'semver';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import VersionHelper from '../helpers/version-helper';
 
@@ -15,40 +14,19 @@ export default class SpecVersion extends Component {
   }
 
   render() {
-    const distilledVersions = {};
-    const versionArray = [];
     const versionList = [];
+    const uniqueVersions = VersionHelper.getUniqueVersions();
     const versions = VersionHelper.getVersions();
-
-    for (const version in versions) {
-      if (Object.prototype.hasOwnProperty.call(versions, version)) {
-        const resolvedVersion = versions[version];
-        if (semver.valid(semver.coerce(resolvedVersion))) {
-          if (typeof distilledVersions[resolvedVersion] === 'undefined') {
-            distilledVersions[resolvedVersion] = [];
-          }
-          distilledVersions[resolvedVersion].push(version);
-          if (versionArray.indexOf(resolvedVersion) < 0) {
-            versionArray.push(resolvedVersion);
-          }
-        }
-      }
-    }
-    if (versionArray.length === 1) {
+    if (uniqueVersions.length === 1) {
       return '';
     }
-    versionArray.sort((a, b) => {
-      if (semver.lt(semver.coerce(a), semver.coerce(b))) {
-        return 1;
-      }
-      if (semver.gt(semver.coerce(a), semver.coerce(b))) {
-        return -1;
-      }
-      return 0;
-    });
     let selectedVersionLabel;
-    for (const version of versionArray) {
-      const isChecked = distilledVersions[version].indexOf(this.props.version) >= 0;
+    for (const version of uniqueVersions) {
+      const isChecked = (
+        version === this.props.version
+        || versions[version] === versions[this.props.version]
+        || versions[version] === this.props.version
+      );
       if (isChecked) {
         selectedVersionLabel = version;
       }
