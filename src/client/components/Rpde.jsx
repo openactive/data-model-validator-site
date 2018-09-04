@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import queryString from 'query-string';
 import Pluralize from 'react-pluralize';
-import Linkify from 'react-linkify';
+import Markdown from 'markdown-to-jsx';
+import MarkdownHelper from '../helpers/markdown-helper';
 
 export default class Rpde extends Component {
   constructor(props) {
@@ -158,10 +159,7 @@ export default class Rpde extends Component {
     let rpdeType;
     let { statusText } = this.state;
     let errorCount = 0;
-    const linkifyOpts = {
-      target: '_blank',
-      rel: 'noopener',
-    };
+    const markdownOpts = MarkdownHelper.getOptions();
 
     const rpdeHintTimestamp = (
       <div className="rpde-hint">
@@ -206,7 +204,7 @@ export default class Rpde extends Component {
                     </div>
                     <div className="col">
                       <span className="result-title">{this.severities[item.data.severity].name}</span>
-                      <span className="result-message"><Linkify properties={linkifyOpts}>{item.data.message}</Linkify></span>
+                      <span className="result-message"><Markdown options={markdownOpts}>{item.data.message}</Markdown></span>
                     </div>
                   </div>
                 </li>,

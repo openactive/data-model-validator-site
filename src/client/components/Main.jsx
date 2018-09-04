@@ -21,6 +21,7 @@ import About from './About.jsx';
 import Rpde from './Rpde.jsx';
 
 import '../scss/app.scss';
+import 'highlight.js/styles/github.css';
 
 library.add(faTimes);
 library.add(faTimesCircle);
