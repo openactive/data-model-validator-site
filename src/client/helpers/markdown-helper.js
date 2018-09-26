@@ -16,8 +16,22 @@ const MyLink = (props) => {
   );
 };
 
+const MyHighlight = (props) => {
+  const { children } = props;
+  const newProps = Object.assign({}, props);
+  newProps.element = 'pre';
+  delete newProps.children;
+  return (
+    <Highlight {...newProps}>{children}</Highlight>
+  );
+};
+
 export default class MarkdownHelper {
   static getOptions() {
+    if (typeof this.index === 'undefined') {
+      this.index = 0;
+    }
+    this.index += 1;
     return {
       overrides: {
         a: {
@@ -28,8 +42,11 @@ export default class MarkdownHelper {
           },
         },
         pre: {
-          component: Highlight,
-          className: 'json',
+          component: MyHighlight,
+          props: {
+            className: 'json',
+            key: this.index,
+          },
         },
       },
       forceBlock: true,
