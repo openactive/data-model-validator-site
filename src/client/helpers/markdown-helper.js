@@ -24,7 +24,7 @@ const MyHighlight = (props) => {
   return (
     <Highlight {...newProps}>{children}</Highlight>
   );
-}
+};
 
 export default class MarkdownHelper {
   static getOptions() {
