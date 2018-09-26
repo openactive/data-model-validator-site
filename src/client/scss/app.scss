@@ -37,8 +37,7 @@ html, body, #app-container {
   }
 }
 
-pre code.hljs code {
-  border: none;
+pre code.hljs {
   font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  padding: 0;
+  pointer-events: initial;
 }
