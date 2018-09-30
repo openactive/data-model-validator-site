@@ -154,6 +154,7 @@ export default class Rpde extends Component {
   render() {
     const resultList = [];
     let hasPassed = true;
+    let hasFailure = false;
     let pageCount;
     let rpdeHint;
     let rpdeType;
@@ -163,9 +164,9 @@ export default class Rpde extends Component {
 
     const rpdeHintTimestamp = (
       <div className="rpde-hint">
-        <p>Misreading the query in the specification is the single most common cause of incorrect implementation. Please read it carefully and ensure that brackets and comparators are used correctly. &gt; not &gt;= for example.</p>
+        <p>Misreading the query in the specification is the single most common cause of incorrect implementation. Please read it carefully and ensure that brackets and comparators are used correctly. <code>&gt;</code> not <code>&gt;=</code> for example.</p>
         <p>Please ensure that you have implemented <a href="https://www.openactive.io/realtime-paged-data-exchange/#sql-query-example-for-timestamp-id" target="_blank" rel="noopener">this query</a> correctly:</p>
-        <code>
+        <code className="code-block">
           <span className="code-comment">--include WHERE clause only if @afterTimestamp and @afterId provided</span><br/>
           &nbsp;&nbsp;&nbsp;<span className="code-keyword">WHERE</span> (modified <span className="code-op">=</span> @afterTimestamp<br/>
           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="code-keyword">AND</span> id <span className="code-op">&gt;</span> @afterId)<br/>
@@ -178,9 +179,9 @@ export default class Rpde extends Component {
 
     const rpdeHintChangeNumber = (
       <div className="rpde-hint">
-        <p>Misreading the query in the specification is the single most common cause of incorrect implementation. Please read it carefully and ensure that brackets and comparators are used correctly. &gt; not &gt;= for example.</p>
+        <p>Misreading the query in the specification is the single most common cause of incorrect implementation. Please read it carefully and ensure that brackets and comparators are used correctly. <code>&gt;</code> not <code>&gt;=</code> for example.</p>
         <p>Please ensure that you have implemented <a href="https://www.openactive.io/realtime-paged-data-exchange/#sql-query-example-for-change-number" target="_blank" rel="noopener">this query</a> correctly:</p>
-        <code>
+        <code className="code-block">
           <span className="code-comment">--include WHERE clause only if @afterChangeNumber provided</span>
           &nbsp;&nbsp;&nbsp;<span className="code-keyword">WHERE</span> change_number <span className="code-op">&gt;</span> @afterChangeNumber<br/>
           <span className="code-keyword">ORDER BY</span> change_number
@@ -211,6 +212,9 @@ export default class Rpde extends Component {
               );
               if (item.data.severity !== 'suggestion') {
                 hasPassed = false;
+                if (item.data.severity === 'failure') {
+                  hasFailure = true;
+                }
                 errorCount += 1;
               }
               index += 1;
@@ -250,15 +254,17 @@ export default class Rpde extends Component {
               <p>The validator found <Pluralize singular="issue" count={errorCount} /> with your feed.</p>
             </div>
           );
-          switch (rpdeType) {
-            case 'afterTimestamp':
-              rpdeHint = rpdeHintTimestamp;
-              break;
-            case 'afterChangeNumber':
-              rpdeHint = rpdeHintChangeNumber;
-              break;
-            default:
-              break;
+          if (hasFailure) {
+            switch (rpdeType) {
+              case 'afterTimestamp':
+                rpdeHint = rpdeHintTimestamp;
+                break;
+              case 'afterChangeNumber':
+                rpdeHint = rpdeHintChangeNumber;
+                break;
+              default:
+                break;
+            }
           }
         }
       }
