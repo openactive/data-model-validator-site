@@ -30,7 +30,7 @@ export default class About extends Component {
     if (versions.length === 1) {
       version = ` v${versions[0]}`;
       const meta = VersionHelper.getVersionMetaData(versions[0]);
-      specUrl = { meta };
+      ({ specUrl } = meta);
     }
 
     const rulesList = {};

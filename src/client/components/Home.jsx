@@ -308,7 +308,10 @@ export default class Home extends Component {
             validJSON: isValid,
             hasSubmitted: true,
             isLoading: false,
-            tokenMap: this.getTokenMap(),
+          }, () => {
+            this.setState({
+              tokenMap: this.getTokenMap(),
+            });
           });
         },
       );

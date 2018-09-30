@@ -1,18 +1,17 @@
-import beautify from 'json-beautify';
+import stripJsonComments from 'strip-json-comments';
 
 export default class JsonHelper {
   static beautifyString(jsonString) {
-    return beautify(
-      JSON.parse(jsonString),
+    return JSON.stringify(
+      JSON.parse(stripJsonComments(jsonString)),
       null,
       2,
-      80,
     );
   }
 
   static isJSONValid(jsonString) {
     try {
-      JSON.parse(jsonString);
+      JSON.parse(stripJsonComments(jsonString));
     } catch (e) {
       // Invalid JSON!
       return false;
@@ -23,7 +22,7 @@ export default class JsonHelper {
   static isJSONValidObject(jsonString) {
     let jsonObj;
     try {
-      jsonObj = JSON.parse(jsonString);
+      jsonObj = JSON.parse(stripJsonComments(jsonString));
     } catch (e) {
       // Invalid JSON!
       return false;

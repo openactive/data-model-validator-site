@@ -3,7 +3,7 @@ import JsonHelper from './json-helper';
 describe('JsonHelper', () => {
   describe('beautifyString', () => {
     it('should return beautified JSON', () => {
-      const fragment = '{ "type": "Event", "identifier": "300", "test": "something-else", "another-prop": 76 }';
+      const fragment = '/* test comment */{ "type": "Event", "identifier": "300", "test": "something-else", "another-prop": 76 }';
       const beautified = `{
   "type": "Event",
   "identifier": "300",
@@ -31,6 +31,7 @@ describe('JsonHelper', () => {
       const fragments = [
         '{}',
         '{"type": "Event"}',
+        '{"type": "Event"}// hello world',
       ];
 
       for (const fragment of fragments) {
@@ -60,6 +61,7 @@ describe('JsonHelper', () => {
       const fragments = [
         '{}',
         '{"type": "Event"}',
+        '{"type": "Event"}// hello world',
       ];
 
       for (const fragment of fragments) {

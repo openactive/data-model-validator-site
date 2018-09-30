@@ -19,6 +19,12 @@ export default class AceHelper {
     let response = pathArr[pathArr.length - 1].expression.value;
     if (response instanceof Array) {
       response = response.map(x => x.expression.value).join(', ');
+    } else if (
+      typeof response === 'number'
+      && pathArr.length > 1
+      && typeof pathArr[pathArr.length - 2].expression.value === 'string'
+    ) {
+      response = `${pathArr[pathArr.length - 2].expression.value}[${response}]`;
     }
     if (typeof response !== 'string') {
       return '$';
