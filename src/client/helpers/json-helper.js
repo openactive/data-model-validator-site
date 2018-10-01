@@ -9,6 +9,10 @@ export default class JsonHelper {
     );
   }
 
+  static cleanString(jsonString) {
+    return stripJsonComments(jsonString);
+  }
+
   static isJSONValid(jsonString) {
     try {
       JSON.parse(stripJsonComments(jsonString));

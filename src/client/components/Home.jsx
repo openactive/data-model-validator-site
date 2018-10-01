@@ -293,8 +293,10 @@ export default class Home extends Component {
       isLoading: true,
     }, () => {
       // Beautify it
-      if (jsonString.length < 5000) {
+      if (jsonString.length < 50000) {
         jsonString = JsonHelper.beautifyString(jsonString);
+      } else {
+        jsonString = JsonHelper.cleanString(jsonString);
       }
 
       // Send JSON to validator
