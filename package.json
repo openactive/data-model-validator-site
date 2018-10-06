@@ -28,8 +28,8 @@
     "@fortawesome/free-brands-svg-icons": "^5.3.1",
     "@fortawesome/free-solid-svg-icons": "^5.3.1",
     "@fortawesome/react-fontawesome": "0.1.0-11",
-    "@openactive/data-model-validator": "^1.1.1",
-    "@openactive/data-models": "^1.1.1",
+    "@openactive/data-model-validator": "^1.1.2",
+    "@openactive/data-models": "^1.1.3",
     "@openactive/rpde-validator": "^1.0.1",
     "babel-cli": "^6.26.0",
     "body-parser": "^1.18.3",
@@ -71,7 +71,8 @@
     "pretest": "npm run lint",
     "test": "npm run test-no-lint",
     "test-no-lint": "BABEL_ENV=test babel-node spec/run.js",
-    "fetch-assets": "babel-node build/fetchAssets.js"
+    "fetch-assets": "babel-node build/fetchAssets.js",
+    "update": "npm update @openactive/data-models @openactive/data-model-validator @openactive/rpde-validator && npm run postinstall"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
