@@ -8,12 +8,16 @@ import request from 'request';
 import fs from 'fs';
 import path from 'path';
 import expressWs from 'express-ws';
+import sslRedirect from 'heroku-ssl-redirect';
 
 // List on port 8080
 const server = class {
   static createServer(port, callback) {
     const app = express();
     expressWs(app);
+
+    // Force SSL
+    app.use(sslRedirect());
 
     // for parsing application/json
     app.use(bodyParser.json());
