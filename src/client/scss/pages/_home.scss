@@ -91,7 +91,7 @@
     }
   }
 
-  .result-filters, .result-sort, .version-switcher {
+  .result-filters, .result-sort, .version-switcher, .validation-mode-switcher {
     margin-right: 1rem;
     h6 {
       padding-left: 0.25rem;
@@ -123,8 +123,26 @@
   }
 
   .version-switcher {
-    margin-right: 0;
-    margin-left: 1rem;
+    margin-left: 0;
+    margin-right: 1rem;
+  }
+
+  .validation-mode-switcher {
+    margin-left: 0;
+    margin-right: 1rem;
+
+    #validationModeMenuButton {
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+    }
+
+    .validation-mode-group {
+      border-top: 1px solid $gray-200;
+      padding-top: 0.5rem;
+      &:first-child {
+        border-top: 0;
+      }
+    }
   }
 
   .sample-switcher {
