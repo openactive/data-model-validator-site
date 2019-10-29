@@ -72,10 +72,12 @@ export default class Home extends Component {
     };
     this.params = queryString.parse(this.props.location.search);
     this.processVersion(true);
+    this.processValidationMode(true);
     this.processUrl(true);
     this.props.history.listen((location) => {
       this.params = queryString.parse(location.search);
       this.processVersion(false);
+      this.processValidationMode(false);
       this.processUrl(false);
     });
   }
@@ -90,6 +92,16 @@ export default class Home extends Component {
         } else {
           this.setState({ version: this.params.version });
         }
+      }
+    }
+  }
+
+  processValidationMode(isFirstRun) {
+    if (typeof this.params.validationMode !== 'undefined') {
+      if (isFirstRun) {
+        this.state.validationMode = this.params.validationMode;
+      } else {
+        this.setState({ validationMode: this.params.validationMode });
       }
     }
   }
