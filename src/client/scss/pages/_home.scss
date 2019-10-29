@@ -149,11 +149,26 @@
     margin-right: 0;
     margin-left: 1rem;
 
+    .sample-group {
+      border-top: 1px solid $gray-200;
+      &:first-child {
+        border-top: 0;
+      }
+    }
+
+    h6 {
+      padding-left: 0.25rem;
+      padding-top: 0.5rem;
+      margin-top: 0;
+      color: $gray-600;
+    }
+
     a.dropdown-item {
       text-decoration: none;
       text-align: left;
       padding-top: .5rem;
       padding-bottom: .5rem;
+      padding-left: .5rem;
       transition: none;
       color: $gray-600;
       &:hover {

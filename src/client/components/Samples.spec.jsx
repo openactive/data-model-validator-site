@@ -10,8 +10,13 @@ describe('<Samples />', () => {
 
     spyOn(VersionHelper, 'getVersionExamples').and.callFake(() => ([
       {
-        file: 'test.json',
-        name: 'Test',
+        name: 'Test group',
+        exampleList: [
+          {
+            file: 'test.json',
+            name: 'Test',
+          },
+        ],
       },
     ]));
 
