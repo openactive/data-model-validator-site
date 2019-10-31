@@ -29,7 +29,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.3.1",
     "@fortawesome/react-fontawesome": "0.1.0-11",
     "@openactive/data-model-validator": "^1.2.0",
-    "@openactive/data-models": "^1.3.0",
+    "@openactive/data-models": "^2.0.0",
     "@openactive/rpde-validator": "^1.0.1",
     "babel-cli": "^6.26.0",
     "body-parser": "^1.18.3",
