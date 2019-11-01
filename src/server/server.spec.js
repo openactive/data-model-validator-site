@@ -31,7 +31,7 @@ describe('server', () => {
     const data = {};
     const options = {
       method: 'post',
-      body: { json: { type: 'Event' }, validationMode: 'RPDEFeed' },
+      body: { json: JSON.stringify({ type: 'Event' }), validationMode: 'RPDEFeed' },
       json: true,
       url: `http://localhost:${port}/api/validate/latest`,
     };
