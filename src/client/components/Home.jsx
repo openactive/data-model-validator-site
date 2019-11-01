@@ -109,7 +109,7 @@ export default class Home extends Component {
   processUrl(isFirstRun) {
     if (typeof this.params.url !== 'undefined') {
       const doProcessUrl = () => {
-        ApiHelper.validateURL(this.params.url, this.state.version).then(
+        ApiHelper.validateURL(this.params.url, this.state.version, this.state.validationMode).then(
           (response) => {
             const validJSON = (typeof response.json === 'object') && response.json !== null;
             let jsonString = '';
@@ -319,7 +319,7 @@ export default class Home extends Component {
       }
 
       // Send JSON to validator
-      ApiHelper.validate(jsonString, this.state.version).then(
+      ApiHelper.validateJSON(jsonString, this.state.version, this.state.validationMode).then(
         (responseRaw) => {
           const { response } = responseRaw;
           sessionStorage.setItem('json', jsonString);
