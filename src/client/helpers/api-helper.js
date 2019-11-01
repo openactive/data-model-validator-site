@@ -31,7 +31,7 @@ export default class ApiHelper {
     }
   }
 
-  static validate(jsonString, version, validationMode) {
+  static validateJSON(jsonString, version, validationMode) {
     return fetch(`/api/validate/${version}`, {
       method: 'POST',
       headers: {
