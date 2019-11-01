@@ -32,7 +32,7 @@ const server = class {
 
     // API route to validator
     app.post('/api/validate/:version', (req, res) => {
-      const json = req.body;
+      const { json, validationMode } = req.body;
       const { version } = req.params;
       if (
         typeof versions[version] === 'undefined'
@@ -61,12 +61,13 @@ const server = class {
         parsedJson = json;
       }
       res.status(200).json(
-        this.doValidation(parsedJson, version),
+        this.doValidation(parsedJson, version, validationMode),
       );
     });
 
     // API route to validate url
     app.post('/api/validateUrl/:version', (req, res) => {
+      const { url, validationMode } = req.body;
       const { version } = req.params;
       if (
         typeof versions[version] === 'undefined'
@@ -80,7 +81,7 @@ const server = class {
         return;
       }
       // Is this a valid URL?
-      request.get(req.body.url, (error, response, body) => {
+      request.get(url, (error, response, body) => {
         let json = body;
         if (typeof json === 'string') {
           try {
