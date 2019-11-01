@@ -182,15 +182,15 @@ const server = class {
     return app.listen(port, callback);
   }
 
-  static doValidation(json, version) {
+  static doValidation(json, version, validationMode) {
     return {
       isRpdeFeed: validator.isRpdeFeed(json),
       json,
-      response: validator.validate(json, this.getValidateOptions(version)),
+      response: validator.validate(json, this.getValidateOptions(version, validationMode)),
     };
   }
 
-  static getValidateOptions(version) {
+  static getValidateOptions(version, validationMode) {
     const cacheDir = path.join(__dirname, '../../cache');
 
     const options = {
@@ -208,6 +208,7 @@ const server = class {
           : 10
       ),
       version,
+      validationMode,
     };
 
     const schemaOrgSpecFile = path.join(cacheDir, 'schemaOrgSpec.json');
