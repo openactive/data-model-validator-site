@@ -92,7 +92,7 @@ const server = class {
         }
         if (typeof json === 'object' && json !== null) {
           res.status(200).json(
-            this.doValidation(json, version),
+            this.doValidation(json, version, validationMode),
           );
           return;
         }
