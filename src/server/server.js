@@ -90,21 +90,21 @@ const server = class {
             json = null;
           }
         }
-        if (typeof json === 'object' && json !== null) {
-          res.status(200).json(
-            this.doValidation(json, version, validationMode),
+        if (typeof json !== 'object' || json === null) {
+          res.status(400).json(
+            {
+              json: null,
+              response: [{
+                path: 'url',
+                severity: 'failure',
+                message: 'The url that you have provided does not contain a valid JSON document.',
+              }],
+            },
           );
           return;
         }
-        res.status(400).json(
-          {
-            json: null,
-            response: [{
-              path: 'url',
-              severity: 'failure',
-              message: 'The url that you have provided does not contain a valid JSON document.',
-            }],
-          },
+        res.status(200).json(
+          this.doValidation(json, version, validationMode),
         );
       });
     });
