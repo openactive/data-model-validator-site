@@ -31,20 +31,20 @@ export default class ApiHelper {
     }
   }
 
-  static validate(jsonString, version) {
+  static validate(jsonString, version, validationMode) {
     return fetch(`/api/validate/${version}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: jsonString,
+      body: JSON.stringify({ json: jsonString, validationMode }),
     }).then(
       res => ApiHelper.handleResponse(res, jsonString),
     );
   }
 
-  static validateURL(url, version) {
+  static validateURL(url, version, validationMode) {
     return fetch(`/api/validateUrl/${version}`, {
       method: 'POST',
       headers: {
@@ -53,6 +53,7 @@ export default class ApiHelper {
       },
       body: JSON.stringify({
         url,
+        validationMode,
       }),
     }).then(
       res => ApiHelper.handleResponse(res),
