@@ -31,8 +31,7 @@ const server = class {
     );
 
     // API route to validator
-    app.post('/api/validate/:version', (req, res) => {
-      const { json, validationMode } = req.body;
+    app.post('/api/validate/:version', async (req, res) => {
       const { version } = req.params;
       if (
         typeof versions[version] === 'undefined'
@@ -45,52 +44,39 @@ const server = class {
         ]);
         return;
       }
-      let parsedJson;
-      if (typeof json !== 'object') {
-        try {
-          parsedJson = JSON.parse(json);
-        } catch (e) {
-          res.status(400).json([
-            {
-              message: 'Invalid JSON',
-            },
-          ]);
-          return;
-        }
-      } else {
-        parsedJson = json;
-      }
-      res.status(200).json(
-        this.doValidation(parsedJson, version, validationMode),
-      );
-    });
 
-    // API route to validate url
-    app.post('/api/validateUrl/:version', (req, res) => {
-      const { url, validationMode } = req.body;
-      const { version } = req.params;
-      if (
-        typeof versions[version] === 'undefined'
-        && Object.values(versions).indexOf(version) < 0
-      ) {
-        res.status(400).json([
-          {
-            message: 'Invalid version',
-          },
-        ]);
-        return;
-      }
-      // Is this a valid URL?
-      request.get(url, (error, response, body) => {
-        let json = body;
-        if (typeof json === 'string') {
-          try {
-            json = JSON.parse(json);
-          } catch (e) {
-            json = null;
+      const { validationMode } = req.body;
+
+      const extractJSONFromURL = url => new Promise((resolve, reject) => {
+        // Is this a valid URL?
+        request.get(url, (_error, _response, body) => {
+          let json = body;
+          if (typeof json === 'string') {
+            try {
+              json = JSON.parse(json);
+            } catch (e) {
+              reject(e);
+              return;
+            }
           }
-        }
-        if (typeof json !== 'object' || json === null) {
+          if (typeof json !== 'object' || json === null) {
+            reject();
+            return;
+          }
+          resolve(json);
+        });
+      });
+
+      const extractJSONFromBody = jsonString => new Promise((resolve) => {
+        resolve(JSON.parse(jsonString));
+      });
+
+      let parsedJson = null;
+
+      if (req.body.url) {
+        try {
+          parsedJson = await extractJSONFromURL(req.body.url);
+        } catch (e) {
           res.status(400).json(
             {
               json: null,
@@ -103,11 +89,24 @@ const server = class {
           );
           return;
         }
-        res.status(200).json(
-          this.doValidation(json, version, validationMode),
-        );
-      });
+      } else {
+        try {
+          parsedJson = await extractJSONFromBody(req.body.json);
+        } catch (e) {
+          res.status(400).json([
+            {
+              message: 'Invalid JSON',
+            },
+          ]);
+          return;
+        }
+      }
+
+      res.status(200).json(
+        this.doValidation(parsedJson, version, validationMode),
+      );
     });
+
 
     app.ws('/ws', (ws) => {
       ws.on('message', (message) => {
