@@ -32,12 +32,12 @@ export default class ApiHelper {
   }
 
   static validateJSON(jsonString, version, validationMode) {
-    this.validate({ json: jsonString }, version, validationMode)
+    return this.validate({ json: jsonString }, version, validationMode)
       .then(res => ApiHelper.handleResponse(res, jsonString));
   }
 
   static validateURL(url, version, validationMode) {
-    this.validate({ url }, version, validationMode)
+    return this.validate({ url }, version, validationMode)
       .then(res => ApiHelper.handleResponse(res));
   }
 
