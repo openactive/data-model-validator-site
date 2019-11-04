@@ -42,7 +42,7 @@ export default class ApiHelper {
   }
 
   static validate(data, version, validationMode) {
-    let body = Object.clone(data);
+    let body = JSON.parse(JSON.stringify(data));
     body.validationMode = validationMode;
     body = JSON.stringify(body);
     return fetch(`/api/validate/${version}`, {
@@ -54,5 +54,4 @@ export default class ApiHelper {
       body,
     });
   }
-
 }
