@@ -57,6 +57,8 @@ export default class Home extends Component {
         name: 'General',
       },
     };
+    const version = VersionHelper.getLatestVersion();
+    const validationMode = VersionHelper.getDefaultValidationMode(version);
     this.state = {
       results: null,
       json: savedJson || '',
@@ -67,8 +69,8 @@ export default class Home extends Component {
       filter: this.buildFilter(),
       sort: 'severity',
       group: true,
-      version: VersionHelper.getLatestVersion(),
-      validationMode: VersionHelper.getVersionMetaData(this.props.version).validationModeGroups[0].validationModeList[0].validationMode,
+      version,
+      validationMode,
     };
     this.params = queryString.parse(this.props.location.search);
     this.processVersion(true);
