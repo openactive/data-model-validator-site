@@ -163,8 +163,7 @@
       color: $gray-600;
 
       /* rotate caret on hover */
-      &:hover:after {
-        text-decoration: underline;
+      &:after {
         transform: rotate(-90deg);
       }
     }
