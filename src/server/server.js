@@ -102,9 +102,16 @@ const server = class {
         }
       }
 
-      res.status(200).json(
-        this.doValidation(parsedJson, version, validationMode),
-      );
+      try {
+        const responseBody = this.doValidation(parsedJson, version, validationMode);
+        res.status(200).json(responseBody);
+      } catch (e) {
+        console.error(e);
+        res.status(400).json({
+          response: [{ message: 'Invalid example' }],
+          json: parsedJson,
+        });
+      }
     });
 
 
