@@ -55,4 +55,8 @@ export default class VersionHelper {
   static getVersionMetaData(version) {
     return getMetaData(version);
   }
+
+  static getDefaultValidationMode(version) {
+    return this.getVersionMetaData(version).validationModeGroups[0].validationModeList[0].validationMode;
+  }
 }
