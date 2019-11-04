@@ -161,6 +161,12 @@
       padding-top: 0.5rem;
       margin-top: 0;
       color: $gray-600;
+
+      /* rotate caret on hover */
+      &:hover:after {
+        text-decoration: underline;
+        transform: rotate(-90deg);
+      }
     }
 
     a.dropdown-item {
@@ -174,6 +180,20 @@
       &:hover {
         color: $gray-600;
       }
+    }
+
+    .sample-group:hover > .dropdown-menu {
+      display: block;
+    }
+
+    .dropdown-submenu {
+      position: relative;
+    }
+
+    .dropdown-submenu > .dropdown-menu {
+        top: 0;
+        left: 100%;
+        // margin-top: -6px;
     }
   }
 

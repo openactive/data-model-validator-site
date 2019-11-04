@@ -35,9 +35,11 @@ export default class Samples extends Component {
       });
       sampleGroups.push(
         (
-          <div key={`sample-group-${groupIndex}`} className="sample-group">
-            <h6 className="dropdown-header">{exampleGroup.name}</h6>
-            {sampleList}
+          <div key={`sample-group-${groupIndex}`} className="sample-group dropdown-submenu">
+            <h6 className="dropdown-header dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{exampleGroup.name}</h6>
+            <div className="dropdown-menu">
+              {sampleList}
+            </div>
           </div>
         ),
       );
