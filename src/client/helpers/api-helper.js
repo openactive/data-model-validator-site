@@ -31,31 +31,26 @@ export default class ApiHelper {
     }
   }
 
-  static validate(jsonString, version) {
+  static validateJSON(jsonString, version, validationMode) {
+    return this.validate({ json: jsonString }, version, validationMode)
+      .then(res => ApiHelper.handleResponse(res, jsonString));
+  }
+
+  static validateURL(url, version, validationMode) {
+    return this.validate({ url }, version, validationMode)
+      .then(res => ApiHelper.handleResponse(res));
+  }
+
+  static validate(data, version, validationMode) {
+    let body = Object.assign({}, data, { validationMode });
+    body = JSON.stringify(body);
     return fetch(`/api/validate/${version}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: jsonString,
-    }).then(
-      res => ApiHelper.handleResponse(res, jsonString),
-    );
-  }
-
-  static validateURL(url, version) {
-    return fetch(`/api/validateUrl/${version}`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        url,
-      }),
-    }).then(
-      res => ApiHelper.handleResponse(res),
-    );
+      body,
+    });
   }
 }

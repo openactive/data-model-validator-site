@@ -31,8 +31,7 @@ const server = class {
     );
 
     // API route to validator
-    app.post('/api/validate/:version', (req, res) => {
-      const json = req.body;
+    app.post('/api/validate/:version', async (req, res) => {
       const { version } = req.params;
       if (
         typeof versions[version] === 'undefined'
@@ -45,10 +44,54 @@ const server = class {
         ]);
         return;
       }
-      let parsedJson;
-      if (typeof json !== 'object') {
+
+      const { validationMode } = req.body;
+
+      const extractJSONFromURL = url => new Promise((resolve, reject) => {
+        // Is this a valid URL?
+        request.get(url, (_error, _response, body) => {
+          let json = body;
+          if (typeof json === 'string') {
+            try {
+              json = JSON.parse(json);
+            } catch (e) {
+              reject(e);
+              return;
+            }
+          }
+          if (typeof json !== 'object' || json === null) {
+            reject();
+            return;
+          }
+          resolve(json);
+        });
+      });
+
+      const extractJSONFromBody = jsonString => new Promise((resolve) => {
+        resolve(JSON.parse(jsonString));
+      });
+
+      let parsedJson = null;
+
+      if (req.body.url) {
         try {
-          parsedJson = JSON.parse(json);
+          parsedJson = await extractJSONFromURL(req.body.url);
+        } catch (e) {
+          res.status(400).json(
+            {
+              json: null,
+              response: [{
+                path: 'url',
+                severity: 'failure',
+                message: 'The url that you have provided does not contain a valid JSON document.',
+              }],
+            },
+          );
+          return;
+        }
+      } else {
+        try {
+          parsedJson = await extractJSONFromBody(req.body.json);
         } catch (e) {
           res.status(400).json([
             {
@@ -57,56 +100,20 @@ const server = class {
           ]);
           return;
         }
-      } else {
-        parsedJson = json;
       }
-      res.status(200).json(
-        this.doValidation(parsedJson, version),
-      );
+
+      try {
+        const responseBody = this.doValidation(parsedJson, version, validationMode);
+        res.status(200).json(responseBody);
+      } catch (e) {
+        console.error(e);
+        res.status(400).json({
+          response: [{ message: 'Invalid example' }],
+          json: parsedJson,
+        });
+      }
     });
 
-    // API route to validate url
-    app.post('/api/validateUrl/:version', (req, res) => {
-      const { version } = req.params;
-      if (
-        typeof versions[version] === 'undefined'
-        && Object.values(versions).indexOf(version) < 0
-      ) {
-        res.status(400).json([
-          {
-            message: 'Invalid version',
-          },
-        ]);
-        return;
-      }
-      // Is this a valid URL?
-      request.get(req.body.url, (error, response, body) => {
-        let json = body;
-        if (typeof json === 'string') {
-          try {
-            json = JSON.parse(json);
-          } catch (e) {
-            json = null;
-          }
-        }
-        if (typeof json === 'object' && json !== null) {
-          res.status(200).json(
-            this.doValidation(json, version),
-          );
-          return;
-        }
-        res.status(400).json(
-          {
-            json: null,
-            response: [{
-              path: 'url',
-              severity: 'failure',
-              message: 'The url that you have provided does not contain a valid JSON document.',
-            }],
-          },
-        );
-      });
-    });
 
     app.ws('/ws', (ws) => {
       ws.on('message', (message) => {
@@ -181,15 +188,15 @@ const server = class {
     return app.listen(port, callback);
   }
 
-  static doValidation(json, version) {
+  static doValidation(json, version, validationMode) {
     return {
       isRpdeFeed: validator.isRpdeFeed(json),
       json,
-      response: validator.validate(json, this.getValidateOptions(version)),
+      response: validator.validate(json, this.getValidateOptions(version, validationMode)),
     };
   }
 
-  static getValidateOptions(version) {
+  static getValidateOptions(version, validationMode) {
     const cacheDir = path.join(__dirname, '../../cache');
 
     const options = {
@@ -207,6 +214,7 @@ const server = class {
           : 10
       ),
       version,
+      validationMode,
     };
 
     const schemaOrgSpecFile = path.join(cacheDir, 'schemaOrgSpec.json');

@@ -16,6 +16,7 @@ import Results from './Results.jsx';
 import ResultFilters from './ResultFilters.jsx';
 import ResultSort from './ResultSort.jsx';
 import SpecVersion from './SpecVersion.jsx';
+import ValidationMode from './ValidationMode.jsx';
 import Samples from './Samples.jsx';
 import LoadUrl from './LoadUrl.jsx';
 
@@ -56,6 +57,8 @@ export default class Home extends Component {
         name: 'General',
       },
     };
+    const version = VersionHelper.getLatestVersion();
+    const validationMode = VersionHelper.getDefaultValidationMode(version);
     this.state = {
       results: null,
       json: savedJson || '',
@@ -66,7 +69,8 @@ export default class Home extends Component {
       filter: this.buildFilter(),
       sort: 'severity',
       group: true,
-      version: VersionHelper.getLatestVersion(),
+      version,
+      validationMode,
     };
     this.params = queryString.parse(this.props.location.search);
     this.processVersion(true);
@@ -85,17 +89,28 @@ export default class Home extends Component {
       if (typeof version !== 'undefined') {
         if (isFirstRun) {
           this.state.version = this.params.version;
+          this.processValidationMode(isFirstRun);
         } else {
-          this.setState({ version: this.params.version });
+          this.setState({ version: this.params.version }, this.processValidationMode.bind(this, isFirstRun));
         }
       }
+    }
+  }
+
+  processValidationMode(isFirstRun) {
+    const defaultValidationMode = VersionHelper.getDefaultValidationMode(this.state.version);
+    const validationMode = (typeof this.params.validationMode !== 'undefined' ? this.params.validationMode : defaultValidationMode);
+    if (isFirstRun) {
+      this.state.validationMode = validationMode;
+    } else {
+      this.setState({ validationMode });
     }
   }
 
   processUrl(isFirstRun) {
     if (typeof this.params.url !== 'undefined') {
       const doProcessUrl = () => {
-        ApiHelper.validateURL(this.params.url, this.state.version).then(
+        ApiHelper.validateURL(this.params.url, this.state.version, this.state.validationMode).then(
           (response) => {
             const validJSON = (typeof response.json === 'object') && response.json !== null;
             let jsonString = '';
@@ -184,6 +199,10 @@ export default class Home extends Component {
     this.setState({ version });
   }
 
+  changeValidationMode(validationMode) {
+    this.setState({ validationMode });
+  }
+
   urlRedirect(url) {
     this.props.history.push({
       pathname: '/',
@@ -216,6 +235,7 @@ export default class Home extends Component {
       && this.state.sort === nextState.sort
       && this.state.group === nextState.group
       && this.state.version === nextState.version
+      && this.state.validationMode === nextState.validationMode
     ) {
       return false;
     }
@@ -300,7 +320,7 @@ export default class Home extends Component {
       }
 
       // Send JSON to validator
-      ApiHelper.validate(jsonString, this.state.version).then(
+      ApiHelper.validateJSON(jsonString, this.state.version, this.state.validationMode).then(
         (responseRaw) => {
           const { response } = responseRaw;
           sessionStorage.setItem('json', jsonString);
@@ -344,12 +364,13 @@ export default class Home extends Component {
               <SpecVersion version={this.state.version} onVersionClick={version => this.changeVersion(version)} />
               <Samples version={this.state.version} />
             </div>
-            <div className="col-4 col-sm-5">
+            <div className="col-3">
               <ResultFilters filter={this.state.filter} onFilterChange={(type, value) => this.toggleFilter(type, value)} onAllFilterChange={(type, value) => this.toggleAllFilter(type, value)} onGroupChange={value => this.toggleGroup(value)} group={this.state.group} results={this.state.results} categories={this.categories} severities={this.severities} />
               <ResultSort sort={this.state.sort} onSortChange={value => this.changeSort(value)} results={this.state.results} />
             </div>
-            <div className="col-2 col-sm-1">
+            <div className="col-3">
               <button className="btn btn-primary float-right" onClick={() => this.validate()}>Validate</button>
+              <ValidationMode version={this.state.version} validationMode={this.state.validationMode} onValidationModeClick={validationMode => this.changeValidationMode(validationMode)} />
             </div>
           </div>
         </div>

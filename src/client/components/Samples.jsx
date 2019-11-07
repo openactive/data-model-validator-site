@@ -9,32 +9,50 @@ export default class Samples extends Component {
     if (examples.length === 0) {
       return '';
     }
-    const sampleList = [];
-    let key = 0;
-    for (const example of examples) {
-      let url = '';
-      if (example.file.match(/^https?:\/\//)) {
-        url = example.file;
-      } else {
-        url = `https://www.openactive.io/data-models/versions/${version}/examples/${example.file}`;
-      }
-      sampleList.push(
+    const sampleGroups = [];
+    examples.forEach((exampleGroup, groupIndex) => {
+      const sampleList = [];
+
+      exampleGroup.exampleList.forEach((example, exampleIndex) => {
+        let exampleUrl = '';
+        if (example.file.match(/^https?:\/\//)) {
+          exampleUrl = example.file;
+        } else {
+          exampleUrl = `https://www.openactive.io/data-models/versions/${version}/examples/${example.file}`;
+        }
+        let linkUrl = `/?url=${encodeURIComponent(exampleUrl)}&version=${this.props.version}`;
+        if (example.validationMode) {
+          linkUrl += `&validationMode=${encodeURIComponent(example.validationMode)}`;
+        }
+
+        sampleList.push(
+          (
+            <Link key={`sample-${exampleIndex}`} className="dropdown-item" to={linkUrl}>
+              {example.name}
+            </Link>
+          ),
+        );
+      });
+      sampleGroups.push(
         (
-          <Link key={key} className="dropdown-item" to={`/?url=${encodeURIComponent(url)}&version=${this.props.version}`}>
-            {example.name}
-          </Link>
+          <div key={`sample-group-${groupIndex}`} className="sample-group dropdown-submenu">
+            <h6 className="dropdown-header dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{exampleGroup.name}</h6>
+            <div className="dropdown-menu">
+              {sampleList}
+            </div>
+          </div>
         ),
       );
-      key += 1;
-    }
+    });
+
     return (
       <div className="sample-switcher float-left">
         <div className="dropdown">
           <button className="btn btn-primary dropdown-toggle" type="button" id="samplesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Samples
           </button>
-          <form className="dropdown-menu" aria-labelledby="samplesMenuButton">
-            {sampleList}
+          <form className="dropdown-menu p-2" aria-labelledby="samplesMenuButton">
+            {sampleGroups}
           </form>
         </div>
       </div>
