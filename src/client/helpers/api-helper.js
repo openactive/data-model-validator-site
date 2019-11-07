@@ -42,8 +42,7 @@ export default class ApiHelper {
   }
 
   static validate(data, version, validationMode) {
-    let body = JSON.parse(JSON.stringify(data));
-    body.validationMode = validationMode;
+    let body = Object.assign({}, data, { validationMode });
     body = JSON.stringify(body);
     return fetch(`/api/validate/${version}`, {
       method: 'POST',
