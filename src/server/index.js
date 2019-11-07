@@ -1,3 +1,4 @@
+import 'babel-polyfill';
 import server from './server';
 
 // set the port of our application
