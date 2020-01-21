@@ -81,3 +81,6 @@ typings/
 
 # OSX
 .DS_Store
+
+# Allow CI to pull through latest dependencies
+package-lock.json
