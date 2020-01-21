@@ -200,7 +200,7 @@ export default class Home extends Component {
   }
 
   changeValidationMode(validationMode) {
-    this.setState({ validationMode });
+    this.setState({ validationMode }, () => this.validate());
   }
 
   urlRedirect(url) {
