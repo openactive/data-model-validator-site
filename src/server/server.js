@@ -103,7 +103,7 @@ const server = class {
       }
 
       try {
-        const responseBody = this.doValidation(parsedJson, version, validationMode);
+        const responseBody = await this.doValidation(parsedJson, version, validationMode);
         res.status(200).json(responseBody);
       } catch (e) {
         console.error(e);
@@ -188,11 +188,13 @@ const server = class {
     return app.listen(port, callback);
   }
 
-  static doValidation(json, version, validationMode) {
+  static async doValidation(json, version, validationMode) {
+    const response = await validator.validate(json, this.getValidateOptions(version, validationMode));
+    const isRpdeFeed = validator.isRpdeFeed(json);
     return {
-      isRpdeFeed: validator.isRpdeFeed(json),
+      isRpdeFeed,
       json,
-      response: validator.validate(json, this.getValidateOptions(version, validationMode)),
+      response,
     };
   }
 
