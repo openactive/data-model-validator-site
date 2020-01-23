@@ -1,6 +1,6 @@
 {
   "name": "data-model-validator-site",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "description": "User interface for the OpenActive data model validator",
   "homepage": "https://openactive.io",
   "author": "OpenActive Community <hello@openactive.io>",
