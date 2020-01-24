@@ -20,7 +20,7 @@ export default class Samples extends Component {
         } else {
           exampleUrl = `https://www.openactive.io/data-models/versions/${version}/examples/${example.file}`;
         }
-        let linkUrl = `/?url=${encodeURIComponent(exampleUrl)}&version=${this.props.version}`;
+        let linkUrl = `/?url=${encodeURIComponent(exampleUrl)}&version=${version}`;
         if (example.validationMode) {
           linkUrl += `&validationMode=${encodeURIComponent(example.validationMode)}`;
         }

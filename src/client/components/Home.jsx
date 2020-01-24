@@ -57,8 +57,9 @@ export default class Home extends Component {
         name: 'General',
       },
     };
-    const version = VersionHelper.getLatestVersion();
-    const validationMode = VersionHelper.getDefaultValidationMode(version);
+    this.params = queryString.parse(this.props.location.search);
+    const version = this.normalizeVersion();
+    const validationMode = this.normalizeValidationMode(version);
     this.state = {
       results: null,
       json: savedJson || '',
@@ -72,39 +73,28 @@ export default class Home extends Component {
       version,
       validationMode,
     };
-    this.params = queryString.parse(this.props.location.search);
-    this.processVersion(true);
+
     this.processUrl(true);
     this.props.history.listen((location) => {
       this.params = queryString.parse(location.search);
-      this.processVersion(false);
-      this.processUrl(false);
+      const historyVersion = this.normalizeVersion();
+      const historyValidationMode = this.normalizeValidationMode(historyVersion);
+      this.setState({ version: historyVersion, validationMode: historyValidationMode }, () => this.processUrl(false));
     });
   }
 
-  processVersion(isFirstRun) {
+  normalizeVersion() {
     if (typeof this.params.version !== 'undefined') {
-      const versions = VersionHelper.getVersions();
-      const version = versions[this.params.version];
-      if (typeof version !== 'undefined') {
-        if (isFirstRun) {
-          this.state.version = this.params.version;
-          this.processValidationMode(isFirstRun);
-        } else {
-          this.setState({ version: this.params.version }, this.processValidationMode.bind(this, isFirstRun));
-        }
-      }
+      return VersionHelper.getTranslatedVersion(this.params.version);
     }
+    return VersionHelper.getLatestVersion();
   }
 
-  processValidationMode(isFirstRun) {
-    const defaultValidationMode = VersionHelper.getDefaultValidationMode(this.state.version);
-    const validationMode = (typeof this.params.validationMode !== 'undefined' ? this.params.validationMode : defaultValidationMode);
-    if (isFirstRun) {
-      this.state.validationMode = validationMode;
-    } else {
-      this.setState({ validationMode });
+  normalizeValidationMode(version) {
+    if (typeof this.params.validationMode !== 'undefined') {
+      return this.params.validationMode;
     }
+    return VersionHelper.getDefaultValidationMode(version);
   }
 
   processUrl(isFirstRun) {
