@@ -141,7 +141,7 @@ export default class Results extends Component {
 
         topMessage = (
           <div className="result-summary">
-            <Pluralize singular="distinct message" count={items.length} /> (of which:{ofWhich}) [<Pluralize singular="message" count={this.props.results.length} /> in total returned from the validator in "{this.props.validationMode}" mode]
+            <Pluralize singular="distinct message" count={items.length} /> (of which:{ofWhich}) [<Pluralize singular="message" count={this.props.results.length} /> in total] returned from the validator in "{this.props.validationMode}" mode
           </div>
         );
       } else {
