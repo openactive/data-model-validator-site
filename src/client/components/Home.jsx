@@ -385,7 +385,7 @@ export default class Home extends Component {
           </div>
           <div className="col-6 results-col">
             {helpText}
-            <Results results={this.state.results} filter={this.state.filter} sort={this.state.sort} group={this.state.group} severities={this.severities} tokenMap={this.state.tokenMap} onResultClick={path => this.onResultClick(path)} onResetFilters={() => this.resetFilter()}/>
+            <Results results={this.state.results} filter={this.state.filter} sort={this.state.sort} group={this.state.group} severities={this.severities} tokenMap={this.state.tokenMap} validationMode={this.state.validationMode} onResultClick={path => this.onResultClick(path)} onResetFilters={() => this.resetFilter()}/>
           </div>
         </div>
       </div>
