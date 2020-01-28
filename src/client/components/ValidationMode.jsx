@@ -17,16 +17,11 @@ export default class ValidationMode extends Component {
     const meta = VersionHelper.getVersionMetaData(this.props.version);
     const { validationModeGroups } = meta;
 
-    let selectedValidationMode;
-
     const modeGroups = [];
     validationModeGroups.forEach((group, groupIndex) => {
       const modeList = [];
       for (const validationModeObj of group.validationModeList) {
         const isChecked = (this.props.validationMode === validationModeObj.validationMode);
-        if (isChecked) {
-          selectedValidationMode = validationModeObj.name;
-        }
         modeList.push(
           (
             <div key={`validation-mode-${validationModeObj.validationMode}-radio`} className={`form-check dropdown-item ${isChecked ? 'checked' : ''}`} onClick={e => this.handleValidationModeClick(e, validationModeObj.validationMode)}>
@@ -53,7 +48,7 @@ export default class ValidationMode extends Component {
       <div className="validation-mode-switcher float-right">
         <div className="dropdown">
           <button className="btn btn-primary dropdown-toggle" type="button" id="validationModeMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              {selectedValidationMode}
+              Mode
           </button>
           <form className="dropdown-menu p-3" aria-labelledby="validationModeMenuButton">
             {modeGroups}
