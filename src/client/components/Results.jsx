@@ -99,7 +99,7 @@ export default class Results extends Component {
         topMessage = (
           <div className="information-row text-center hero-sub validated">
             <p><FontAwesomeIcon icon="check-circle" size="4x" /></p>
-            <p>Great work, the validator found no issues with your data!</p>
+            <p>Great work, the validator found no issues with your data in "{this.props.validationMode}" mode!</p>
           </div>
         );
       } else if (filtered) {
@@ -141,13 +141,13 @@ export default class Results extends Component {
 
         topMessage = (
           <div className="result-summary">
-            <Pluralize singular="distinct message" count={items.length} /> (of which:{ofWhich}) [<Pluralize singular="message" count={this.props.results.length} /> in total returned]
+            <Pluralize singular="distinct message" count={items.length} /> (of which:{ofWhich}) [<Pluralize singular="message" count={this.props.results.length} /> in total returned from the validator in "{this.props.validationMode}" mode]
           </div>
         );
       } else {
         topMessage = (
           <div className="result-summary">
-            <Pluralize singular="message" count={this.props.results.length} /> returned from the validator
+      <Pluralize singular="message" count={this.props.results.length} /> returned from the validator in "{this.props.validationMode}" mode
           </div>
         );
       }
