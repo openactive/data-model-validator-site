@@ -9,7 +9,7 @@ describe('<Results />', () => {
 
     // Render into a document fragment and return the full component instance.
     expect(() => {
-      wrapper = shallow(<Results results={[]}/>);
+      wrapper = shallow(<Results version="2.x" validationMode="RPDEFeed" results={[]}/>);
     }).not.toThrow();
 
     expect(wrapper.type()).toBe('div');
@@ -46,7 +46,7 @@ describe('<Results />', () => {
       },
     };
 
-    const wrapper = shallow(<Results severities={severities} group={false} results={errors} tokenMap={tokenMap}/>);
+    const wrapper = shallow(<Results version="2.x" validationMode="RPDEFeed" severities={severities} group={false} results={errors} tokenMap={tokenMap}/>);
 
     const items = wrapper.find('.result-line-col');
 
@@ -75,7 +75,7 @@ describe('<Results />', () => {
 
     const onResultClick = jasmine.createSpy('onResultClick');
 
-    const wrapper = shallow(<Results group={false} severities={severities} results={errors} onResultClick={onResultClick}/>);
+    const wrapper = shallow(<Results version="2.x" validationMode="RPDEFeed" group={false} severities={severities} results={errors} onResultClick={onResultClick}/>);
 
     const items = wrapper.find('.item-item');
     items.at(0).simulate('click');
@@ -111,6 +111,7 @@ describe('<Results />', () => {
 
     const wrapper = shallow(
       <Results
+        version="2.x" validationMode="RPDEFeed"
         severities={severities}
         filter={filter}
         results={errors}
@@ -152,6 +153,7 @@ describe('<Results />', () => {
 
     const wrapper = shallow(
       <Results
+        version="2.x" validationMode="RPDEFeed"
         severities={severities}
         filter={filter}
         results={errors}
@@ -191,6 +193,7 @@ describe('<Results />', () => {
 
     const wrapper = shallow(
       <Results
+        version="2.x" validationMode="RPDEFeed"
         severities={severities}
         filter={filter}
         results={errors}
@@ -230,6 +233,7 @@ describe('<Results />', () => {
 
     const wrapper = shallow(
       <Results
+        version="2.x" validationMode="RPDEFeed"
         severities={severities}
         filter={filter}
         results={errors}
@@ -274,7 +278,7 @@ describe('<Results />', () => {
     };
     const sort = 'rowCol';
 
-    const wrapper = shallow(<Results severities={severities} group={false} sort={sort} results={errors} tokenMap={tokenMap}/>);
+    const wrapper = shallow(<Results version="2.x" validationMode="RPDEFeed" severities={severities} group={false} sort={sort} results={errors} tokenMap={tokenMap}/>);
 
     const items = wrapper.find('.result-line-col');
 
@@ -333,7 +337,7 @@ describe('<Results />', () => {
     };
     const sort = 'severity';
 
-    const wrapper = shallow(<Results severities={severities} group={false} sort={sort} results={errors} tokenMap={tokenMap}/>);
+    const wrapper = shallow(<Results version="2.x" validationMode="RPDEFeed" severities={severities} group={false} sort={sort} results={errors} tokenMap={tokenMap}/>);
 
     const items = wrapper.find('.result-line-col');
 
@@ -402,7 +406,7 @@ describe('<Results />', () => {
     };
     const sort = 'rowCol';
 
-    const wrapper = shallow(<Results severities={severities} group={true} sort={sort} results={errors} tokenMap={tokenMap}/>);
+    const wrapper = shallow(<Results version="2.x" validationMode="RPDEFeed" severities={severities} group={true} sort={sort} results={errors} tokenMap={tokenMap}/>);
 
     const items = wrapper.find('.result-item');
 
@@ -474,7 +478,7 @@ describe('<Results />', () => {
     };
     const sort = 'severity';
 
-    const wrapper = shallow(<Results severities={severities} group={true} sort={sort} results={errors} tokenMap={tokenMap}/>);
+    const wrapper = shallow(<Results version="2.x" validationMode="RPDEFeed" severities={severities} group={true} sort={sort} results={errors} tokenMap={tokenMap}/>);
 
     const items = wrapper.find('.result-item');
 
@@ -546,7 +550,7 @@ describe('<Results />', () => {
     };
     const sort = 'severity';
 
-    const wrapper = shallow(<Results severities={severities} group={true} sort={sort} results={errors} tokenMap={tokenMap}/>);
+    const wrapper = shallow(<Results version="2.x" validationMode="RPDEFeed" severities={severities} group={true} sort={sort} results={errors} tokenMap={tokenMap}/>);
 
     const items = wrapper.find('.result-item');
 
