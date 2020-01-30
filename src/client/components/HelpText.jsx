@@ -20,7 +20,7 @@ export default class HelpText extends Component {
     return (
       <div className="information-row text-center hero-sub">
         <p>
-          This tool allows you to validate your data models against the 
+          This tool allows you to validate your data models against the
           <a href={url} target="_blank" rel="noopener">Modelling Opportunity Data Specification v{this.props.version} <FontAwesomeIcon icon="external-link-alt" /></a>
           and the
           <a href="https://www.openactive.io/open-booking-api/EditorsDraft/" target="_blank" rel="noopener">Open Booking API Specification v1.0 CR <FontAwesomeIcon icon="external-link-alt" /></a>.
