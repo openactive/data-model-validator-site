@@ -103,7 +103,7 @@ export default class About extends Component {
         <div className="jumbotron">
           <div className="container">
             <h1 className="display-3">OpenActive Data Validator</h1>
-            <p><a href="https://www.openactive.io/">OpenActive</a> is a community-led initiative using open data to help people get active. This validator allows you to validate a JSON document against the <a href={specUrl}>Modelling Opportunity Specification{version}</a> and the <a title="Open Booking API Specification" aria-label="Open Booking API Specification" href="https://www.openactive.io/open-booking-api/EditorsDraft/">Booking v1.0 CR2</a>.</p>
+            <p><a href="https://www.openactive.io/">OpenActive</a> is a community-led initiative using open data to help people get active. This validator allows you to validate a JSON document against the <a href={specUrl}>Modelling Opportunity Specification{version}</a> and the <a href="https://www.openactive.io/open-booking-api/EditorsDraft/">Open Booking API Specification v1.0 CR2</a>.</p>
           </div>
         </div>
         <div className="container">
@@ -114,7 +114,7 @@ export default class About extends Component {
               <ul>
                 <li>Automatically fix bad data</li>
                 <li>Validate custom properties</li>
-                <li>Validate properties in schema.org that are not in the <a href={specUrl}>Modelling Opportunity Specification{version}</a> or the <a title="Open Booking API Specification" aria-label="Open Booking API Specification" href="https://www.openactive.io/open-booking-api/EditorsDraft/">Booking v1.0 CR2</a>.</li>
+                <li>Validate properties in schema.org that are not in the <a href={specUrl}>Modelling Opportunity Specification{version}</a> or the <a href="https://www.openactive.io/open-booking-api/EditorsDraft/">Open Booking API Specification v1.0 CR2</a>.</li>
               </ul>
             </div>
           </div>
