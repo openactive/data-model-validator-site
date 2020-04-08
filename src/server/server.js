@@ -51,6 +51,10 @@ const server = class {
         // Is this a valid URL?
         request.get(url, (_error, _response, body) => {
           let json = body;
+          if (json === null) {
+            reject(new Error('No body was returned from the server.'));
+            return;
+          }
           if (typeof json === 'string') {
             try {
               json = JSON.parse(json);
@@ -60,7 +64,7 @@ const server = class {
             }
           }
           if (typeof json !== 'object' || json === null) {
-            reject();
+            reject(new Error('JSON.parse failed.'));
             return;
           }
           resolve(json);
@@ -83,7 +87,7 @@ const server = class {
               response: [{
                 path: 'url',
                 severity: 'failure',
-                message: 'The url that you have provided does not contain a valid JSON document.',
+                message: `The url that you have provided does not contain a valid JSON document. ${e.message}`,
               }],
             },
           );
