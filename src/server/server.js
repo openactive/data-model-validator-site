@@ -70,7 +70,7 @@ const server = class {
               return;
             }
             if (typeof response.data !== 'object') {
-              reject(new Error(`JSON parsing failed ${typeof response.data === 'string' ? ` for response body:\n\n\`\`\`\n${response.data.substring(0, 1000)}\n\`\`\`` : ''}`));
+              reject(new Error(`JSON parsing failed ${typeof response.data === 'string' ? ` for response body:\n\n\`\`\`\n${response.data.replace('```', '').substring(0, 50)}\n...\n\`\`\`` : ''}`));
               return;
             }
             resolve(response.data);
