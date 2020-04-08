@@ -50,21 +50,27 @@ const server = class {
       const extractJSONFromURL = url => new Promise((resolve, reject) => {
         // Is this a valid URL?
         request.get(url, (_error, _response, body) => {
-          let json = body;
-          if (json === null) {
+          if (_response.statusCode !== 200) {
+            reject(new Error(`Status code ${_response.statusCode} returned by the server. Body: ${body !== null && typeof body === 'string' ? body.substring(0, 500) : 'null'}.`));
+            return;
+          }
+          if (body === null || body === '') {
             reject(new Error('No body was returned from the server.'));
             return;
           }
-          if (typeof json === 'string') {
-            try {
-              json = JSON.parse(json);
-            } catch (e) {
-              reject(e);
-              return;
-            }
+          if (typeof body !== 'string') {
+            reject(new Error('Body was not a string.'));
+            return;
+          }
+          let json = body;
+          try {
+            json = JSON.parse(json);
+          } catch (e) {
+            reject(e);
+            return;
           }
           if (typeof json !== 'object' || json === null) {
-            reject(new Error('JSON.parse failed.'));
+            reject(new Error(`JSON.parse failed. Body: ${body.substring(0, 500)}.`));
             return;
           }
           resolve(json);
