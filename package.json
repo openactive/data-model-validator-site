@@ -31,6 +31,7 @@
     "@openactive/data-model-validator": "^2.0.13",
     "@openactive/data-models": "^2.0.64",
     "@openactive/rpde-validator": "^2.0.0",
+    "axios": "^0.19.2",
     "babel-cli": "^6.26.0",
     "babel-polyfill": "^6.26.0",
     "body-parser": "^1.18.3",

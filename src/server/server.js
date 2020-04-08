@@ -4,7 +4,7 @@ import { RpdeValidator } from '@openactive/rpde-validator';
 import { versions } from '@openactive/data-models';
 import bodyParser from 'body-parser';
 import compression from 'compression';
-import request from 'request';
+import axios from 'axios';
 import fs from 'fs';
 import path from 'path';
 import expressWs from 'express-ws';
@@ -55,40 +55,40 @@ const server = class {
 
       const extractJSONFromURL = url => new Promise((resolve, reject) => {
         // Is this a valid URL?
-        request.get(url, (_error, _response, body) => {
-          if (_error) {
-            reject(_error);
-            return;
-          }
-          if (typeof _response === 'undefined') {
-            reject(new Error(`Response undefined. Body: ${body !== null && typeof body === 'string' ? body.substring(0, 500) : 'null'}.`));
-            return;
-          }
-          if (_response.statusCode !== 200) {
-            reject(new Error(`Status code ${_response.statusCode} returned by the server. Body: ${body !== null && typeof body === 'string' ? body.substring(0, 500) : 'null'}.`));
-            return;
-          }
-          if (body === null || body === '') {
-            reject(new Error('No body was returned from the server.'));
-            return;
-          }
-          if (typeof body !== 'string') {
-            reject(new Error('Body was not a string.'));
-            return;
-          }
-          let json = body;
-          try {
-            json = JSON.parse(json);
-          } catch (e) {
-            reject(e);
-            return;
-          }
-          if (typeof json !== 'object' || json === null) {
-            reject(new Error(`JSON.parse failed. Body: ${body.substring(0, 500)}.`));
-            return;
-          }
-          resolve(json);
-        });
+        axios.get(url)
+          .then((response) => {
+            if (typeof response === 'undefined') {
+              reject(new Error('Response undefined.'));
+              return;
+            }
+            if (response.status !== 200) {
+              reject(new Error(`Status code ${response.status} returned by the server. Body: ${typeof response.data === 'string' ? response.data.substring(0, 500) : 'null'}.`));
+              return;
+            }
+            if (response.data === null || response.data === '') {
+              reject(new Error('No body was returned from the server.'));
+              return;
+            }
+            if (typeof response.data !== 'string') {
+              reject(new Error('Body was not a string.'));
+              return;
+            }
+            let json = response.data;
+            try {
+              json = JSON.parse(json);
+            } catch (e) {
+              reject(e);
+              return;
+            }
+            if (typeof json !== 'object' || json === null) {
+              reject(new Error(`JSON.parse failed. Body: ${response.data.substring(0, 500)}.`));
+              return;
+            }
+            resolve(json);
+          })
+          .catch((error) => {
+            reject(error);
+          });
       });
 
       const extractJSONFromBody = jsonString => new Promise((resolve) => {
