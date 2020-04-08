@@ -50,6 +50,10 @@ const server = class {
       const extractJSONFromURL = url => new Promise((resolve, reject) => {
         // Is this a valid URL?
         request.get(url, (_error, _response, body) => {
+          if (typeof _response === 'undefined') {
+            reject(new Error(`Response undefined. Body: ${body !== null && typeof body === 'string' ? body.substring(0, 500) : 'null'}.`));
+            return;
+          }
           if (_response.statusCode !== 200) {
             reject(new Error(`Status code ${_response.statusCode} returned by the server. Body: ${body !== null && typeof body === 'string' ? body.substring(0, 500) : 'null'}.`));
             return;
