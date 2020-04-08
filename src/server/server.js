@@ -37,11 +37,17 @@ const server = class {
         typeof versions[version] === 'undefined'
         && Object.values(versions).indexOf(version) < 0
       ) {
-        res.status(400).json([
+        res.status(400).json(
           {
-            message: 'Invalid version',
+            json: null,
+            response: [{
+              category: 'internal',
+              severity: 'failure',
+              path: '$',
+              message: 'Invalid specification version specified',
+            }],
           },
-        ]);
+        );
         return;
       }
 
@@ -50,6 +56,10 @@ const server = class {
       const extractJSONFromURL = url => new Promise((resolve, reject) => {
         // Is this a valid URL?
         request.get(url, (_error, _response, body) => {
+          if (_error) {
+            reject(_error);
+            return;
+          }
           if (typeof _response === 'undefined') {
             reject(new Error(`Response undefined. Body: ${body !== null && typeof body === 'string' ? body.substring(0, 500) : 'null'}.`));
             return;
@@ -95,8 +105,9 @@ const server = class {
             {
               json: null,
               response: [{
-                path: 'url',
+                category: 'internal',
                 severity: 'failure',
+                path: '$',
                 message: `The url that you have provided does not contain a valid JSON document. ${e.message}`,
               }],
             },
@@ -107,11 +118,17 @@ const server = class {
         try {
           parsedJson = await extractJSONFromBody(req.body.json);
         } catch (e) {
-          res.status(400).json([
+          res.status(400).json(
             {
-              message: 'Invalid JSON',
+              json: req.body.json,
+              response: [{
+                category: 'internal',
+                severity: 'failure',
+                path: '$',
+                message: 'Invalid JSON.',
+              }],
             },
-          ]);
+          );
           return;
         }
       }
@@ -122,8 +139,13 @@ const server = class {
       } catch (e) {
         console.error(e);
         res.status(400).json({
-          response: [{ message: 'Invalid example' }],
           json: parsedJson,
+          response: [{
+            category: 'internal',
+            severity: 'failure',
+            path: '$',
+            message: `Internal validator error: ${e.message}`,
+          }],
         });
       }
     });

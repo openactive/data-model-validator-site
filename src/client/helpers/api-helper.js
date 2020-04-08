@@ -1,6 +1,6 @@
 export default class ApiHelper {
   static handleResponse(res, jsonString) {
-    if (res.ok) {
+    if (res.ok || res.status === 400) {
       return res.json();
     }
     switch (res.status) {
