@@ -62,29 +62,18 @@ const server = class {
               return;
             }
             if (response.status !== 200) {
-              reject(new Error(`Status code ${response.status} returned by the server. Body: ${typeof response.data === 'string' ? response.data.substring(0, 500) : 'null'}.`));
+              reject(new Error(`Status code ${response.status} returned by the server.`));
               return;
             }
             if (response.data === null || response.data === '') {
               reject(new Error('No body was returned from the server.'));
               return;
             }
-            if (typeof response.data !== 'string') {
-              reject(new Error('Body was not a string.'));
+            if (typeof response.data !== 'object') {
+              reject(new Error(`JSON.parse failed${typeof response.data === 'string' ? ` for response body ${response.data.substring(0, 500)}` : ''}.`));
               return;
             }
-            let json = response.data;
-            try {
-              json = JSON.parse(json);
-            } catch (e) {
-              reject(e);
-              return;
-            }
-            if (typeof json !== 'object' || json === null) {
-              reject(new Error(`JSON.parse failed. Body: ${response.data.substring(0, 500)}.`));
-              return;
-            }
-            resolve(json);
+            resolve(response.data);
           })
           .catch((error) => {
             reject(error);
