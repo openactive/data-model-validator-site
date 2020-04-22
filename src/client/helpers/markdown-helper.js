@@ -28,10 +28,14 @@ const MyHighlight = (props) => {
 
 export default class MarkdownHelper {
   static getOptions() {
+    /*
+    // NOTE: This code was removed to fix an issue with duplicate markdown appearing, and can be deleted if the issue does not persist
+
     if (typeof this.index === 'undefined') {
       this.index = 0;
     }
     this.index += 1;
+    */
     return {
       overrides: {
         a: {
@@ -45,7 +49,7 @@ export default class MarkdownHelper {
           component: MyHighlight,
           props: {
             className: 'json',
-            key: this.index,
+            // key: this.index, // NOTE: This code was removed to fix an issue with duplicate markdown appearing, and can be deleted if the issue does not persist
           },
         },
       },
