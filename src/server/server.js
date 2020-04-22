@@ -9,6 +9,8 @@ import fs from 'fs';
 import path from 'path';
 import expressWs from 'express-ws';
 import sslRedirect from 'heroku-ssl-redirect';
+import { Handler } from 'htmlmetaparser';
+import { Parser } from 'htmlparser2';
 
 // List on port 8080
 const server = class {
@@ -53,6 +55,28 @@ const server = class {
 
       const { validationMode } = req.body;
 
+      const extractJSONLDfromHTML = (url, html) => {
+        let jsonld = null;
+
+        const handler = new Handler(
+          (err, result) => {
+            if (!err && typeof result === 'object' && typeof result.jsonld === 'object') {
+              ({ jsonld } = result);
+            }
+          },
+          {
+            url, // The HTML pages URL is used to resolve relative URLs.
+          },
+        );
+
+        // Create a HTML parser with the handler.
+        const parser = new Parser(handler, { decodeEntities: true });
+        parser.write(html);
+        parser.done();
+
+        return jsonld;
+      };
+
       const extractJSONFromURL = url => new Promise((resolve, reject) => {
         // Is this a valid URL?
         axios.get(url)
@@ -71,8 +95,15 @@ const server = class {
             }
             if (typeof response.data !== 'object') {
               if (typeof response.data === 'string') {
+                // First try extracting JSON-LD from the HTML (for Dataset Sites)
+                const jsonld = extractJSONLDfromHTML(url, response.data);
+                if (jsonld !== null) {
+                  resolve(jsonld);
+                }
+
+                // Otherwise try using JSON.parse, which will return a more specific parsing error
                 try {
-                  JSON.parse(response.data);
+                  resolve(JSON.parse(response.data));
                 } catch (error) {
                   reject(error);
                   return;

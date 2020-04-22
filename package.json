@@ -43,6 +43,8 @@
     "express-ws": "^4.0.0",
     "heroku-ssl-redirect": "0.0.4",
     "highlight.js": "^9.16.2",
+    "htmlmetaparser": "^2.0.3",
+    "htmlparser2": "^4.1.0",
     "i": "^0.3.6",
     "jquery": "^3.3.1",
     "jsonpath": "^1.0.0",
