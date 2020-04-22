@@ -60,8 +60,12 @@ const server = class {
 
         const handler = new Handler(
           (err, result) => {
-            if (!err && typeof result === 'object' && typeof result.jsonld === 'object') {
-              ({ jsonld } = result);
+            if (!err && typeof result === 'object') {
+              const jsonldArray = result.jsonld;
+              // Use the first JSON-LD block on the page
+              if (Array.isArray(jsonldArray) && jsonldArray.length > 0) {
+                [jsonld] = jsonldArray;
+              }
             }
           },
           {
