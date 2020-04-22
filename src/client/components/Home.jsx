@@ -196,7 +196,7 @@ export default class Home extends Component {
   urlRedirect(url) {
     this.props.history.push({
       pathname: '/',
-      search: `?url=${encodeURIComponent(url)}&version=${encodeURIComponent(this.state.version)}`,
+      search: `?url=${encodeURIComponent(url)}&version=${encodeURIComponent(this.state.version)}&validationMode=${encodeURIComponent(this.state.validationMode)}`,
     });
   }
 
