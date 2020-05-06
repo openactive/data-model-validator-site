@@ -18,7 +18,7 @@ export default class Samples extends Component {
         if (example.file.match(/^https?:\/\//)) {
           exampleUrl = example.file;
         } else {
-          exampleUrl = `https://www.openactive.io/data-models/versions/${version}/examples/${example.file}`;
+          exampleUrl = `https://openactive.io/data-models/versions/${version}/examples/${example.file}`;
         }
         let linkUrl = `/?url=${encodeURIComponent(exampleUrl)}&version=${version}`;
         if (example.validationMode) {

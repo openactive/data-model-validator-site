@@ -165,7 +165,7 @@ export default class Rpde extends Component {
     const rpdeHintTimestamp = (
       <div className="rpde-hint">
         <p>Misreading the query in the specification is the single most common cause of incorrect implementation. Please read it carefully and ensure that brackets and comparators are used correctly. <code>&gt;</code> not <code>&gt;=</code> for example.</p>
-        <p>Please ensure that you have implemented <a href="https://www.openactive.io/realtime-paged-data-exchange/#sql-query-example-for-timestamp-id" target="_blank" rel="noopener">this query</a> correctly:</p>
+        <p>Please ensure that you have implemented <a href="https://openactive.io/realtime-paged-data-exchange/#sql-query-example-for-timestamp-id" target="_blank" rel="noopener">this query</a> correctly:</p>
         <code className="code-block">
           <span className="code-comment">--include WHERE clause only if @afterTimestamp and @afterId provided</span><br/>
           &nbsp;&nbsp;&nbsp;<span className="code-keyword">WHERE</span> (modified <span className="code-op">=</span> @afterTimestamp<br/>
@@ -180,7 +180,7 @@ export default class Rpde extends Component {
     const rpdeHintChangeNumber = (
       <div className="rpde-hint">
         <p>Misreading the query in the specification is the single most common cause of incorrect implementation. Please read it carefully and ensure that brackets and comparators are used correctly. <code>&gt;</code> not <code>&gt;=</code> for example.</p>
-        <p>Please ensure that you have implemented <a href="https://www.openactive.io/realtime-paged-data-exchange/#sql-query-example-for-change-number" target="_blank" rel="noopener">this query</a> correctly:</p>
+        <p>Please ensure that you have implemented <a href="https://openactive.io/realtime-paged-data-exchange/#sql-query-example-for-change-number" target="_blank" rel="noopener">this query</a> correctly:</p>
         <code className="code-block">
           <span className="code-comment">--include WHERE clause only if @afterChangeNumber provided</span>
           &nbsp;&nbsp;&nbsp;<span className="code-keyword">WHERE</span> change_number <span className="code-op">&gt;</span> @afterChangeNumber<br/>
