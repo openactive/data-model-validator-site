@@ -53,7 +53,7 @@ const server = class {
         return;
       }
 
-      const { validationMode } = req.body;
+      let { validationMode } = req.body;
 
       const extractJSONLDfromHTML = (url, html) => {
         let jsonld = null;
@@ -102,12 +102,12 @@ const server = class {
                 // First try extracting JSON-LD from the HTML (for Dataset Sites)
                 const jsonld = extractJSONLDfromHTML(url, response.data);
                 if (jsonld !== null) {
-                  resolve(jsonld);
+                  resolve({ parsedJson: jsonld, validationModeHint: 'DatasetSite' });
                 }
 
                 // Otherwise try using JSON.parse, which will return a more specific parsing error
                 try {
-                  resolve(JSON.parse(response.data));
+                  resolve({ parsedJson: JSON.parse(response.data) });
                 } catch (error) {
                   reject(error);
                   return;
@@ -116,7 +116,7 @@ const server = class {
               reject(new Error('JSON parsing failed.'));
               return;
             }
-            resolve(response.data);
+            resolve({ parsedJson: response.data });
           })
           .catch((error) => {
             reject(error);
@@ -128,10 +128,23 @@ const server = class {
       });
 
       let parsedJson = null;
+      let validationModeHint;
 
       if (req.body.url) {
         try {
-          parsedJson = await extractJSONFromURL(req.body.url);
+          ({ parsedJson, validationModeHint } = await extractJSONFromURL(req.body.url));
+
+          if (typeof validationModeHint === 'undefined') {
+            switch (parsedJson['@type'] || parsedJson.type) {
+              case 'Dataset':
+                validationModeHint = 'DatasetSite';
+                break;
+              case 'DataCatalog':
+                validationModeHint = 'DataCatalog';
+                break;
+              default:
+            }
+          }
         } catch (e) {
           res.status(400).json(
             {
@@ -165,8 +178,13 @@ const server = class {
         }
       }
 
+      if (typeof validationModeHint !== 'undefined') {
+        validationMode = validationModeHint;
+      }
+
       try {
         const responseBody = await this.doValidation(parsedJson, version, validationMode);
+        responseBody.validationModeHint = validationModeHint;
         res.status(200).json(responseBody);
       } catch (e) {
         console.error(e);

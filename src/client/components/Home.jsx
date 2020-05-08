@@ -108,13 +108,15 @@ export default class Home extends Component {
               jsonString = JsonHelper.beautifyString(JSON.stringify(response.json));
             }
             sessionStorage.setItem('json', jsonString);
-            this.setState({
+            const state = {
               results: response.response,
               json: jsonString,
               isLoading: false,
               hasSubmitted: true,
               validJSON,
-            }, () => {
+            };
+            if (response.validationModeHint) state.validationMode = response.validationModeHint;
+            this.setState(state, () => {
               this.setState({
                 tokenMap: this.getTokenMap(),
               });
@@ -312,15 +314,17 @@ export default class Home extends Component {
       // Send JSON to validator
       ApiHelper.validateJSON(jsonString, this.state.version, this.state.validationMode).then(
         (responseRaw) => {
-          const { response } = responseRaw;
+          const { response, validationModeHint } = responseRaw;
           sessionStorage.setItem('json', jsonString);
-          this.setState({
+          const state = {
             results: response,
             json: jsonString,
             validJSON: isValid,
             hasSubmitted: true,
             isLoading: false,
-          }, () => {
+          };
+          if (validationModeHint) state.validationMode = validationModeHint;
+          this.setState(state, () => {
             this.setState({
               tokenMap: this.getTokenMap(),
             });
