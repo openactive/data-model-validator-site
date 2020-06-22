@@ -145,6 +145,28 @@ const server = class {
               default:
             }
           }
+
+          if (Array.isArray(parsedJson.items) && req.body.rpdeId !== undefined) {
+            // Match string or int id
+            // eslint-disable-next-line eqeqeq
+            const requestedItem = parsedJson.items.find(item => item.id == req.body.rpdeId);
+            if (requestedItem !== undefined) {
+              parsedJson.items = [requestedItem];
+            } else {
+              res.status(400).json(
+                {
+                  json: null,
+                  response: [{
+                    category: 'internal',
+                    severity: 'failure',
+                    path: '$',
+                    message: `The RPDE item \`id\` provided (\`${req.body.rpdeId}\`) could not be found in the specified RPDE page (${req.body.url}). The item may have been updated since this validator link was generated.`,
+                  }],
+                },
+              );
+              return;
+            }
+          }
         } catch (e) {
           res.status(400).json(
             {

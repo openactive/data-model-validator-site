@@ -36,8 +36,8 @@ export default class ApiHelper {
       .then(res => ApiHelper.handleResponse(res, jsonString));
   }
 
-  static validateURL(url, version, validationMode) {
-    return this.validate({ url }, version, validationMode)
+  static validateURL(url, rpdeId, version, validationMode) {
+    return this.validate({ url, rpdeId }, version, validationMode)
       .then(res => ApiHelper.handleResponse(res));
   }
 

@@ -100,7 +100,7 @@ export default class Home extends Component {
   processUrl(isFirstRun) {
     if (typeof this.params.url !== 'undefined') {
       const doProcessUrl = () => {
-        ApiHelper.validateURL(this.params.url, this.state.version, this.state.validationMode).then(
+        ApiHelper.validateURL(this.params.url, this.params.rpdeId, this.state.version, this.state.validationMode).then(
           (response) => {
             const validJSON = (typeof response.json === 'object') && response.json !== null;
             let jsonString = '';
