@@ -4,6 +4,7 @@ import AceEditor from 'react-ace';
 import 'brace/mode/json';
 import 'brace/theme/github';
 import queryString from 'query-string';
+import { Base64 } from 'js-base64';
 
 import AceHelper from '../helpers/ace-helper';
 import ApiHelper from '../helpers/api-helper';
@@ -19,11 +20,11 @@ import SpecVersion from './SpecVersion.jsx';
 import ValidationMode from './ValidationMode.jsx';
 import Samples from './Samples.jsx';
 import LoadUrl from './LoadUrl.jsx';
+import ShareLink from './ShareLink.jsx';
 
 export default class Home extends Component {
   constructor(props) {
     super(props);
-    const savedJson = sessionStorage.getItem('json');
     this.severities = {
       notice: {
         name: 'Notice',
@@ -58,6 +59,11 @@ export default class Home extends Component {
       },
     };
     this.params = queryString.parse(this.props.location.search);
+    if (typeof this.params.json !== 'undefined') {
+      // If the url contains JSON, override the last saved JSON
+      sessionStorage.setItem('json', Base64.decode(this.params.json));
+    }
+    const savedJson = sessionStorage.getItem('json');
     const version = this.normalizeVersion();
     const validationMode = this.normalizeValidationMode(version);
     this.state = {
@@ -72,6 +78,7 @@ export default class Home extends Component {
       group: true,
       version,
       validationMode,
+      shareUrl: '',
     };
 
     this.processUrl(true);
@@ -81,6 +88,11 @@ export default class Home extends Component {
       const historyValidationMode = this.normalizeValidationMode(historyVersion);
       this.setState({ version: historyVersion, validationMode: historyValidationMode }, () => this.processUrl(false));
     });
+
+    if (typeof this.params.json !== 'undefined') {
+      // If the url contains JSON, ensure the URL is clean so that it doesn't overwrite existing work
+      this.cleanRedirect();
+    }
   }
 
   normalizeVersion() {
@@ -98,31 +110,35 @@ export default class Home extends Component {
   }
 
   processUrl(isFirstRun) {
-    if (typeof this.params.url !== 'undefined') {
+    if (typeof this.params.url !== 'undefined' || typeof this.params.json !== 'undefined') {
       const doProcessUrl = () => {
-        ApiHelper.validateURL(this.params.url, this.params.rpdeId, this.state.version, this.state.validationMode).then(
-          (response) => {
-            const validJSON = (typeof response.json === 'object') && response.json !== null;
-            let jsonString = '';
-            if (validJSON) {
-              jsonString = JsonHelper.beautifyString(JSON.stringify(response.json));
-            }
-            sessionStorage.setItem('json', jsonString);
-            const state = {
-              results: response.response,
-              json: jsonString,
-              isLoading: false,
-              hasSubmitted: true,
-              validJSON,
-            };
-            if (response.validationModeHint) state.validationMode = response.validationModeHint;
-            this.setState(state, () => {
-              this.setState({
-                tokenMap: this.getTokenMap(),
+        (typeof this.params.url !== 'undefined'
+          ? ApiHelper.validateURL(this.params.url, this.params.rpdeId, this.state.version, this.state.validationMode)
+          : ApiHelper.validateJSON(Base64.decode(this.params.json), this.state.version, this.state.validationMode))
+          .then(
+            (response) => {
+              const validJSON = (typeof response.json === 'object') && response.json !== null;
+              let jsonString = '';
+              if (validJSON) {
+                jsonString = JsonHelper.beautifyString(JSON.stringify(response.json));
+              }
+              sessionStorage.setItem('json', jsonString);
+              const state = {
+                results: response.response,
+                json: jsonString,
+                isLoading: false,
+                hasSubmitted: true,
+                validJSON,
+              };
+              if (response.validationModeHint) state.validationMode = response.validationModeHint;
+              this.setState(state, () => {
+                this.setState({
+                  tokenMap: this.getTokenMap(),
+                  shareUrl: this.getShareUrl(jsonString),
+                });
               });
-            });
-          },
-        );
+            },
+          );
       };
       if (isFirstRun) {
         this.state.isLoading = true;
@@ -195,6 +211,13 @@ export default class Home extends Component {
     this.setState({ validationMode }, () => this.validate());
   }
 
+  cleanRedirect() {
+    this.props.history.push({
+      pathname: '/',
+      search: `?version=${encodeURIComponent(this.state.version)}&validationMode=${encodeURIComponent(this.state.validationMode)}`,
+    });
+  }
+
   urlRedirect(url) {
     this.props.history.push({
       pathname: '/',
@@ -223,6 +246,7 @@ export default class Home extends Component {
       && this.state.hasSubmitted === nextState.hasSubmitted
       && this.state.validJSON === nextState.validJSON
       && JSON.stringify(this.state.tokenMap) === JSON.stringify(nextState.tokenMap)
+      && this.state.shareUrl === nextState.shareUrl
       && JSON.stringify(this.state.filter) === JSON.stringify(nextState.filter)
       && this.state.sort === nextState.sort
       && this.state.group === nextState.group
@@ -236,6 +260,10 @@ export default class Home extends Component {
 
   onEditorChange(newValue) {
     sessionStorage.setItem('json', newValue);
+    if (this.state.shareUrl !== '' && this.state.shareUrl !== this.getShareUrl(newValue)) {
+      // If the Share URL was invalidated then remove it
+      this.setState({ shareUrl: '' });
+    }
     this.setState({
       json: newValue,
       tokenMap: this.getTokenMap(),
@@ -279,6 +307,10 @@ export default class Home extends Component {
     );
   }
 
+  getShareUrl(jsonString) {
+    return `${window.location.protocol}//${window.location.host}${window.location.pathname}?version=${encodeURIComponent(this.state.version)}&validationMode=${encodeURIComponent(this.state.validationMode)}&json=${Base64.encodeURI(jsonString)}`;
+  }
+
   validate() {
     // Is JSON valid?
     let jsonString = this.getEditorValue();
@@ -296,6 +328,7 @@ export default class Home extends Component {
         validJSON: isValid,
         json: jsonString,
         hasSubmitted: true,
+        shareUrl: '',
       });
       sessionStorage.setItem('json', jsonString);
       return;
@@ -327,6 +360,7 @@ export default class Home extends Component {
           this.setState(state, () => {
             this.setState({
               tokenMap: this.getTokenMap(),
+              shareUrl: this.getShareUrl(jsonString),
             });
           });
         },
@@ -357,6 +391,7 @@ export default class Home extends Component {
               <LoadUrl url={this.params.url} onUrlClick={url => this.urlRedirect(url)} />
               <SpecVersion version={this.state.version} onVersionClick={version => this.changeVersion(version)} />
               <Samples version={this.state.version} />
+              <ShareLink url={this.state.shareUrl} />
             </div>
             <div className="col-3">
               <ResultFilters filter={this.state.filter} onFilterChange={(type, value) => this.toggleFilter(type, value)} onAllFilterChange={(type, value) => this.toggleAllFilter(type, value)} onGroupChange={value => this.toggleGroup(value)} group={this.state.group} results={this.state.results} categories={this.categories} severities={this.severities} />
