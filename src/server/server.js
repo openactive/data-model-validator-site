@@ -5,7 +5,6 @@ import { versions } from '@openactive/data-models';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import axios from 'axios';
-import fs from 'fs';
 import path from 'path';
 import expressWs from 'express-ws';
 import sslRedirect from 'heroku-ssl-redirect';
@@ -317,7 +316,6 @@ const server = class {
           ? parseInt(process.env.REACT_APP_MODEL_REMOTE_CACHE_TTL_SECONDS, 10)
           : 3600
       ),
-      schemaOrgSpecifications: [],
       rpdeItemLimit: (
         process.env.REACT_APP_MODEL_RPDE_ITEM_LIMIT
           ? parseInt(process.env.REACT_APP_MODEL_RPDE_ITEM_LIMIT, 10)
@@ -326,21 +324,6 @@ const server = class {
       version,
       validationMode,
     };
-
-    const schemaOrgSpecFile = path.join(cacheDir, 'schemaOrgSpec.json');
-    if (fs.existsSync(schemaOrgSpecFile)) {
-      let schemaOrgSpec;
-      try {
-        schemaOrgSpec = JSON.parse(
-          fs.readFileSync(schemaOrgSpecFile),
-        );
-      } catch (e) {
-        schemaOrgSpec = null;
-      }
-      if (typeof schemaOrgSpec === 'object' && schemaOrgSpec !== null) {
-        options.schemaOrgSpecifications.push(schemaOrgSpec);
-      }
-    }
 
     return options;
   }
