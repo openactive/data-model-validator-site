@@ -8,7 +8,7 @@
         "type": "node", 
         "request": "launch", 
         "name": "Jasmine Tests", 
-        "program": "${workspaceRoot}/node_modules/jasmine/bin/jasmine.js", 
+        "program": "${workspaceFolder:data-model-validator-site}/node_modules/jasmine/bin/jasmine.js", 
         "env": { 
             "NODE_PATH": "." 
         } 
