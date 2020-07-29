@@ -78,7 +78,7 @@
     "pretest": "npm run lint",
     "test": "npm run test-no-lint",
     "test-no-lint": "BABEL_ENV=test babel-node spec/run.js",
-    "fetch-assets": "babel-node build/fetchAssets.js",
+    "fetch-assets": "node build/fetchAssets.js",
     "update": "npm update @openactive/data-models @openactive/data-model-validator @openactive/rpde-validator && npm run postinstall"
   },
   "devDependencies": {
@@ -110,6 +110,7 @@
     "nodemon": "^1.18.4",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.21.0",
+    "sync-request": "^6.1.0",
     "uglifyjs-webpack-plugin": "^2.0.1",
     "url-loader": "^1.1.1",
     "webpack": "^4.20.2",
