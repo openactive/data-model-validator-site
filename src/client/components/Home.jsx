@@ -25,11 +25,10 @@ import ShareLink from './ShareLink.jsx';
 export default class Home extends Component {
   constructor(props) {
     super(props);
-    const jsonHashPrefix = '#/json/';
-    const hasJsonHash = this.props.location.hash.substring(0, jsonHashPrefix.length) === jsonHashPrefix;
-    if (hasJsonHash) {
+    const jsonFromHash = this.getJsonFromHash();
+    if (jsonFromHash !== null) {
       // If the url contains JSON, override the last saved JSON
-      sessionStorage.setItem('json', Base64.decode(this.props.location.hash.substring(jsonHashPrefix.length)));
+      sessionStorage.setItem('json', jsonFromHash);
     }
     const savedJson = sessionStorage.getItem('json');
     this.severities = {
@@ -83,18 +82,21 @@ export default class Home extends Component {
       shareUrl: '',
     };
 
-    this.processUrl(true);
+    this.processUrlOrJson(true, jsonFromHash);
     this.props.history.listen((location) => {
       this.params = queryString.parse(location.search);
       const historyVersion = this.normalizeVersion();
       const historyValidationMode = this.normalizeValidationMode(historyVersion);
-      this.setState({ version: historyVersion, validationMode: historyValidationMode }, () => this.processUrl(false));
+      this.setState({ version: historyVersion, validationMode: historyValidationMode }, () => this.processUrlOrJson(false, this.getJsonFromHash()));
     });
+  }
 
-    if (hasJsonHash) {
-      // If the url contains JSON, ensure the URL is clean so that it doesn't overwrite existing work
-      this.cleanRedirect();
+  getJsonFromHash() {
+    const jsonHashPrefix = '#/json/';
+    if (this.props.location.hash.substring(0, jsonHashPrefix.length) === jsonHashPrefix) {
+      return Base64.decode(this.props.location.hash.substring(jsonHashPrefix.length));
     }
+    return null;
   }
 
   normalizeVersion() {
@@ -111,12 +113,12 @@ export default class Home extends Component {
     return VersionHelper.getDefaultValidationMode(version);
   }
 
-  processUrl(isFirstRun) {
-    if (typeof this.params.url !== 'undefined' || typeof this.params.json !== 'undefined') {
-      const doProcessUrl = () => {
-        (typeof this.params.url !== 'undefined'
-          ? ApiHelper.validateURL(this.params.url, this.params.rpdeId, this.state.version, this.state.validationMode)
-          : ApiHelper.validateJSON(Base64.decode(this.params.json), this.state.version, this.state.validationMode))
+  processUrlOrJson(isFirstRun, jsonFromHash) {
+    if (typeof this.params.url !== 'undefined' || jsonFromHash !== null) {
+      const doProcessUrlOrJson = () => {
+        (jsonFromHash !== null
+          ? ApiHelper.validateJSON(jsonFromHash, this.state.version, this.state.validationMode)
+          : ApiHelper.validateURL(this.params.url, this.params.rpdeId, this.state.version, this.state.validationMode))
           .then(
             (response) => {
               const validJSON = (typeof response.json === 'object') && response.json !== null;
@@ -142,13 +144,17 @@ export default class Home extends Component {
             },
           );
       };
+      if (jsonFromHash !== null) {
+        // Ensure the hash does not overwrite user's edits on refresh
+        this.cleanRedirect();
+      }
       if (isFirstRun) {
         this.state.isLoading = true;
-        doProcessUrl();
+        doProcessUrlOrJson();
       } else {
         this.setState({
           isLoading: true,
-        }, doProcessUrl);
+        }, doProcessUrlOrJson);
       }
     }
   }
