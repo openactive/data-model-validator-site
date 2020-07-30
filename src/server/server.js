@@ -6,14 +6,21 @@ import bodyParser from 'body-parser';
 import compression from 'compression';
 import axios from 'axios';
 import path from 'path';
+import fs from 'fs';
 import expressWs from 'express-ws';
 import sslRedirect from 'heroku-ssl-redirect';
 import { Handler } from 'htmlmetaparser';
 import { Parser } from 'htmlparser2';
 
+const CACHE_PATH = path.join(__dirname, '../../cache');
+
 // List on port 8080
 const server = class {
   static createServer(port, callback) {
+    if (!fs.existsSync(CACHE_PATH)) {
+      fs.mkdirSync(CACHE_PATH);
+    }
+
     const app = express();
     expressWs(app);
 
@@ -306,11 +313,9 @@ const server = class {
   }
 
   static getValidateOptions(version, validationMode) {
-    const cacheDir = path.join(__dirname, '../../cache');
-
     const options = {
       loadRemoteJson: true,
-      remoteJsonCachePath: cacheDir,
+      remoteJsonCachePath: CACHE_PATH,
       remoteJsonCacheTimeToLive: (
         process.env.REACT_APP_MODEL_REMOTE_CACHE_TTL_SECONDS
           ? parseInt(process.env.REACT_APP_MODEL_REMOTE_CACHE_TTL_SECONDS, 10)
