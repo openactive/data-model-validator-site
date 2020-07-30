@@ -25,7 +25,7 @@ export default class ShareLink extends Component {
   }
 
   handleOpen() {
-    this.refs.url.focus();
+    if (this.refs.url) this.refs.url.focus();
   }
 
   handleSubmit(e) {

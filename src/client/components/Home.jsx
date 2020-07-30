@@ -25,6 +25,13 @@ import ShareLink from './ShareLink.jsx';
 export default class Home extends Component {
   constructor(props) {
     super(props);
+    const jsonHashPrefix = '#/json/';
+    const hasJsonHash = this.props.location.hash.substring(0, jsonHashPrefix.length) === jsonHashPrefix;
+    if (hasJsonHash) {
+      // If the url contains JSON, override the last saved JSON
+      sessionStorage.setItem('json', Base64.decode(this.props.location.hash.substring(jsonHashPrefix.length)));
+    }
+    const savedJson = sessionStorage.getItem('json');
     this.severities = {
       notice: {
         name: 'Notice',
@@ -59,11 +66,6 @@ export default class Home extends Component {
       },
     };
     this.params = queryString.parse(this.props.location.search);
-    if (typeof this.params.json !== 'undefined') {
-      // If the url contains JSON, override the last saved JSON
-      sessionStorage.setItem('json', Base64.decode(this.params.json));
-    }
-    const savedJson = sessionStorage.getItem('json');
     const version = this.normalizeVersion();
     const validationMode = this.normalizeValidationMode(version);
     this.state = {
@@ -89,7 +91,7 @@ export default class Home extends Component {
       this.setState({ version: historyVersion, validationMode: historyValidationMode }, () => this.processUrl(false));
     });
 
-    if (typeof this.params.json !== 'undefined') {
+    if (hasJsonHash) {
       // If the url contains JSON, ensure the URL is clean so that it doesn't overwrite existing work
       this.cleanRedirect();
     }
@@ -215,6 +217,7 @@ export default class Home extends Component {
     this.props.history.push({
       pathname: '/',
       search: `?version=${encodeURIComponent(this.state.version)}&validationMode=${encodeURIComponent(this.state.validationMode)}`,
+      hash: '',
     });
   }
 
@@ -308,7 +311,7 @@ export default class Home extends Component {
   }
 
   getShareUrl(jsonString) {
-    return `${window.location.protocol}//${window.location.host}${window.location.pathname}?version=${encodeURIComponent(this.state.version)}&validationMode=${encodeURIComponent(this.state.validationMode)}&json=${Base64.encodeURI(jsonString)}`;
+    return `${window.location.protocol}//${window.location.host}${window.location.pathname}?version=${encodeURIComponent(this.state.version)}&validationMode=${encodeURIComponent(this.state.validationMode)}#/json/${Base64.encodeURI(jsonString)}`;
   }
 
   validate() {
