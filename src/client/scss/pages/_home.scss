@@ -126,7 +126,7 @@
     .dropdown {
       .dropdown-menu {
         position: absolute;
-        max-height: calc(100vh - 130px); // Screen height - footer - navbar
+        max-height: calc(100vh - 170px); // Screen height - footer - navbar - control bar
         overflow-y: scroll;
         overflow-x: hidden;
 
