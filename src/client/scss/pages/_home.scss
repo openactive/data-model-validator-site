@@ -122,6 +122,21 @@
     }
   }
 
+  .validation-mode-switcher {
+    .dropdown {
+      .dropdown-menu {
+        position: absolute;
+        max-height: calc(100vh - 170px); // Screen height - footer - navbar - control bar
+        overflow-y: scroll;
+        overflow-x: hidden;
+
+        @media screen and (max-height: 600px) {
+          margin-top: 80px;
+        }
+      }
+    }
+  }
+
   .version-switcher {
     margin-left: 0;
     margin-right: 1rem;
