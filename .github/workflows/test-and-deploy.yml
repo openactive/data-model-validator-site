@@ -7,7 +7,7 @@ on:
     branches: [ master ]
   workflow_dispatch:
   repository_dispatch:
-    types: [data-models-update, data-model-validator-update]
+    types: [data-models-update, data-model-validator-update, rpde-validator-update]
 
 jobs:
   test-models:
@@ -26,13 +26,29 @@ jobs:
     - name: Test
       run: npm test
 
-  test-validator:
+  test-data-model-validator:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout validator
       uses: actions/checkout@v2
       with:
         repository: openactive/data-model-validator
+    - name: Use Node.js 14.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14
+    - name: Install
+      run: npm install
+    - name: Test
+      run: npm test
+
+  test-rpde-validator:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout validator
+      uses: actions/checkout@v2
+      with:
+        repository: openactive/rpde-validator
     - name: Use Node.js 14.x
       uses: actions/setup-node@v1
       with:
@@ -57,7 +73,7 @@ jobs:
       run: npm test
       
   deploy-site:
-    needs: [test-site, test-models, test-validator]
+    needs: [test-site, test-models, test-data-model-validator, test-rpde-validator]
     if: ${{ github.ref == 'refs/heads/master' }}
     concurrency: 
       group: validator-staging.openactive.io
