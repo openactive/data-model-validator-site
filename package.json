@@ -49,6 +49,7 @@
     "jquery": "^3.3.1",
     "js-base64": "^3.3.3",
     "jsonpath": "^1.0.0",
+    "lost-pixel": "^3.18.2",
     "markdown-to-jsx": "^6.7.3",
     "npm": "^6.12.1",
     "popper.js": "^1.14.4",
