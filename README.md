@@ -2,7 +2,7 @@
 
 This site uses the [OpenActive Data Model Validator](https://github.com/openactive/data-model-validator) to allow developers to validate JSON models to the latest [OpenActive Modelling Opportunity Data](https://openactive.io/modelling-opportunity-data/) specification.
 
-[![Tests](https://github.com/openactive/data-model-validator-site/actions/workflows/npm-test.yml/badge.svg?branch=master)](https://github.com/openactive/data-model-validator-site/actions/workflows/npm-test.yml)
+[![Test and Deploy](https://github.com/openactive/data-model-validator-site/actions/workflows/test-and-deploy.yml/badge.svg?branch=master)](https://github.com/openactive/data-model-validator-site/actions/workflows/test-and-deploy.yml)
 [![Known Vulnerabilities](https://snyk.io/test/github/openactive/data-model-validator-site/badge.svg)](https://snyk.io/test/github/openactive/data-model-validator-site)
 
 ## Development
