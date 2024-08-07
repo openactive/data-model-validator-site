@@ -82,10 +82,11 @@ jobs:
     needs: [test-site, test-models, test-data-model-validator, test-rpde-validator]
     if: ${{ github.ref == 'refs/heads/master' }}
     concurrency: 
-      group: validator-staging.openactive.io
+      group: data-model-validator-staging
       cancel-in-progress: true
     environment:
-      name: validator-staging.openactive.io
+      # Matches the name of the Heroku app
+      name: data-model-validator-staging
       url: https://validator-staging.openactive.io/
     runs-on: ubuntu-latest
     steps:
