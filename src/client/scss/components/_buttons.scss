@@ -69,7 +69,7 @@ button.btn-primary--ghost {
   @media only screen and (max-width: (map-get($grid-breakpoints, "lg"))) {
     padding: $button-padding-y rem(3px);
   }
-  @media only screen and (max-width: (map-get($grid-breakpoints, "md") + 40)) {
+  @media only screen and (max-width: (map-get($grid-breakpoints, "md") + 50)) {
     padding: ($button-padding-y * 1.2) rem(2px);
     font-size: ($base-font-size - 6);
   }
@@ -78,8 +78,8 @@ button.btn-primary--ghost {
     font-size: ($base-font-size - 8);
   }
   @media only screen and (max-width: (map-get($grid-breakpoints, "sm"))) {
-    padding: ($button-padding-y * 1.4) rem(0px);
-    font-size: ($base-font-size - 10);
+    padding: ($button-padding-y * 1.4) rem(1px);
+    font-size: ($base-font-size - 9);
   }
 }
 
