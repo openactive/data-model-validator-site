@@ -90,17 +90,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout validator app
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
-        repository: openactive/data-model-validator-site
-        path: data-model-validator-site
-        
+        fetch-depth: 0
+     
+    - name: Setup Heroku authentication
+      uses: extractions/netrc@v2
+      with:
+        machine: git.heroku.com
+        password: ${{ secrets.HEROKU_API_KEY }}
+      
     - name: Deploy validator app to Heroku
-      uses: behe/heroku-build@v1
-      with:
-        app-name: data-model-validator-staging
-        api-key: "${{secrets.HEROKU_API_KEY}}"
-        path: data-model-validator-site
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: |
+        heroku git:remote --app data-model-validator-staging
+        git push heroku master
 
   promote-site:
     needs: deploy-site
@@ -113,9 +118,8 @@ jobs:
       url: https://validator.openactive.io/
     runs-on: ubuntu-latest
     steps:
-    - name: Promote validator app to production
-      uses: tiltshift/heroku-promote-app@v1
-      with:
-        heroku_app_name: data-model-validator-staging
-        heroku_api_key: "${{secrets.HEROKU_API_KEY}}"
-        heroku_email: "services@openactive.io"
+      - name: Promote validator app to production
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          heroku pipelines:promote --app data-model-validator-staging
