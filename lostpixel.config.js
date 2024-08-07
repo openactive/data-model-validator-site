@@ -9,5 +9,6 @@ module.exports = {
     baseUrl: 'http://172.17.0.1:8080',
   },
   lostPixelProjectId: 'clzitt4s52b6dlcoguswodrsj',
+  failOnDifference: true,
   apiKey: process.env.LOST_PIXEL_API_KEY,
 };
