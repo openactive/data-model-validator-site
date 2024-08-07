@@ -71,6 +71,12 @@ jobs:
       run: npm install
     - name: Test
       run: npm test
+    - name: Start server (in background)
+      run: npm run start &
+    - name: Lost Pixel
+      uses: lost-pixel/lost-pixel@v3.16.0
+      env:
+        LOST_PIXEL_API_KEY: ${{ secrets.LOST_PIXEL_API_KEY }}
       
   deploy-site:
     needs: [test-site, test-models, test-data-model-validator, test-rpde-validator]
