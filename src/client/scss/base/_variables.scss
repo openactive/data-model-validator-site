@@ -79,8 +79,6 @@ $link-color: #4eaff6;
 // Buttons
 $button-padding-x: rem(30px);
 $button-padding-y: rem(10px);
-$button-md-padding-y: rem(15px);
-$button-md-padding-x: rem(25px);
 $button-margin: 1rem 0 0 0;
 $button-line-height: 1;
 $button-border-width: 1px;
@@ -104,6 +102,7 @@ $nav-sm-offset-height: $nav-offset-height
 
 $control-bar-background: $gray-200;
 $control-bar-padding-y: $navbar-padding-y;
+$control-bar-button-sm-margin-x: 3px;
 $control-bar-size: $paragraph-size;
 $control-bar-line-height: $header-line-height;
 $control-bar-border-width: rem(2px);
@@ -114,9 +113,7 @@ $control-bar-height: $button-line-height * rem($button-font-size)
   + rem($button-border-width) * 2
   + $control-bar-border-width;
 
-$control-bar-md-height: $control-bar-height
-  - $button-padding-y * 2
-  + $button-md-padding-y * 2;
+$control-bar-md-height: $control-bar-height;
 
 $footer-height: rem(50px);
 $footer-background: $gray-100;

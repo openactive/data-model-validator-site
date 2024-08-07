@@ -60,8 +60,26 @@ button.btn-primary--ghost {
     cursor: default;
   }
 
-  @media only screen and (max-width: map-get($grid-breakpoints, "md")) {
-    padding: $button-md-padding-y $button-md-padding-x;
+  @media only screen and (max-width: (map-get($grid-breakpoints, "xl") + 40)) {
+    padding: $button-padding-y ($button-padding-x * 0.7);
+  }
+  @media only screen and (max-width: (map-get($grid-breakpoints, "lg") + 100)) {
+    padding: $button-padding-y ($button-padding-x * 0.5)
+  }
+  @media only screen and (max-width: (map-get($grid-breakpoints, "lg"))) {
+    padding: $button-padding-y rem(3px);
+  }
+  @media only screen and (max-width: (map-get($grid-breakpoints, "md") + 50)) {
+    padding: ($button-padding-y * 1.2) rem(2px);
+    font-size: ($base-font-size - 6);
+  }
+  @media only screen and (max-width: (map-get($grid-breakpoints, "sm") + 100)) {
+    padding: ($button-padding-y * 1.4) rem(0px);
+    font-size: ($base-font-size - 8);
+  }
+  @media only screen and (max-width: (map-get($grid-breakpoints, "sm"))) {
+    padding: ($button-padding-y * 1.4) rem(1px);
+    font-size: ($base-font-size - 9);
   }
 }
 
