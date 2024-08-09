@@ -24,15 +24,22 @@ jobs:
     - name: Start server (in background)
       run: npm run start &
 
+    - name: Create .lostpixel directory if it doesn't exist
+      # This is a workaround for https://github.com/lost-pixel/lost-pixel/issues/344
+      run: mkdir -p .lostpixel/baseline
+
     - name: Lost Pixel
       id: lp
-      uses: lost-pixel/lost-pixel@v3.8.0
+      uses: lost-pixel/lost-pixel@v3.16.0
       env:
         LOST_PIXEL_MODE: update
+  
     - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v4
+      id: cpr
+      uses: peter-evans/create-pull-request@v6
       if: ${{ failure() && steps.lp.conclusion == 'failure' }}
       with:
+        path: ./
         token: ${{ secrets.PUBLIC_REPO_ACCESS_TOKEN }}
         commit-message: Update lost-pixel baselines
         committer: openactive-bot <openactive-bot@users.noreply.github.com>
@@ -41,7 +48,15 @@ jobs:
         branch: 'lost-pixel-update/${{ github.ref_name }}'
         delete-branch: true
         title: 'Lost Pixel update - ${{ github.ref_name }}'
-        body: Automated baseline update PR created by Lost Pixel
+        body: |
+          Automated baseline update PR created by Lost Pixel
+
+          Please check the updated baseline images are as expected before merging this PR.
         labels: |
           automated pr
         draft: false
+
+    - name: Check outputs
+      run: |
+        echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+        echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
