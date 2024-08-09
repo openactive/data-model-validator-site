@@ -20,7 +20,7 @@ export default class HelpText extends Component {
     return (
       <div className="information-row text-center hero-sub">
         <p>
-          This tool allows you to validate your data models against the <a href={url} target="_blank" rel="noopener">Modelling Opportunity Data Specification v{this.props.version} <FontAwesomeIcon icon="external-link-alt" /></a> and the <a href="https://openactive.io/open-booking-api/EditorsDraft/" target="_blank" rel="noopener">Open Booking API Specification v1.0 CR2 <FontAwesomeIcon icon="external-link-alt" /></a>.
+          This tool allows you to validate your data models against the <a href={url} target="_blank" rel="noopener">Modelling Opportunity Data Specification v{this.props.version} <FontAwesomeIcon icon="external-link-alt" /></a> and the <a href="https://openactive.io/open-booking-api/EditorsDraft/1.0CR3/" target="_blank" rel="noopener">Open Booking API Specification v1.0 CR3 <FontAwesomeIcon icon="external-link-alt" /></a>.
         </p>
         <p>
           Enter some JSON into the editor on the left and hit <button className="btn btn-primary button-inline" onClick={() => this.handleClick()}>Validate</button> to get started!
