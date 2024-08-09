@@ -19,10 +19,15 @@ jobs:
         node-version: 14
     - name: Install
       run: npm install
+      working-directory: ./data-model-validator-site/
     - name: Test
       run: npm test
     - name: Start server (in background)
       run: npm run start &
+
+    - name: Create .lostpixel directory if it doesn't exist
+      # This is a workaround for https://github.com/lost-pixel/lost-pixel/issues/344
+      run: mkdir -p .lostpixel
 
     - name: Lost Pixel
       id: lp
@@ -46,6 +51,8 @@ jobs:
         title: 'Lost Pixel update - ${{ github.ref_name }}'
         body: |
           Automated baseline update PR created by Lost Pixel
+
+          Please check the updated baseline images are as expected before merging this PR.
         labels: |
           automated pr
         draft: false
