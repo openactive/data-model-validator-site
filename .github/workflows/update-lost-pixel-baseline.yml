@@ -19,7 +19,6 @@ jobs:
         node-version: 14
     - name: Install
       run: npm install
-      working-directory: ./data-model-validator-site/
     - name: Test
       run: npm test
     - name: Start server (in background)
