@@ -74,7 +74,7 @@ jobs:
     - name: Start server (in background)
       run: npm run start &
 
-    - name: Test with Lost Pixel
+    - name: Check for unintentional UI changes with Lost Pixel
       id: lp
       uses: lost-pixel/lost-pixel@v3.16.0
 
