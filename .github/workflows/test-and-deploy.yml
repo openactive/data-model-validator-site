@@ -60,6 +60,8 @@ jobs:
 
   test-site:
     runs-on: ubuntu-latest
+    outputs:
+      lost-pixel-conclusion: ${{ steps.lp.conclusion }}
     steps:
     - name: Checkout validator site
       uses: actions/checkout@v2
@@ -84,7 +86,59 @@ jobs:
       with:
         name: lost-pixel-artefacts
         path: .lostpixel
-    
+
+  create-pr-to-update-lost-pixel-baseline:
+    runs-on: ubuntu-latest
+    needs: [test-site, test-models, test-data-model-validator, test-rpde-validator]
+    # Only run this job on branches other than master; this is to prevent the Lost Pixel baseline from being updated on the master branch.
+    # The baseline should only be updated on PRs, not on the master branch.
+    if: ${{ failure() && github.ref != 'refs/heads/master' && needs.test-site.outputs.lost-pixel-conclusion == 'failure'}}
+    steps:
+    - name: Checkout validator site
+      uses: actions/checkout@v2
+    - name: Use Node.js 14.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14
+    - name: Install
+      run: npm install
+    - name: Test
+      run: npm test
+    - name: Start server (in background)
+      run: npm run start &
+
+    - name: Lost Pixel
+      uses: lost-pixel/lost-pixel@v3.16.0
+      env:
+        LOST_PIXEL_MODE: update
+
+    # Note this deletes the branch and PR if differences are resolved
+    - name: Create Pull Request
+      id: cpr
+      uses: peter-evans/create-pull-request@v6
+      with:
+        path: ./
+        token: ${{ secrets.PUBLIC_REPO_ACCESS_TOKEN }}
+        commit-message: Update lost-pixel baselines
+        committer: openactive-bot <openactive-bot@users.noreply.github.com>
+        author: openactive-bot <openactive-bot@users.noreply.github.com>
+        signoff: false
+        branch: 'lost-pixel-update/${{ github.ref_name }}'
+        delete-branch: true
+        title: 'Lost Pixel update - ${{ github.ref_name }}'
+        body: |
+          Automated baseline update PR created by Lost Pixel
+
+          Please check the updated baseline images are as expected before merging this PR.
+        labels: |
+          automated pr
+        draft: false
+
+    - name: Check outputs
+      run: |
+        echo "Pull Request Number - ${{ steps.cpr.outputs.pull-request-number }}"
+        echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
+        
   deploy-site:
     needs: [test-site, test-models, test-data-model-validator, test-rpde-validator]
     if: ${{ github.ref == 'refs/heads/master' }}
