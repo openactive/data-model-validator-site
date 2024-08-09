@@ -8,7 +8,6 @@ module.exports = {
     ],
     baseUrl: process.env.LOST_PIXEL_BASE_URL || 'http://172.17.0.1:8080',
   },
-  lostPixelProjectId: 'clzitt4s52b6dlcoguswodrsj',
   generateOnly: true, // OSS mode
   failOnDifference: true,
   threshold: 0,
