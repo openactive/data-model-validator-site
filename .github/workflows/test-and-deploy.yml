@@ -73,10 +73,13 @@ jobs:
       run: npm test
     - name: Start server (in background)
       run: npm run start &
-    - name: Lost Pixel
+    # Within a PR, Lost Pixel Platform generates separate GitHub Status Checks (which are set to 'required' in the Branch protection rule),
+    # so we don't need to also fail the build. For a build on the master branch, we do want to fail the build if there are differences.
+    - name: ${{ github.event_name != 'pull_request' && 'Test with' || 'Capture images for' }} Lost Pixel
       uses: lost-pixel/lost-pixel@v3.16.0
       env:
         LOST_PIXEL_API_KEY: ${{ secrets.LOST_PIXEL_API_KEY }}
+        LOST_PIXEL_FAIL_ON_DIFFERENCE: ${{ github.event_name != 'pull_request' }}
       
   deploy-site:
     needs: [test-site, test-models, test-data-model-validator, test-rpde-validator]
@@ -107,6 +110,13 @@ jobs:
       run: |
         heroku git:remote --app data-model-validator-staging
         git push heroku master -f
+
+    - name: Smoke test with Lost Pixel
+      uses: lost-pixel/lost-pixel@v3.16.0
+      env:
+        LOST_PIXEL_API_KEY: ${{ secrets.LOST_PIXEL_API_KEY }}
+        LOST_PIXEL_BASE_URL: https://validator-staging.openactive.io
+        LOST_PIXEL_FAIL_ON_DIFFERENCE: true
 
   promote-site:
     needs: deploy-site
