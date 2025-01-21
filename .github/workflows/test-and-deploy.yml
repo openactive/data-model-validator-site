@@ -33,6 +33,13 @@ jobs:
     outputs:
       lost-pixel-conclusion: ${{ steps.lp.conclusion }}
     steps:
+
+    - name: View pwd
+      run: pwd
+
+    - name: View files
+      run: ls -la
+
     - name: Use Node.js 14.x
       uses: actions/setup-node@v1
       with:
