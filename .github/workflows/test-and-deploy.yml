@@ -170,7 +170,7 @@ jobs:
         echo "Pull Request URL - ${{ steps.cpr.outputs.pull-request-url }}"
         
   deploy-site:
-    needs: [test-site, test-models, test-data-model-validator, test-rpde-validator]
+    needs: [test-site]
     if: ${{ github.repository == 'openactive/data-model-validator-site' && github.ref == 'refs/heads/master' }}
     concurrency: 
       group: validator-staging.openactive.io
