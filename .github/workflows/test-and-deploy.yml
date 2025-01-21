@@ -149,6 +149,7 @@ jobs:
 
     # Note this deletes the branch and PR if differences are resolved
     - name: Create Pull Request
+      continue-on-error: true
       id: cpr
       uses: peter-evans/create-pull-request@v6
       with:
