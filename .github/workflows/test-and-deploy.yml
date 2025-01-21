@@ -43,67 +43,75 @@ jobs:
       with:
         repository: openactive/data-models
         ref: ${{ inputs.data-models_ref }}
-        path: _local/data-models
+        path: data-models
     - name: Install data models
       run: npm install
-      working-directory: ./_local/data-models
+      working-directory: data-models
     - name: Test data models
       run: npm test
-      working-directory: ./_local/data-models
+      working-directory: data-models
 
     - name: Checkout model validator
       uses: actions/checkout@v2
       with:
         repository: openactive/data-model-validator
         ref: ${{ inputs.data-model-validator_ref }}
-        path: _local/data-model-validator
+        path: data-model-validator
     - name: Install data model validator
       run: npm install
-      working-directory: ./_local/data-model-validator
+      working-directory: data-model-validator
     - name: Test data model validator
       run: npm test
-      working-directory: ./_local/data-model-validator
+      working-directory: data-model-validator
 
     - name: Checkout rpde validator
       uses: actions/checkout@v2
       with:
         repository: openactive/rpde-validator
         ref: ${{ inputs.rpde-validator_ref }}
-        path: _local/rpde-validator
+        path: rpde-validator
     - name: Install rpde validator
       run: npm install
-      working-directory: ./_local/rpde-validator
+      working-directory: rpde-validator
     - name: Test rpde validator
       run: npm test
-      working-directory: ./_local/rpde-validator
+      working-directory: rpde-validator
 
     - name: Checkout validator site
       uses: actions/checkout@v2
       with:
         repository: openactive/data-model-validator-site
         ref: ${{ inputs.data-model-validator-site_ref || github.ref }}
-
+        path: data-model-validator-site
     - name: Install validator site
       run: npm install
+      working-directory: data-model-validator-site
 
     - name: Update data-model-validator-site to reference local data-models
-      run: npm install file:./_local/data-models
+      run: npm install file:../data-models
+      working-directory: data-model-validator-site
 
     - name: Update data-model-validator-site to reference local data-model-validator
-      run: npm install file:./_local/data-model-validator
+      run: npm install file:../data-model-validator
+      working-directory: data-model-validator-site
 
     - name: Update data-model-validator-site to reference local rpde-validator
-      run: npm install file:./_local/rpde-validator
+      run: npm install file:../rpde-validator
+      working-directory: data-model-validator-site
 
     - name: Test validator site
       run: npm test
+      working-directory: data-model-validator-site
       
     - name: Start server (in background)
       run: npm run start &
+      working-directory: data-model-validator-site
 
     - name: Check for unintentional UI changes with Lost Pixel
       id: lp
       uses: lost-pixel/lost-pixel@v3.16.0
+      env:
+        LOST_PIXEL_CONFIG_DIR: data-model-validator-site
     - name: Upload Lost Pixel artefacts
       uses: actions/upload-artifact@v3
       if: ${{ failure() && steps.lp.conclusion == 'failure' }}
