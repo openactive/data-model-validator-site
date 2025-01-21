@@ -46,10 +46,10 @@ jobs:
         path: _local/data-models
     - name: Install data models
       run: npm install
-      working-directory: _local/data-models
+      working-directory: ./_local/data-models
     - name: Test data models
       run: npm test
-      working-directory: _local/data-models
+      working-directory: ./_local/data-models
 
     - name: Checkout model validator
       uses: actions/checkout@v2
@@ -59,10 +59,10 @@ jobs:
         path: _local/data-model-validator
     - name: Install data model validator
       run: npm install
-      working-directory: _local/data-model-validator
+      working-directory: ./_local/data-model-validator
     - name: Test data model validator
       run: npm test
-      working-directory: _local/data-model-validator
+      working-directory: ./_local/data-model-validator
 
     - name: Checkout rpde validator
       uses: actions/checkout@v2
@@ -72,10 +72,10 @@ jobs:
         path: _local/rpde-validator
     - name: Install rpde validator
       run: npm install
-      working-directory: _local/rpde-validator
+      working-directory: ./_local/rpde-validator
     - name: Test rpde validator
       run: npm test
-      working-directory: _local/rpde-validator
+      working-directory: ./_local/rpde-validator
 
     - name: Checkout validator site
       uses: actions/checkout@v2
@@ -87,13 +87,13 @@ jobs:
       run: npm install
 
     - name: Update data-model-validator-site to reference local data-models
-      run: npm install file:_local/data-models
+      run: npm install file:./_local/data-models
 
     - name: Update data-model-validator-site to reference local data-model-validator
-      run: npm install file:_local/data-model-validator
+      run: npm install file:./_local/data-model-validator
 
     - name: Update data-model-validator-site to reference local rpde-validator
-      run: npm install file:_local/rpde-validator
+      run: npm install file:./_local/rpde-validator
 
     - name: Test validator site
       run: npm test
