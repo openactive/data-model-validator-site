@@ -107,6 +107,9 @@ jobs:
       run: npm run start &
       working-directory: data-model-validator-site
 
+    - name: Create alias for .lostpixel
+      run: ln -s ./data-model-validator-site/.lostpixel .lostpixel
+
     - name: Check for unintentional UI changes with Lost Pixel
       id: lp
       uses: lost-pixel/lost-pixel@v3.16.0
