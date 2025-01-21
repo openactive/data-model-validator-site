@@ -87,13 +87,13 @@ jobs:
       run: npm install
 
     - name: Update data-model-validator-site to reference local data-models
-      run: npm install file:./_local/data-models
+      run: npm install file:./data-model-validator-site/_local/data-models
 
     - name: Update data-model-validator-site to reference local data-model-validator
-      run: npm install file:./_local/data-model-validator
+      run: npm install file:./data-model-validator-site/_local/data-model-validator
 
     - name: Update data-model-validator-site to reference local rpde-validator
-      run: npm install file:./_local/rpde-validator
+      run: npm install file:./data-model-validator-site/_local/rpde-validator
 
     - name: Test validator site
       run: npm test
