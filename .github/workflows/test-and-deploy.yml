@@ -34,15 +34,18 @@ jobs:
       lost-pixel-conclusion: ${{ steps.lp.conclusion }}
     steps:
 
-    - name: View pwd
-      run: pwd
-    - name: View files
-      run: ls -la
-
     - name: Use Node.js 14.x
       uses: actions/setup-node@v1
       with:
         node-version: 14
+
+    - name: Checkout validator site
+      uses: actions/checkout@v2
+      with:
+        repository: openactive/data-model-validator-site
+        ref: ${{ inputs.data-model-validator-site_ref || github.ref }}
+    - name: Install validator site
+      run: npm install
 
     - name: Checkout data models
       uses: actions/checkout@v2
@@ -57,11 +60,6 @@ jobs:
       run: npm test
       working-directory: ./_local/data-models
 
-    - name: View pwd
-      run: pwd
-    - name: View files
-      run: ls -la
-
     - name: Checkout model validator
       uses: actions/checkout@v2
       with:
@@ -74,11 +72,6 @@ jobs:
     - name: Test data model validator
       run: npm test
       working-directory: ./_local/data-model-validator
-
-    - name: View pwd
-      run: pwd
-    - name: View files
-      run: ls -la
 
     - name: Checkout rpde validator
       uses: actions/checkout@v2
@@ -93,53 +86,12 @@ jobs:
       run: npm test
       working-directory: ./_local/rpde-validator
 
-    - name: View pwd
-      run: pwd
-    - name: View files
-      run: ls -la
-
-    - name: Checkout validator site
-      uses: actions/checkout@v2
-      with:
-        repository: openactive/data-model-validator-site
-        ref: ${{ inputs.data-model-validator-site_ref || github.ref }}
-
-    - name: View pwd
-      run: pwd
-    - name: View files
-      run: ls -la
-
-    - name: Install validator site
-      run: npm install
-
-    - name: View pwd
-      run: pwd
-    - name: View files
-      run: ls -la
-
     - name: Update data-model-validator-site to reference local data-models
       run: npm install file:./data-model-validator-site/_local/data-models
-
-    - name: View pwd
-      run: pwd
-    - name: View files
-      run: ls -la
-
     - name: Update data-model-validator-site to reference local data-model-validator
       run: npm install file:./data-model-validator-site/_local/data-model-validator
-
-    - name: View pwd
-      run: pwd
-    - name: View files
-      run: ls -la
-
     - name: Update data-model-validator-site to reference local rpde-validator
       run: npm install file:./data-model-validator-site/_local/rpde-validator
-
-    - name: View pwd
-      run: pwd
-    - name: View files
-      run: ls -la
 
     - name: Test validator site
       run: npm test
