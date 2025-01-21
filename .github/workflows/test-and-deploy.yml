@@ -143,13 +143,13 @@ jobs:
       run: npm run start &
 
     - name: Lost Pixel
+      continue-on-error: true
       uses: lost-pixel/lost-pixel@v3.16.0
       env:
         LOST_PIXEL_MODE: update
 
     # Note this deletes the branch and PR if differences are resolved
     - name: Create Pull Request
-      continue-on-error: true
       id: cpr
       uses: peter-evans/create-pull-request@v6
       with:
