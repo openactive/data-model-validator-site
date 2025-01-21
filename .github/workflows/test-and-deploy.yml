@@ -43,7 +43,7 @@ jobs:
       with:
         repository: openactive/data-models
         ref: ${{ inputs.data-models_ref }}
-        path: _local/data-models
+        path: ./_local/data-models
     - name: Install data models
       run: npm install
       working-directory: ./_local/data-models
@@ -56,7 +56,7 @@ jobs:
       with:
         repository: openactive/data-model-validator
         ref: ${{ inputs.data-model-validator_ref }}
-        path: _local/data-model-validator
+        path: ./_local/data-model-validator
     - name: Install data model validator
       run: npm install
       working-directory: ./_local/data-model-validator
@@ -69,7 +69,7 @@ jobs:
       with:
         repository: openactive/rpde-validator
         ref: ${{ inputs.rpde-validator_ref }}
-        path: _local/rpde-validator
+        path: ./_local/rpde-validator
     - name: Install rpde validator
       run: npm install
       working-directory: ./_local/rpde-validator
