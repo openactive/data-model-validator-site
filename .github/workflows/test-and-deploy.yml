@@ -39,7 +39,7 @@ jobs:
         node-version: 14
 
     - name: Checkout data models
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         repository: openactive/data-models
         ref: ${{ inputs.data-models_ref }}
@@ -52,7 +52,7 @@ jobs:
       working-directory: data-models
 
     - name: Checkout model validator
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         repository: openactive/data-model-validator
         ref: ${{ inputs.data-model-validator_ref }}
@@ -65,7 +65,7 @@ jobs:
       working-directory: data-model-validator
 
     - name: Checkout rpde validator
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         repository: openactive/rpde-validator
         ref: ${{ inputs.rpde-validator_ref }}
@@ -78,7 +78,7 @@ jobs:
       working-directory: rpde-validator
 
     - name: Checkout validator site
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         repository: openactive/data-model-validator-site
         ref: ${{ inputs.data-model-validator-site_ref || github.ref }}
@@ -130,7 +130,9 @@ jobs:
     if: ${{ github.repository == 'openactive/data-model-validator-site' && failure() && github.ref != 'refs/heads/master' && needs.test-site.outputs.lost-pixel-conclusion == 'failure'}}
     steps:
     - name: Checkout validator site
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
     - name: Use Node.js 14.x
       uses: actions/setup-node@v1
       with:
