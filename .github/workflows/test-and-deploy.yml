@@ -33,10 +33,10 @@ jobs:
     outputs:
       lost-pixel-conclusion: ${{ steps.lp.conclusion }}
     steps:
-    - name: Use Node.js 14.x
+    - name: Use Node.js 18.17.1
       uses: actions/setup-node@v1
       with:
-        node-version: 14
+        node-version: 18.17.1
 
     - name: Checkout data models
       uses: actions/checkout@v4
@@ -134,10 +134,10 @@ jobs:
       with:
         fetch-depth: 0
         ref: ${{ github.event.pull_request.head.ref }}
-    - name: Use Node.js 14.x
+    - name: Use Node.js 18.17.1
       uses: actions/setup-node@v1
       with:
-        node-version: 14
+        node-version: 18.17.1
     - name: Install
       run: npm install
     - name: Test

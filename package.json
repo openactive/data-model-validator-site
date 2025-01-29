@@ -1,6 +1,6 @@
 {
   "name": "data-model-validator-site",
-  "version": "2.0.1",
+  "version": "3.0.0",
   "description": "User interface for the OpenActive data model validator",
   "homepage": "https://www.openactive.io/",
   "author": "OpenActive Community <hello@openactive.io>",
@@ -12,7 +12,8 @@
   ],
   "main": "src/server/index.js",
   "engines": {
-    "node": "14.16.0"
+    "node": ">=18.17.1",
+    "npm": ">=9.6.7"
   },
   "repository": {
     "type": "git",
@@ -67,6 +68,7 @@
   },
   "scripts": {
     "lint": "eslint --ext .jsx --ext .js \"src/\"",
+    "lint-fix": "eslint --fix --ext .jsx --ext .js \"src/\"",
     "start": "node -r dotenv/config dist/server/index.js",
     "debug": "node --inspect -r dotenv/config dist/server/index.js",
     "postinstall": "npm run build && npm ls @openactive/data-models @openactive/data-model-validator",
@@ -82,6 +84,7 @@
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-loader": "^7.1.5",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-plugin-import-redirect": "^1.1.1",
     "babel-plugin-inline-dotenv": "^1.1.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -92,17 +95,17 @@
     "copy-webpack-plugin": "^4.5.2",
     "css-loader": "^1.0.0",
     "dotenv-webpack": "^1.5.7",
-    "enzyme": "^3.6.0",
-    "enzyme-adapter-react-16": "^1.5.0",
-    "eslint": "^5.6.1",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsx-a11y": "^6.1.1",
-    "eslint-plugin-react": "^7.11.1",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.7",
+    "eslint": "^8.47.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-jsx-a11y": "^6.7.1",
+    "eslint-plugin-react": "^7.32.2",
     "file-loader": "^1.1.11",
     "html-webpack-plugin": "^3.2.0",
     "jasmine": "^3.2.0",
-    "jasmine-enzyme": "^6.1.2",
+    "jasmine-enzyme": "^7.1.2",
     "jsdom": "^11.12.0",
     "lost-pixel": "^3.22.0",
     "nodemon": "^1.18.4",
@@ -114,6 +117,7 @@
     "url-loader": "^1.1.1",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.3.10",
-    "webpack-dev-server": "^3.1.9"
+    "webpack-dev-server": "^3.1.9",
+    "typescript": "^5.1.6"
   }
 }

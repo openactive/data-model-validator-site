@@ -87,7 +87,7 @@ const server = class {
         return jsonld;
       };
 
-      const extractJSONFromURL = url => new Promise((resolve, reject) => {
+      const extractJSONFromURL = (url) => new Promise((resolve, reject) => {
         // Is this a valid URL?
         axios.get(url)
           .then((response) => {
@@ -129,7 +129,7 @@ const server = class {
           });
       });
 
-      const extractJSONFromBody = jsonString => new Promise((resolve) => {
+      const extractJSONFromBody = (jsonString) => new Promise((resolve) => {
         resolve(JSON.parse(jsonString));
       });
 
@@ -155,7 +155,7 @@ const server = class {
           if (Array.isArray(parsedJson.items) && req.body.rpdeId !== undefined) {
             // Match string or int id
             // eslint-disable-next-line eqeqeq
-            const requestedItem = parsedJson.items.find(item => item.id == req.body.rpdeId);
+            const requestedItem = parsedJson.items.find((item) => item.id == req.body.rpdeId);
             if (requestedItem !== undefined) {
               parsedJson.items = [requestedItem];
             } else {
@@ -227,7 +227,6 @@ const server = class {
         });
       }
     });
-
 
     app.ws('/ws', (ws) => {
       ws.on('message', (message) => {

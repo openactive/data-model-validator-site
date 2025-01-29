@@ -173,7 +173,7 @@ export default class Results extends Component {
                 const groupExtraListItems = [];
                 for (const subPath of item.paths) {
                   groupExtraListItems.push(
-                    <li key={`${index}-${subIndex}`} onClick={e => this.handleClick(subPath.path, e)} title={`${subPath.rowCol[0] + 1}:${subPath.rowCol[1]}`} className="result-line-col">
+                    <li key={`${index}-${subIndex}`} onClick={(e) => this.handleClick(subPath.path, e)} title={`${subPath.rowCol[0] + 1}:${subPath.rowCol[1]}`} className="result-line-col">
                       Line {subPath.rowCol[0] + 1}, col {subPath.rowCol[1]}
                     </li>,
                   );
@@ -188,7 +188,7 @@ export default class Results extends Component {
               }
               groupExtra = (
                 <span className={`more-result-line-col ${expanded}`}>
-                  <span className="more-result-line-col-label" onClick={e => this.handleToggle(item.key, e)}>
+                  <span className="more-result-line-col-label" onClick={(e) => this.handleToggle(item.key, e)}>
                     + <Pluralize singular="more occurrence" count={item.paths.length} />
                   </span>
                   {groupExtraList}

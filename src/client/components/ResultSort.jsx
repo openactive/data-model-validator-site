@@ -25,7 +25,7 @@ export default class ResultSort extends Component {
         if (Object.prototype.hasOwnProperty.call(sortOptions, sortOption)) {
           sortList.push(
             (
-              <div key={`sort-${sortOption}-radio`} className={`form-check dropdown-item ${sort === sortOption ? 'checked' : ''}`} onClick={e => this.handleSortChange(e, sortOption)}>
+              <div key={`sort-${sortOption}-radio`} className={`form-check dropdown-item ${sort === sortOption ? 'checked' : ''}`} onClick={(e) => this.handleSortChange(e, sortOption)}>
                 <input type="radio" name="sort" className="form-check-input" id={`${sortOption}Radio`} checked={sort === sortOption} />
                 <FontAwesomeIcon icon={sort === sortOption ? 'check-square' : 'square'} fixedWidth />
                 <label className="form-check-label form-check-label-severity" htmlFor={`${sortOption}Radio`}>

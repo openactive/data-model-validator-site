@@ -279,10 +279,10 @@ export default class Rpde extends Component {
           }
           <div className="container">
             <h1 className="display-4">RPDE Feed Validator</h1>
-            <form className="form-inline" onSubmit={e => this.handleSubmit(e)}>
+            <form className="form-inline" onSubmit={(e) => this.handleSubmit(e)}>
               <label className="sr-only" htmlFor="urlInput">Feed URL</label>
               <div className="input-group input-group-lg">
-                <input type="url" className="form-control" id="urlInput" disabled={this.state.validating} placeholder="Feed URL" value={this.state.url} onChange={event => this.handleChange(event)} />
+                <input type="url" className="form-control" id="urlInput" disabled={this.state.validating} placeholder="Feed URL" value={this.state.url} onChange={(event) => this.handleChange(event)} />
                 <div className="input-group-append">
                   <button className="btn btn-primary" type="button" disabled={this.state.validating} id="validateButton" onClick={() => this.validate()}>Validate</button>
                 </div>

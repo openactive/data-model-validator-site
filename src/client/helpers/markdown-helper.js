@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const MyLink = (props) => {
   const { children } = props;
-  const newProps = Object.assign({}, props);
+  const newProps = { ...props };
   delete newProps.children;
   if (newProps.href.match(/^https:\/\/validator\.openactive\.io/)) {
     return (
@@ -18,7 +18,7 @@ const MyLink = (props) => {
 
 const MyHighlight = (props) => {
   const { children } = props;
-  const newProps = Object.assign({}, props);
+  const newProps = { ...props };
   newProps.element = 'pre';
   delete newProps.children;
   return (

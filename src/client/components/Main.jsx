@@ -37,7 +37,6 @@ library.add(faSquare);
 library.add(faCheckSquare);
 library.add(faGithub);
 
-
 const Main = () => (
   <main className="h-100" role="main">
     <Switch>
