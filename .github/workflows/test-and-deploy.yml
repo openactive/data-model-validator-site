@@ -195,6 +195,10 @@ jobs:
       with:
         fetch-depth: 0
      
+    - name: Install Heroku CLI
+      run: |
+        curl https://cli-assets.heroku.com/install.sh | sh
+
     - name: Setup Heroku authentication
       uses: extractions/netrc@v2
       with:
@@ -232,6 +236,9 @@ jobs:
       url: https://validator.openactive.io/
     runs-on: ubuntu-latest
     steps:
+      - name: Install Heroku CLI
+        run: |
+          curl https://cli-assets.heroku.com/install.sh | sh
       - name: Promote validator app to production
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
