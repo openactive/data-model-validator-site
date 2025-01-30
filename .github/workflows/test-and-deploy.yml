@@ -87,6 +87,10 @@ jobs:
       run: npm install
       working-directory: data-model-validator-site
 
+    - name: List cheerio
+      run: npm list cheerio
+      working-directory: data-model-validator-site
+
     - name: Update data-model-validator-site to reference local data-models
       run: npm install file:../data-models
       working-directory: data-model-validator-site
@@ -97,6 +101,10 @@ jobs:
 
     - name: Update data-model-validator-site to reference local rpde-validator
       run: npm install file:../rpde-validator
+      working-directory: data-model-validator-site
+
+    - name: List cheerio
+      run: npm list cheerio
       working-directory: data-model-validator-site
 
     - name: Test validator site
