@@ -28,6 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       lost-pixel-conclusion: ${{ steps.lp.conclusion }}
+
     steps:
     - name: Use Node.js 18.17.1
       uses: actions/setup-node@v1
