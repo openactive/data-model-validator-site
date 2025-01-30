@@ -24,7 +24,7 @@ const Footer = () => {
             </span>
           </div>
           <div className="col text-right">
-            Validating <a title="Modelling Opportunity Data Specification" aria-label="Modelling Opportunity Data Specification" href={url}>Model {version}</a> and <a title="Open Booking API Specification" aria-label="Open Booking API Specification" href="https://openactive.io/open-booking-api/EditorsDraft/">Booking v1.0 CR2</a>
+            Validating <a title="Modelling Opportunity Data Specification" aria-label="Modelling Opportunity Data Specification" href={url}>Model {version}</a> and <a title="Open Booking API Specification" aria-label="Open Booking API Specification" href="https://openactive.io/open-booking-api/EditorsDraft/1.0CR3/">Booking v1.0 CR3</a>
             <span className="separator">&bull;</span>
             <a className="feedback-link" title="Give feedback in Github Issues" href="https://github.com/openactive/data-model-validator/issues" target="_blank" rel="noopener"><FontAwesomeIcon icon={['fab', 'github']} /> Give feedback</a>
           </div>
