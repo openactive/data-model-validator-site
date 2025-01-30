@@ -20,9 +20,9 @@ on:
         required: false
         type: string
       data-model-validator-site_ref:
-        required: true
+        required: false
         type: string
-        description: "This must always be provided if being called from another workflow."
+        default: 'refs/heads/master'
 
 jobs:
   test-site:
@@ -40,6 +40,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         repository: openactive/data-model-validator-site
+        # If this is being called from another workflow, then the data-model-validator-site_ref will be provided or defaulted; otherwise we can assume a different trigger
         ref: ${{ inputs.data-model-validator-site_ref || github.ref }}
 
     - name: Install validator site
