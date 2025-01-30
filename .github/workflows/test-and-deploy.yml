@@ -11,19 +11,15 @@ on:
   workflow_call:
     inputs:
       data-models_ref:
-        default: 'refs/heads/master'
         required: false
         type: string
       data-model-validator_ref:
-        default: 'refs/heads/master'
         required: false
         type: string
       rpde-validator_ref:
-        default: 'refs/heads/master'
         required: false
         type: string
       data-model-validator-site_ref:
-        default: 'refs/heads/master'
         required: false
         type: string
 
@@ -38,85 +34,32 @@ jobs:
       with:
         node-version: 18.17.1
 
-    - name: Checkout data models
-      uses: actions/checkout@v4
-      with:
-        repository: openactive/data-models
-        ref: ${{ inputs.data-models_ref }}
-        path: data-models
-    - name: Install data models
-      run: npm install
-      working-directory: data-models
-    - name: Test data models
-      run: npm test
-      working-directory: data-models
-
-    - name: Checkout model validator
-      uses: actions/checkout@v4
-      with:
-        repository: openactive/data-model-validator
-        ref: ${{ inputs.data-model-validator_ref }}
-        path: data-model-validator
-    - name: Install data model validator
-      run: npm install
-      working-directory: data-model-validator
-    - name: Test data model validator
-      run: npm test
-      working-directory: data-model-validator
-
-    - name: Checkout rpde validator
-      uses: actions/checkout@v4
-      with:
-        repository: openactive/rpde-validator
-        ref: ${{ inputs.rpde-validator_ref }}
-        path: rpde-validator
-    - name: Install rpde validator
-      run: npm install
-      working-directory: rpde-validator
-    - name: Test rpde validator
-      run: npm test
-      working-directory: rpde-validator
-
     - name: Checkout validator site
       uses: actions/checkout@v4
       with:
         repository: openactive/data-model-validator-site
         ref: ${{ inputs.data-model-validator-site_ref || github.ref }}
-        path: data-model-validator-site
+
     - name: Install validator site
       run: npm install
-      working-directory: data-model-validator-site
 
-    - name: List cheerio
-      run: npm list cheerio
-      working-directory: data-model-validator-site
+    - name: Install specific version of data-models ${{ inputs.data-models_ref }}
+      if: ${{ inputs.data-models_ref }}
+      run: npm install github:openactive/data-models#${{ inputs.data-models_ref }}
 
-    - name: Update data-model-validator-site to reference local data-models
-      run: npm install file:../data-models
-      working-directory: data-model-validator-site
+    - name: Install specific version of data-model-validator ${{ inputs.data-model-validator_ref }}
+      if: ${{ inputs.data-model-validator_ref }}
+      run: npm install github:openactive/data-model-validator#${{ inputs.data-model-validator_ref }}
 
-    - name: Update data-model-validator-site to reference local data-model-validator
-      run: npm install file:../data-model-validator
-      working-directory: data-model-validator-site
-
-    - name: Update data-model-validator-site to reference local rpde-validator
-      run: npm install file:../rpde-validator
-      working-directory: data-model-validator-site
-
-    - name: List cheerio
-      run: npm list cheerio
-      working-directory: data-model-validator-site
+    - name: Install specific version of rpde-validator ${{ inputs.rpde-validator_ref }}
+      if: ${{ inputs.rpde-validator_ref }}
+      run: npm install github:openactive/rpde-validator#${{ inputs.rpde-validator_ref }}
 
     - name: Test validator site
       run: npm test
-      working-directory: data-model-validator-site
       
     - name: Start server (in background)
       run: npm run start &
-      working-directory: data-model-validator-site
-
-    - name: Create alias for .lostpixel
-      run: ln -s ./data-model-validator-site/.lostpixel .lostpixel
 
     - name: Check for unintentional UI changes with Lost Pixel
       id: lp
