@@ -32,7 +32,7 @@ export default class SpecVersion extends Component {
       }
       versionList.push(
         (
-          <div key={`version-${version}-radio`} className={`form-check dropdown-item ${isChecked ? 'checked' : ''}`} onClick={e => this.handleVersionClick(e, version)}>
+          <div key={`version-${version}-radio`} className={`form-check dropdown-item ${isChecked ? 'checked' : ''}`} onClick={(e) => this.handleVersionClick(e, version)}>
             <input type="radio" name="sort" className="form-check-input" id={`version-${version}Radio`} checked={isChecked} />
             <FontAwesomeIcon icon={isChecked ? 'check-square' : 'square'} fixedWidth />
             <label className="form-check-label form-check-label-version" htmlFor={`version-${version}Radio`}>

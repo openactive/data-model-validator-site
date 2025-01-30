@@ -184,16 +184,16 @@ export default class Home extends Component {
   }
 
   toggleFilter(type, value) {
-    const filter = Object.assign({}, this.state.filter);
-    const typeFilter = Object.assign({}, filter[type]);
+    const filter = { ...this.state.filter };
+    const typeFilter = { ...filter[type] };
     typeFilter[value] = !typeFilter[value];
     filter[type] = typeFilter;
     this.setState({ filter });
   }
 
   toggleAllFilter(type, value) {
-    const filter = Object.assign({}, this.state.filter);
-    const typeFilter = Object.assign({}, filter[type]);
+    const filter = { ...this.state.filter };
+    const typeFilter = { ...filter[type] };
     for (const prop in typeFilter) {
       if (Object.prototype.hasOwnProperty.call(typeFilter, prop)) {
         typeFilter[prop] = value;
@@ -397,18 +397,18 @@ export default class Home extends Component {
           <div className="row">
             <div className="col-6">
               <button className="btn btn-primary float-left" onClick={() => this.onResetClick()}>Reset</button>
-              <LoadUrl url={this.params.url} onUrlClick={url => this.urlRedirect(url)} />
-              <SpecVersion version={this.state.version} onVersionClick={version => this.changeVersion(version)} />
+              <LoadUrl url={this.params.url} onUrlClick={(url) => this.urlRedirect(url)} />
+              <SpecVersion version={this.state.version} onVersionClick={(version) => this.changeVersion(version)} />
               <Samples version={this.state.version} />
               <ShareLink url={this.state.shareUrl} />
             </div>
             <div className="col-3">
-              <ResultFilters filter={this.state.filter} onFilterChange={(type, value) => this.toggleFilter(type, value)} onAllFilterChange={(type, value) => this.toggleAllFilter(type, value)} onGroupChange={value => this.toggleGroup(value)} group={this.state.group} results={this.state.results} categories={this.categories} severities={this.severities} />
-              <ResultSort sort={this.state.sort} onSortChange={value => this.changeSort(value)} results={this.state.results} />
+              <ResultFilters filter={this.state.filter} onFilterChange={(type, value) => this.toggleFilter(type, value)} onAllFilterChange={(type, value) => this.toggleAllFilter(type, value)} onGroupChange={(value) => this.toggleGroup(value)} group={this.state.group} results={this.state.results} categories={this.categories} severities={this.severities} />
+              <ResultSort sort={this.state.sort} onSortChange={(value) => this.changeSort(value)} results={this.state.results} />
             </div>
             <div className="col-3">
               <button className="btn btn-primary float-right" onClick={() => this.validate()}>Validate</button>
-              <ValidationMode version={this.state.version} validationMode={this.state.validationMode} onValidationModeClick={validationMode => this.changeValidationMode(validationMode)} />
+              <ValidationMode version={this.state.version} validationMode={this.state.validationMode} onValidationModeClick={(validationMode) => this.changeValidationMode(validationMode)} />
             </div>
           </div>
         </div>
@@ -433,7 +433,7 @@ export default class Home extends Component {
           </div>
           <div className="col-6 results-col">
             {helpText}
-            <Results results={this.state.results} filter={this.state.filter} sort={this.state.sort} group={this.state.group} severities={this.severities} tokenMap={this.state.tokenMap} version={this.state.version} validationMode={this.state.validationMode} onResultClick={path => this.onResultClick(path)} onResetFilters={() => this.resetFilter()}/>
+            <Results results={this.state.results} filter={this.state.filter} sort={this.state.sort} group={this.state.group} severities={this.severities} tokenMap={this.state.tokenMap} version={this.state.version} validationMode={this.state.validationMode} onResultClick={(path) => this.onResultClick(path)} onResetFilters={() => this.resetFilter()}/>
           </div>
         </div>
       </div>

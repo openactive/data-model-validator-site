@@ -24,7 +24,7 @@ export default class ValidationMode extends Component {
         const isChecked = (this.props.validationMode === validationModeObj.validationMode);
         modeList.push(
           (
-            <div key={`validation-mode-${validationModeObj.validationMode}-radio`} className={`form-check dropdown-item ${isChecked ? 'checked' : ''}`} onClick={e => this.handleValidationModeClick(e, validationModeObj.validationMode)}>
+            <div key={`validation-mode-${validationModeObj.validationMode}-radio`} className={`form-check dropdown-item ${isChecked ? 'checked' : ''}`} onClick={(e) => this.handleValidationModeClick(e, validationModeObj.validationMode)}>
               <input type="radio" name="sort" className="form-check-input" id={`validation-mode-${validationModeObj.validationMode}Radio`} checked={isChecked} />
               <FontAwesomeIcon icon={isChecked ? 'check-square' : 'square'} fixedWidth />
               <label className="form-check-label form-check-label-version" htmlFor={`validation-mode-${validationModeObj.validationMode}Radio`}>

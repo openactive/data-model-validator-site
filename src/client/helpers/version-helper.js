@@ -62,7 +62,7 @@ export default class VersionHelper {
 
   static getValidationModeMetadata(version, validationMode) {
     return this.getVersionMetaData(version).validationModeGroups
-      .flatMap(valModeGroup => valModeGroup.validationModeList)
-      .find(valModeMeta => valModeMeta.validationMode === validationMode);
+      .flatMap((valModeGroup) => valModeGroup.validationModeList)
+      .find((valModeMeta) => valModeMeta.validationMode === validationMode);
   }
 }

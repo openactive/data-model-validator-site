@@ -37,7 +37,7 @@ describe('AceHelper', () => {
         };
         return {
           getDocument: () => document,
-          getTokens: row => tokens[row],
+          getTokens: (row) => tokens[row],
         };
       };
     });

@@ -33,16 +33,16 @@ export default class ApiHelper {
 
   static validateJSON(jsonString, version, validationMode) {
     return this.validate({ json: jsonString }, version, validationMode)
-      .then(res => ApiHelper.handleResponse(res, jsonString));
+      .then((res) => ApiHelper.handleResponse(res, jsonString));
   }
 
   static validateURL(url, rpdeId, version, validationMode) {
     return this.validate({ url, rpdeId }, version, validationMode)
-      .then(res => ApiHelper.handleResponse(res));
+      .then((res) => ApiHelper.handleResponse(res));
   }
 
   static validate(data, version, validationMode) {
-    let body = Object.assign({}, data, { validationMode });
+    let body = { ...data, validationMode };
     body = JSON.stringify(body);
     return fetch(`/api/validate/${version}`, {
       method: 'POST',
