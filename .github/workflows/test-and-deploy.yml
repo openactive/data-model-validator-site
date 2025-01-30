@@ -64,8 +64,7 @@ jobs:
     - name: Check for unintentional UI changes with Lost Pixel
       id: lp
       uses: lost-pixel/lost-pixel@v3.22.0
-      env:
-        LOST_PIXEL_CONFIG_DIR: data-model-validator-site
+
     - name: Upload Lost Pixel artefacts
       uses: actions/upload-artifact@v3
       if: ${{ failure() && steps.lp.conclusion == 'failure' }}
