@@ -18,7 +18,7 @@ export default class AceHelper {
     }
     let response = pathArr[pathArr.length - 1].expression.value;
     if (response instanceof Array) {
-      response = response.map(x => x.expression.value).join(', ');
+      response = response.map((x) => x.expression.value).join(', ');
     } else if (
       typeof response === 'number'
       && pathArr.length > 1
@@ -40,7 +40,7 @@ export default class AceHelper {
       } catch (e) {
         return [0, 0];
       }
-      const mappedArr = pathArr.map(x => x.expression.value);
+      const mappedArr = pathArr.map((x) => x.expression.value);
       while (mappedArr.length) {
         const rowCol = tokenMap[jp.stringify(mappedArr)];
         if (rowCol) {

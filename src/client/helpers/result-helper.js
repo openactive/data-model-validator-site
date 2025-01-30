@@ -7,12 +7,10 @@ export default class ResultHelper {
       const rowCol = AceHelper.getRowCol(item.path, tokenMap);
       let match = false;
       let index = 0;
-      const mergedItem = Object.assign(
-        {
-          fieldName: AceHelper.fieldName(item.path),
-        },
-        item,
-      );
+      const mergedItem = {
+        fieldName: AceHelper.fieldName(item.path),
+        ...item,
+      };
       if (merge) {
         for (const groupedItem of groupedItems) {
           if (this.itemMatch(groupedItem.data, mergedItem)) {

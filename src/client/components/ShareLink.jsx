@@ -54,7 +54,7 @@ export default class ShareLink extends Component {
           <button className="btn btn-primary dropdown-toggle" type="button" id="shareMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Share
           </button>
-          <form ref="form" className="dropdown-menu p-3" aria-labelledby="shareMenuButton" onSubmit={e => this.handleSubmit(e)}>
+          <form ref="form" className="dropdown-menu p-3" aria-labelledby="shareMenuButton" onSubmit={(e) => this.handleSubmit(e)}>
             {dropdown}
           </form>
         </div>

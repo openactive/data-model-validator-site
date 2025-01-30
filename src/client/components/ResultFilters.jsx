@@ -87,7 +87,7 @@ export default class ResultFilters extends Component {
               }
               lists[type.filter].push(
                 (
-                  <div key={`${type.filter}-${item}-check`} className={`form-check dropdown-item ${filter[type.filter][item] ? 'checked' : ''}`} onClick={e => this.handleFilterChange(e, type.filter, item)}>
+                  <div key={`${type.filter}-${item}-check`} className={`form-check dropdown-item ${filter[type.filter][item] ? 'checked' : ''}`} onClick={(e) => this.handleFilterChange(e, type.filter, item)}>
                     <input type="checkbox" className="form-check-input" id={`${item}Check`} checked={filter[type.filter][item]} />
                     <FontAwesomeIcon icon={filter[type.filter][item] ? 'check-square' : 'square'} fixedWidth />
                     <label className={`form-check-label form-check-label-${type.filter}`} htmlFor={`${item}Check`}>
@@ -105,7 +105,7 @@ export default class ResultFilters extends Component {
           if (lists[type.filter].length > 0) {
             lists[type.filter].unshift(
               (
-                <div key={`${type.filter}-all-check`} className={`form-check dropdown-item ${allChecked[type.filter] ? 'checked' : ''}`} onClick={e => this.handleAllFilterChange(e, type.filter, !allChecked[type.filter])}>
+                <div key={`${type.filter}-all-check`} className={`form-check dropdown-item ${allChecked[type.filter] ? 'checked' : ''}`} onClick={(e) => this.handleAllFilterChange(e, type.filter, !allChecked[type.filter])}>
                   <input type="checkbox" className="form-check-input" id={`all${type.filter}Check`} checked={allChecked[type.filter]} />
                   <FontAwesomeIcon icon={allChecked[type.filter] ? 'check-square' : 'square'} fixedWidth />
                   <label className={`form-check-label form-check-label-${type.filter}`} htmlFor={`all${type.filter}Check`}>
@@ -131,7 +131,7 @@ export default class ResultFilters extends Component {
                 <h6 key="category-header" className="dropdown-header">Categories</h6>
                 {lists.category}
                 <div className="dropdown-divider"></div>
-                <div className={`form-check dropdown-item ${this.props.group ? 'checked' : ''}`} onClick={e => this.handleGroupChange(e)}>
+                <div className={`form-check dropdown-item ${this.props.group ? 'checked' : ''}`} onClick={(e) => this.handleGroupChange(e)}>
                   <input type="checkbox" className="form-check-input" id="groupCheck" checked={this.props.group} />
                   <FontAwesomeIcon icon={this.props.group ? 'check-square' : 'square'} fixedWidth />
                   <label className="form-check-label form-check-label-group" htmlFor="groupCheck">
