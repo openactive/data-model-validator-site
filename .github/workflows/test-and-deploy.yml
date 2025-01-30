@@ -38,7 +38,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         repository: openactive/data-model-validator-site
-        ref: ${{ inputs.data-model-validator-site_ref || github.ref }}
+        ref: ${{ inputs.data-model-validator-site_ref }}
 
     - name: Install validator site
       run: npm install
