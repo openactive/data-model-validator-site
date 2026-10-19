@@ -32,7 +32,7 @@ jobs:
 
     steps:
     - name: Use Node.js 18.17.1
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v4
       with:
         node-version: 18.17.1
 
@@ -88,7 +88,7 @@ jobs:
         fetch-depth: 0
         ref: ${{ github.event.pull_request.head.ref }}
     - name: Use Node.js 18.17.1
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v4
       with:
         node-version: 18.17.1
     - name: Install
@@ -165,12 +165,35 @@ jobs:
         machine: git.heroku.com
         password: ${{ secrets.HEROKU_API_KEY }}
       
+    # Staging is kept at zero dynos between deploys to save cost; the scale-down-staging job scales it back down
+    - name: Scale up staging
+      env:
+        HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+      run: heroku ps:scale web=1 --app data-model-validator-staging
+
     - name: Deploy validator app to Heroku
       env:
         HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        EVENT_NAME: ${{ github.event_name }}
+        EVENT_ACTION: ${{ github.event.action }}
       run: |
         heroku git:remote --app data-model-validator-staging
-        git push heroku master -f
+        # A dependency update (repository_dispatch) leaves master unchanged, so pushing master alone would not rebuild.
+        # An empty commit, pushed to Heroku only, forces a fresh build that installs the latest dependency versions.
+        git -c user.name="openactive[bot]" -c user.email="207210293+openactive[bot]@users.noreply.github.com" \
+          commit --allow-empty -m "Rebuild for $EVENT_NAME $EVENT_ACTION"
+        git push heroku HEAD:master -f
+
+    - name: Wait for staging to respond
+      run: |
+        for i in $(seq 1 30); do
+          code=$(curl -s -o /dev/null -w '%{http_code}' https://validator-staging.openactive.io/)
+          if [ "$code" = "200" ]; then exit 0; fi
+          echo "Attempt $i: HTTP $code, waiting"
+          sleep 10
+        done
+        echo "Staging did not respond with HTTP 200 within 5 minutes"
+        exit 1
 
     - name: Smoke test with Lost Pixel
       id: lp
@@ -204,3 +227,20 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
           heroku pipelines:promote --app data-model-validator-staging
+
+  scale-down-staging:
+    needs: [deploy-site, promote-site]
+    # Runs after promotion, and also if the deploy, smoke test or promotion fails, so staging is never left running
+    if: ${{ always() && needs.deploy-site.result != 'skipped' }}
+    concurrency:
+      group: validator-staging.openactive.io
+      cancel-in-progress: false
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Heroku CLI
+        run: |
+          curl https://cli-assets.heroku.com/install.sh | sh
+      - name: Scale down staging
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: heroku ps:scale web=0 --app data-model-validator-staging
