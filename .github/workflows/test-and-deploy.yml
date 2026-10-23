@@ -86,7 +86,8 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-        ref: ${{ github.event.pull_request.head.ref }}
+        # The pull request's branch, or the branch the workflow was run on
+        ref: ${{ github.head_ref || github.ref_name }}
     - name: Use Node.js 18.17.1
       uses: actions/setup-node@v4
       with:
@@ -122,9 +123,9 @@ jobs:
         committer: openactive-bot <openactive-bot@users.noreply.github.com>
         author: openactive-bot <openactive-bot@users.noreply.github.com>
         signoff: false
-        branch: 'lost-pixel-update/${{ github.ref_name }}'
+        branch: 'lost-pixel-update/${{ github.head_ref || github.ref_name }}'
         delete-branch: true
-        title: 'Lost Pixel update - ${{ github.ref_name }}'
+        title: 'Lost Pixel update - ${{ github.head_ref || github.ref_name }}'
         body: |
           Automated baseline update PR created by Lost Pixel
 
